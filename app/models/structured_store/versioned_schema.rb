@@ -15,6 +15,10 @@ module StructuredStore
 
     store_accessor :json_schema, :definitions, :properties
 
+    def self.table_name_prefix
+      'structured_store_'
+    end
+
     def self.latest(name)
       schemas = where(name: name)
 
