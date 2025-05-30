@@ -8,6 +8,12 @@ module StructuredStore
 
     included do
       after_initialize :define_store_accessors!
+
+      belongs_to :versioned_schema,
+                  class_name: 'StructuredStore::VersionedSchema',
+                  foreign_key: 'structured_store_versioned_schema_id'
+
+      delegate :full_property_definition, :field_options, :lookup_options, to: :versioned_schema
     end
 
     # Dynamically define accessors for the properties defined in the
