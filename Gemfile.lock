@@ -266,6 +266,7 @@ PLATFORMS
 
 DEPENDENCIES
   puma
+  rake (~> 13.3)
   rubocop-rails-omakase
   sqlite3
   structured_store!
