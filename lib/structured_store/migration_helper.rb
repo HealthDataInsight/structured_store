@@ -4,7 +4,7 @@ module StructuredStore
     def create_versioned_schema(name, version)
       reversible do |dir|
         dir.up do
-          json_schema_string = Rails.root.join("db/migration_versioned_schemas/#{name}-#{version}.json").read
+          json_schema_string = Rails.root.join("db/structured_store_versioned_schemas/#{name}-#{version}.json").read
           json_schema = JSON.parse(json_schema_string)
           ::StructuredStore::VersionedSchema.create(
             name: name,
