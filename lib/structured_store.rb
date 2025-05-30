@@ -6,6 +6,7 @@ loader.setup
 
 require 'structured_store/engine'
 require 'structured_store/generators/install_generator' if defined?(Rails::Generators)
+require 'structured_store/ref_resolvers/registry'
 
 module StructuredStore
   # Your code goes here...
