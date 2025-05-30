@@ -89,6 +89,7 @@ GEM
     connection_pool (2.5.3)
     crass (1.0.6)
     date (3.4.1)
+    docile (1.4.1)
     drb (2.2.3)
     erb (5.0.1)
     erubi (1.13.1)
@@ -237,6 +238,12 @@ GEM
       rubocop-rails (>= 2.30)
     ruby-progressbar (1.13.0)
     securerandom (0.4.1)
+    simplecov (0.22.0)
+      docile (~> 1.1)
+      simplecov-html (~> 0.11)
+      simplecov_json_formatter (~> 0.1)
+    simplecov-html (0.13.1)
+    simplecov_json_formatter (0.1.4)
     simpleidn (0.2.3)
     sqlite3 (2.6.0-aarch64-linux-gnu)
     sqlite3 (2.6.0-aarch64-linux-musl)
@@ -276,6 +283,7 @@ DEPENDENCIES
   puma
   rake (~> 13.3)
   rubocop-rails-omakase
+  simplecov (~> 0.22.0)
   sqlite3
   structured_store!
 

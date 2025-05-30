@@ -1,3 +1,9 @@
+if ENV['COVERAGE']
+  require 'simplecov'
+  SimpleCov.start 'rails'
+  puts 'Required SimpleCov'
+end
+
 # Configure Rails Environment
 ENV["RAILS_ENV"] = "test"
 
