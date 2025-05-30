@@ -6,6 +6,7 @@ loader = Zeitwerk::Loader.for_gem
 loader.setup
 
 require 'structured_store/engine'
+require 'structured_store/generators/install_generator' if defined?(Rails::Generators)
 
 module StructuredStore
   # Your code goes here...

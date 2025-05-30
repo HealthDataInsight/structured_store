@@ -1,4 +1,3 @@
-# lib/generators/structured_store/install/install_generator.rb
 module StructuredStore
   module Generators
     class InstallGenerator < Rails::Generators::Base
