@@ -3,6 +3,7 @@ PATH
   specs:
     structured_store (0.1.0)
       rails (>= 7.0.0)
+      zeitwerk (~> 2.6)
 
 GEM
   remote: https://rubygems.org/
