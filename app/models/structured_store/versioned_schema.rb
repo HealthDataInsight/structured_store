@@ -59,9 +59,9 @@ module StructuredStore
 
     # TODO: Do we still need this?
     def field_options(field)
-      definition_name = local_definition_name(field)
+      definition = full_property_definition(field)
 
-      lookup_options(definition_name)
+      definition['enum']
     end
 
     # Returns the full property definition for a given field.
