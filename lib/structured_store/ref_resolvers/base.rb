@@ -4,6 +4,12 @@ module StructuredStore
   module RefResolvers
     # This is the base class for all JSON Schema $ref resolvers.
     class Base
+      attr_reader :context,
+                  :json_property_definition,
+                  :property_name,
+                  :ref_string,
+                  :schema
+
       # Initialize method for the base reference resolver
       #
       # @param schema [Hash] JSON Schema for the resolver
@@ -13,6 +19,8 @@ module StructuredStore
         @property_name = property_name
         @ref_string = ref_string
         @context = context
+
+        @json_property_definition = schema.dig('properties', property_name) || {}
       end
 
       # Resolves a reference to an item in a structured store
