@@ -10,8 +10,8 @@ module StructuredStore
       after_initialize :define_store_accessors!
 
       belongs_to :versioned_schema,
-                  class_name: 'StructuredStore::VersionedSchema',
-                  foreign_key: 'structured_store_versioned_schema_id'
+                  class_name: "StructuredStore::VersionedSchema",
+                  foreign_key: "structured_store_versioned_schema_id"
 
       delegate :full_property_definition, :field_options, :lookup_options, to: :versioned_schema
     end
@@ -28,20 +28,19 @@ module StructuredStore
 
       singleton_class.store_accessor(:store, versioned_schema.properties.keys)
 
-      versioned_schema.properties.each_key do |property|
-        options = full_property_definition(property)
-        type = options['type']
-        case type
-        when 'boolean', 'integer', 'string'
-          singleton_class.attribute(property, type.to_sym)
-        else
-          if options['$ref'] == '#/definitions/daterange'
-            singleton_class.attribute("#{property}1", :string)
-            singleton_class.attribute("#{property}2", :string)
-            singleton_class.attribute(property, :string) # temp?
+      versioned_schema.properties.each do |property_name, property_definition|
+        if property_definition["$ref"]
+          # Other resolvers will handle the $ref properties.
+          options = full_property_definition(property_name)
+          if options["$ref"] == "#/definitions/daterange"
+            singleton_class.attribute("#{property_name}1", :string)
+            singleton_class.attribute("#{property_name}2", :string)
+            singleton_class.attribute(property_name, :string) # temp?
           else
-            raise "Untested JSON property type: #{type.inspect} for #{property}"
           end
+        else
+          resolver = StructuredStore::RefResolvers::Registry.matching_resolver(versioned_schema.json_schema, property_name, property_definition["$ref"])
+          resolver.define_attribute.call(self)
         end
       end
     end
@@ -54,7 +53,7 @@ module StructuredStore
     # The versioned_schema must be defined, with a JSON schema containing properties definitions.
     def sufficient_info_to_define_store_accessors?
       if versioned_schema.nil?
-        Rails.logger.info('This audit_store has no versioned_schema')
+        Rails.logger.info("This storable instance has no versioned_schema")
         return false
       end
 

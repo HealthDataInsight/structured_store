@@ -41,6 +41,8 @@ module StructuredStore
         # @return [Object] An instance of the matching resolver class or NoRefResolver
         # @raise [RuntimeError] If no matching resolver class is found for the reference string
         def klass_factory(ref_string)
+          return StructuredStore::RefResolvers::BlankRefResolver if ref_string.blank?
+
           # Find the first registered resolver class that matches the ref_string
           klass = resolvers.find { |_, regexp| ref_string.match?(regexp) }&.then { |(klass, _)| klass }
           return klass if klass

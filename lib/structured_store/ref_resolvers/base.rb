@@ -23,12 +23,14 @@ module StructuredStore
         @json_property_definition = schema.dig('properties', property_name) || {}
       end
 
-      # Resolves a reference to an item in a structured store
+      # Defines the rails attribute(s) on the given singleton class
       #
-      # @param ref_string [String] The reference string to resolve
-      # @raise [NotImplementedError] Always raised as this is a base class method that must be implemented by subclasses
-      def resolve
-        raise NotImplementedError, 'Subclasses must implement a resolve method'
+      # @param singleton_klass [Class] The singleton class where the attribute will be defined
+      # @abstract Subclasses must implement this method
+      # @return [Symbol] the attribute type this resolver handles
+      # @raise [NotImplementedError] if the method is not implemented in a subclass
+      def define_attribute
+        raise NotImplementedError, 'Subclasses must implement the define_attribute method'
       end
     end
   end
