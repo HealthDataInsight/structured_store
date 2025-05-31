@@ -37,9 +37,9 @@ module StructuredStore
 
         # Creates a new resolver instance based on the provided reference string
         #
-        # @param ref_string [String] The reference string to resolve
-        # @param context [Hash] Optional context for the resolver
-        # @return [Object] A new instance of the matching resolver class or UnregisteredRef
+        # @param ref_string [String] The $ref string to resolve
+        # @return [Object] An instance of the matching resolver class or NoRefResolver
+        # @raise [RuntimeError] If no matching resolver class is found for the reference string
         def klass_factory(ref_string)
           # Find the first registered resolver class that matches the ref_string
           klass = resolvers.find { |_, regexp| ref_string.match?(regexp) }&.then { |(klass, _)| klass }

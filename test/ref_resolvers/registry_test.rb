@@ -1,12 +1,8 @@
 require 'test_helper'
-# require 'ndr_import/file/registry'
 
 module StructuredStore
   module RefResolvers
     class PotatoResolver < Base
-      def resolve
-        # Do nothing, it's a potato
-      end
     end
 
     # Registry file handler tests

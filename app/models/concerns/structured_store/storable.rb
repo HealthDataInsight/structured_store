@@ -17,12 +17,12 @@ module StructuredStore
     end
 
     # Dynamically define accessors for the properties defined in the
-    # `versioned_schema` that this `StructuredStore::Record` belongs to.
+    # `versioned_schema` that this record belongs to.
     #
     # This method is run automatically as an `after_initialize` callback, but can be called at
     # any time for debugging and testing purposes.
     #
-    # It skips defining the accessors if there is insufficent information to do so.
+    # It skips defining the accessors if there is insufficient information to do so.
     def define_store_accessors!
       return unless sufficient_info_to_define_store_accessors?
 
