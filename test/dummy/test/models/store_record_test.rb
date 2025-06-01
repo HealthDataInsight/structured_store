@@ -1,9 +1,9 @@
-require_relative "../../../test_helper"
+require_relative '../../../test_helper'
 
 # This tests the StoreRecord model
 class StoreRecordTest < ActiveSupport::TestCase
   test 'delegated field_options' do
-    versioned_schema = VersionedSchema.new
+    versioned_schema = StructuredStore::VersionedSchema.new
 
     versioned_schema.json_schema = <<~STR
       {
@@ -22,13 +22,13 @@ class StoreRecordTest < ActiveSupport::TestCase
     versioned_schema.valid?
     assert_empty versioned_schema.errors.details[:json_schema]
 
-    record = versioned_schema.records.build
+    record = ::StoreRecord.new(versioned_schema: versioned_schema)
 
     assert_equal %w[option1 option2 option3], record.field_options(:select_field)
   end
 
   test 'define_store_accessors!' do
-    versioned_schema = VersionedSchema.new(name: 'Party', version: '0.10.0')
+    versioned_schema = StructuredStore::VersionedSchema.new(name: 'Party', version: '0.10.0')
 
     versioned_schema.json_schema = <<~STR
       {
@@ -46,7 +46,7 @@ class StoreRecordTest < ActiveSupport::TestCase
 
     versioned_schema.save!
 
-    record = versioned_schema.records.build
+    record = ::StoreRecord.new(versioned_schema: versioned_schema)
 
     assert record.respond_to?(:theme)
     assert record.respond_to?(:theme=)
@@ -54,7 +54,7 @@ class StoreRecordTest < ActiveSupport::TestCase
     record.theme = 'Disco'
     record.save!
 
-    record = Record.find(record.id)
+    record = ::StoreRecord.find(record.id)
 
     assert record.respond_to?(:theme)
     assert record.respond_to?(:theme=)

@@ -72,7 +72,7 @@ module StructuredStore
           StoreRecord.new(versioned_schema: VersionedSchema.new(json_schema: schema))
         end
 
-        assert_equal 'Untested JSON property type: "object" for foo', exception.message
+        assert_equal 'Unsupported attribute type: "object" for property \'foo\'', exception.message
       end
     end
   end

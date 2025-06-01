@@ -54,7 +54,7 @@ module StructuredStore
     # The versioned_schema must be defined, with a JSON schema containing properties definitions.
     def sufficient_info_to_define_store_accessors?
       if versioned_schema.nil?
-        Rails.logger.info("This storable instance has no versioned_schema")
+        Rails.logger.info('This storable instance has no versioned_schema')
         return false
       end
 
