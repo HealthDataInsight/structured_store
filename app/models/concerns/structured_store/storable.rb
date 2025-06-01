@@ -10,8 +10,8 @@ module StructuredStore
       after_initialize :define_store_accessors!
 
       belongs_to :versioned_schema,
-                 class_name: 'StructuredStore::VersionedSchema',
-                 foreign_key: 'structured_store_versioned_schema_id'
+                  class_name: "StructuredStore::VersionedSchema",
+                  foreign_key: "structured_store_versioned_schema_id"
 
       delegate :full_property_definition, :field_options, :lookup_options, to: :versioned_schema
     end
@@ -29,18 +29,17 @@ module StructuredStore
       singleton_class.store_accessor(:store, versioned_schema.properties.keys)
 
       versioned_schema.properties.each do |property_name, property_definition|
-        if property_definition['$ref']
+        if property_definition["$ref"]
           # Other resolvers will handle the $ref properties.
           options = full_property_definition(property_name)
-          if options['$ref'] == '#/definitions/daterange'
+          if options["$ref"] == "#/definitions/daterange"
             singleton_class.attribute("#{property_name}1", :string)
             singleton_class.attribute("#{property_name}2", :string)
             singleton_class.attribute(property_name, :string) # temp?
           else
           end
         else
-          resolver = StructuredStore::RefResolvers::Registry.matching_resolver(versioned_schema.json_schema,
-                                                                               property_name, property_definition['$ref'])
+          resolver = StructuredStore::RefResolvers::Registry.matching_resolver(versioned_schema.json_schema, property_name, property_definition["$ref"])
           resolver.define_attribute.call(self)
         end
       end
