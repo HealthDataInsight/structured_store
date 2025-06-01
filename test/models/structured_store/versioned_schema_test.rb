@@ -64,7 +64,7 @@ module StructuredStore
           "$schema": "http://json-schema.org/draft/2019-09/schema#",
           "type": "object",
           "definitions": {
-            "zyes_no": {
+            "yes_no": {
               "type": "string",
               "enum": [
                 "Yes",
@@ -74,21 +74,21 @@ module StructuredStore
             }
           },
           "properties": {
-            "select_field_via_ref": {
-              "$ref": "#/definitions/zyes_no",
-              "description": "Evidence in patient’s records that patient was signposted to ..."
-            },
             "select_field": {
               "type": "string",
               "enum": ["option1", "option2", "option3"]
+            },
+            "select_field_via_local_definition": {
+              "$ref": "#/definitions/yes_no",
+              "description": "Evidence in patient’s records that patient was signposted to ..."
             }
           },
           "additionalProperties": false
         }
       STR
 
-      assert_equal %w[Yes No], versioned_schema.field_options(:select_field_via_ref)
       assert_equal %w[option1 option2 option3], versioned_schema.field_options(:select_field)
+      assert_equal %w[Yes No], versioned_schema.field_options(:select_field_via_local_definition)
     end
 
     test 'version validation' do
