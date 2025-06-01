@@ -1,4 +1,4 @@
-require "structured_store/version"
+require 'structured_store/version'
 
 require 'zeitwerk'
 loader = Zeitwerk::Loader.for_gem
