@@ -5,15 +5,15 @@ module StructuredStore
 
       source_root File.expand_path('templates', __dir__)
 
-      desc "Creates a migration for the structured store tables"
+      desc 'Creates a migration for the structured store tables'
 
       # This method is required when including Rails::Generators::Migration
-      def self.next_migration_number(dirname)
-        Time.now.utc.strftime("%Y%m%d%H%M%S")
+      def self.next_migration_number(_dirname)
+        Time.now.utc.strftime('%Y%m%d%H%M%S')
       end
 
       def create_migration_file
-        migration_template "create_structured_store.rb", "db/migrate/create_structured_store.rb"
+        migration_template 'create_structured_store.rb', 'db/migrate/create_structured_store.rb'
       end
 
       def create_schemas_directory
