@@ -56,15 +56,15 @@ module StructuredStore
       test 'define_attribute with untested attribute type' do
         schema = {
           '$schema' => 'http://json-schema.org/draft/2019-09/schema#',
-          type: 'object',
-          definitions: {
+          'type' => 'object',
+          'definitions' => {
             'foo_lookup' => {
               'type' => 'object'
             }
           },
           'properties' => {
             'foo' => {
-              '$ref': '#/definitions/foo_lookup'
+              '$ref' => '#/definitions/foo_lookup'
             }
           }
         }
@@ -74,6 +74,30 @@ module StructuredStore
         end
 
         assert_equal 'Unsupported attribute type: "object" for property \'foo\'', exception.message
+      end
+
+      test 'options_array' do
+        schema = {
+          '$schema' => 'http://json-schema.org/draft/2019-09/schema#',
+          'type' => 'object',
+          'definitions' => {
+            'foo_lookup' => {
+              'type' => 'string',
+              'enum' => %w[option1 option2 option3]
+            }
+          },
+          'properties' => {
+            'foo' => {
+              '$ref' => '#/definitions/foo_lookup'
+            }
+          },
+          'additionalProperties' => false
+        }
+
+        resolver = Registry.matching_resolver(schema, 'foo')
+        assert_instance_of DefinitionsResolver, resolver
+
+        assert_equal [%w[option1 option1], %w[option2 option2], %w[option3 option3]], resolver.options_array
       end
     end
   end

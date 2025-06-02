@@ -33,6 +33,16 @@ module StructuredStore
         end
       end
 
+      # Returns a two dimensional array of options from the 'enum' definition
+      # Each element contains a duplicate of the enum option for both the label and value
+      #
+      # @return [Array<Array>] Array of arrays containing id, value option pairs
+      def options_array
+        enum = local_definition['enum']
+
+        enum.map { |option| [option, option] }
+      end
+
       private
 
       # Retrieves a local definition from the schema based on the reference string
