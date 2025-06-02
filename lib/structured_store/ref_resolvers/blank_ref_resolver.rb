@@ -27,6 +27,16 @@ module StructuredStore
           object.singleton_class.attribute(property_name, type.to_sym)
         end
       end
+
+      # Returns a two dimensional array of options from the 'enum' property definition
+      # Each element contains a duplicate of the enum option for both the label and value
+      #
+      # @return [Array<Array>] Array of arrays containing id, value option pairs
+      def options_array
+        enum = json_property_definition['enum']
+
+        enum.map { |option| [option, option] }
+      end
     end
 
     # Register the BlankRefResolver with the registry

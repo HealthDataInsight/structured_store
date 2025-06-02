@@ -74,6 +74,25 @@ module StructuredStore
 
         assert_equal 'Unsupported attribute type: "object" for property \'foo\'', exception.message
       end
+
+      test 'options_array' do
+        schema = {
+          '$schema' => 'http://json-schema.org/draft/2019-09/schema#',
+          'type' => 'object',
+          'properties' => {
+            'foo' => {
+              'type' => 'string',
+              'enum' => %w[option1 option2 option3]
+            }
+          },
+          'additionalProperties' => false
+        }
+
+        resolver = Registry.matching_resolver(schema, 'foo')
+        assert_instance_of BlankRefResolver, resolver
+
+        assert_equal [%w[option1 option1], %w[option2 option2], %w[option3 option3]], resolver.options_array
+      end
     end
   end
 end

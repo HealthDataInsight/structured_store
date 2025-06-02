@@ -43,6 +43,18 @@ module StructuredStore
         raise NotImplementedError, 'Subclasses must implement the define_attribute method'
       end
 
+      # Returns a two dimensional array of HTML select box options
+      #
+      # This method must be implemented by subclasses to provide specific options
+      # for reference resolution.
+      #
+      # @abstract Subclasses must implement this method
+      # @return [Array<Array>] Array of arrays containing id, value option pairs
+      # @raise [NotImplementedError] if the method is not implemented by a subclass
+      def options_array
+        raise NotImplementedError, 'Subclasses must implement the options_array method'
+      end
+
       private
 
       def json_property_definition
