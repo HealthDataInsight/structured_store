@@ -114,6 +114,7 @@ GEM
     charlock_holmes (0.7.9)
     childprocess (5.1.0)
       logger (~> 1.5)
+    chronic (0.10.2)
     coderay (1.1.3)
     concurrent-ruby (1.3.5)
     connection_pool (2.5.3)
@@ -379,6 +380,7 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
+  chronic (~> 0.10.2)
   ndr_dev_support (~> 7.3)
   puma
   rake (~> 13.3)
