@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'ostruct'
 require 'structured_store/ref_resolvers/registry'
 require 'test_helper'
 
@@ -13,6 +14,8 @@ class CustomLookupResolver < StructuredStore::RefResolvers::Base
   # @return [Proc] a lambda that defines the attribute on the singleton class
   # @raise [RuntimeError] if the property type is unsupported
   def define_attribute
+    # You could hard-code the type if it were always the same,
+    # but it makes the JSON schema more declarative
     type = json_property_definition['type']
 
     unless %w[boolean integer string].include?(type)
@@ -24,7 +27,39 @@ class CustomLookupResolver < StructuredStore::RefResolvers::Base
       object.singleton_class.attribute(property_name, type.to_sym)
     end
   end
+
+  # Returns a two dimensional array of options from the 'enum' property definition
+  # Each element contains a duplicate of the enum option for both the label and value
+  #
+  # @return [Array<Array>] Array of arrays containing id, value option pairs
+  def options_array
+    klass_name = ref_string.sub('external://custom_lookup/', '')
+    klass = klass_name.camelize.constantize
+
+    # A complete implementation would check if the class is a lookup class
+    # For example, you might check if it includes a specific module or inherits from a base class
+    # raise(SecurityError, 'Not a lookup class') unless klass.ancestors.include?(...)
+
+    klass.all_current_lookups.map do |lookup|
+      [lookup.id, lookup.label]
+    end
+  end
 end
+
+class YesNoUnknown < ApplicationRecord
+  # This is a placeholder for the actual lookup class.
+  # In a real application, this would be replaced with the actual model class.
+  def self.all_current_lookups
+    [
+      ::OpenStruct.new(id: 1, label: 'Yes'),
+      ::OpenStruct.new(id: 2, label: 'No'),
+      ::OpenStruct.new(id: 3, label: 'Unknown')
+    ]
+  end
+end
+
+# Register the CustomLookupResolver with the registry
+StructuredStore::RefResolvers::Registry.register(CustomLookupResolver)
 
 module StructuredStore
   module RefResolvers
@@ -44,7 +79,7 @@ module StructuredStore
           'type' => 'object',
           'properties' => {
             'foo' => {
-              '$ref': 'external://custom_lookup/zyesnounknown',
+              '$ref' => 'external://custom_lookup/yes_no_unknown',
               'type' => 'string'
             }
           }
@@ -53,25 +88,14 @@ module StructuredStore
         resolver = Registry.matching_resolver(schema, 'foo')
         assert_instance_of CustomLookupResolver, resolver
       end
-      # "select_field_via_registered_resolver": {
-      #   "$ref": "external://custom_lookup/zyesnounknown",
-      #   "description": "Property that uses a registered resolver for custom lookup"
-      # }
-      # assert_equal %w[Foo Bar Baz], versioned_schema.field_options(:select_field_via_registered_resolver)
 
-      test 'define_attribute with string attribute' do
+      test 'define_attribute with integer attribute' do
         schema = {
           '$schema' => 'http://json-schema.org/draft/2019-09/schema#',
           'type' => 'object',
-          'definitions' => {
-            'foo_lookup' => {
-              'type' => 'string',
-              'description' => 'A foo property'
-            }
-          },
           'properties' => {
             'foo' => {
-              '$ref' => 'external://custom_lookup/zyesnounknown',
+              '$ref' => 'external://custom_lookup/yes_no_unknown',
               'type' => 'integer'
             }
           }
@@ -91,7 +115,7 @@ module StructuredStore
           type: 'object',
           'properties' => {
             'foo' => {
-              '$ref' => 'external://custom_lookup/zyesnounknown',
+              '$ref' => 'external://custom_lookup/yes_no_unknown',
               'type' => 'object'
             }
           }
@@ -102,6 +126,24 @@ module StructuredStore
         end
 
         assert_equal 'Unsupported attribute type: "object" for property \'foo\'', exception.message
+      end
+
+      test 'options_array' do
+        schema = {
+          '$schema' => 'http://json-schema.org/draft/2019-09/schema#',
+          'type' => 'object',
+          'properties' => {
+            'foo' => {
+              '$ref' => 'external://custom_lookup/yes_no_unknown',
+              'type' => 'integer'
+            }
+          },
+          'additionalProperties' => false
+        }
+
+        resolver = Registry.matching_resolver(schema, 'foo')
+        assert_instance_of CustomLookupResolver, resolver
+        assert_equal [[1, 'Yes'], [2, 'No'], [3, 'Unknown']], resolver.options_array
       end
     end
   end
