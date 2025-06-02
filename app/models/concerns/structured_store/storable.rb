@@ -29,19 +29,13 @@ module StructuredStore
       singleton_class.store_accessor(:store, versioned_schema.properties.keys)
 
       versioned_schema.properties.each do |property_name, property_definition|
-        if property_definition["$ref"]
-          # Other resolvers will handle the $ref properties.
-          options = full_property_definition(property_name)
-          if options["$ref"] == "#/definitions/daterange"
-            singleton_class.attribute("#{property_name}1", :string)
-            singleton_class.attribute("#{property_name}2", :string)
-            singleton_class.attribute(property_name, :string) # temp?
-          else
-          end
-        else
-          resolver = StructuredStore::RefResolvers::Registry.matching_resolver(versioned_schema.json_schema, property_name, property_definition["$ref"])
-          resolver.define_attribute.call(self)
-        end
+        # $ref: #/definitions/daterange
+        #   singleton_class.attribute("#{property_name}1", :string)
+        #   singleton_class.attribute("#{property_name}2", :string)
+        #   singleton_class.attribute(property_name, :string) # temp?
+        resolver = StructuredStore::RefResolvers::Registry.matching_resolver(versioned_schema.json_schema,
+                                                                             property_name, property_definition['$ref'])
+        resolver.define_attribute.call(self)
       end
     end
 
