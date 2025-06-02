@@ -3,6 +3,7 @@
 require 'structured_store/ref_resolvers/base'
 
 module StructuredStore
+  # This is the namespace for all reference resolvers used in StructuredStore.
   module RefResolvers
     # This class resolves properties where no $ref is defined.
     class BlankRefResolver < Base
