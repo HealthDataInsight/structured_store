@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'test_helper'
 
 module StructuredStore
@@ -20,14 +21,14 @@ module StructuredStore
       date1 = Date.new(2023, 1, 1)
       date2 = Date.new(2023, 1, 2)
 
-      @date_range_converter.expects(:convert_to_string)
-                          .with(date1, date2)
-                          .returns('Jan 1-2 2023')
+      @date_range_converter.expects(:convert_to_string).
+        with(date1, date2).
+        returns('Jan 1-2 2023')
 
       result = @type.cast({
-        'date1' => '2023-01-01',
-        'date2' => '2023-01-02'
-      })
+                            'date1' => '2023-01-01',
+                            'date2' => '2023-01-02'
+                          })
 
       assert_equal 'Jan 1-2 2023', result
     end
@@ -41,29 +42,29 @@ module StructuredStore
       date1 = Date.new(2023, 1, 1)
       date2 = Date.new(2023, 1, 2)
 
-      @date_range_converter.expects(:convert_to_dates)
-                          .with('Jan 1-2 2023')
-                          .returns([date1, date2])
+      @date_range_converter.expects(:convert_to_dates).
+        with('Jan 1-2 2023').
+        returns([date1, date2])
 
       result = @type.serialize('Jan 1-2 2023')
 
       assert_equal({
-        'date1' => '2023-01-01',
-        'date2' => '2023-01-02'
-      }, result)
+                     'date1' => '2023-01-01',
+                     'date2' => '2023-01-02'
+                   }, result)
     end
 
     test 'serialize handles nil dates gracefully' do
-      @date_range_converter.expects(:convert_to_dates)
-                          .with('invalid')
-                          .returns([nil, nil])
+      @date_range_converter.expects(:convert_to_dates).
+        with('invalid').
+        returns([nil, nil])
 
       result = @type.serialize('invalid')
 
       assert_equal({
-        'date1' => nil,
-        'date2' => nil
-      }, result)
+                     'date1' => nil,
+                     'date2' => nil
+                   }, result)
     end
   end
 end
