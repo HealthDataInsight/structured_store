@@ -69,7 +69,7 @@ module StructuredStore
           }
         }
 
-        resolver = Registry.matching_resolver(schema, 'foo', '#/definitions/foo')
+        resolver = Registry.matching_resolver(schema, 'foo')
         assert_instance_of DefinitionsResolver, resolver
       end
     end
