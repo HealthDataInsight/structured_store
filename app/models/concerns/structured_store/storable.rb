@@ -34,7 +34,7 @@ module StructuredStore
         #   singleton_class.attribute("#{property_name}2", :string)
         #   singleton_class.attribute(property_name, :string) # temp?
         resolver = StructuredStore::RefResolvers::Registry.matching_resolver(versioned_schema.json_schema,
-                                                                             property_name, property_definition['$ref'])
+                                                                             property_name)
         resolver.define_attribute.call(self)
       end
     end

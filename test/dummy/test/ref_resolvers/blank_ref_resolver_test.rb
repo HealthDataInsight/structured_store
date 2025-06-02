@@ -19,7 +19,7 @@ module StructuredStore
           }
         }
 
-        resolver = Registry.matching_resolver(schema, 'foo', nil)
+        resolver = Registry.matching_resolver(schema, 'foo')
         assert_instance_of BlankRefResolver, resolver
       end
 

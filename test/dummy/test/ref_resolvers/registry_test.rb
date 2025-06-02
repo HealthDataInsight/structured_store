@@ -35,11 +35,21 @@ module StructuredStore
       end
 
       test 'should fail to match unknown $ref' do
+        schema = {
+          '$schema' => 'http://json-schema.org/draft/2019-09/schema#',
+          'type' => 'object',
+          'properties' => {
+            'foo' => {
+              '$ref' => '#/unknown/ref'
+            }
+          }
+        }
+
         exception = assert_raises(RuntimeError) do
-          StructuredStore::RefResolvers::Registry.matching_resolver({}, nil, '#/foo/bar')
+          Registry.matching_resolver(schema, 'foo')
         end
 
-        assert_equal 'Error: No matching $ref resolver pattern for "#/foo/bar"', exception.message
+        assert_equal 'Error: No matching $ref resolver pattern for "#/unknown/ref"', exception.message
       end
 
       test 'matching_resolver' do
