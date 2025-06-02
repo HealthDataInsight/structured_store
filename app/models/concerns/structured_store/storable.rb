@@ -29,13 +29,11 @@ module StructuredStore
 
       singleton_class.store_accessor(:store, json_schema_properties.keys)
 
-      json_schema_properties.each_key do |property_name|
+      property_resolvers.each do |resolver|
         # $ref: #/definitions/daterange
         #   singleton_class.attribute("#{property_name}1", :string)
         #   singleton_class.attribute("#{property_name}2", :string)
         #   singleton_class.attribute(property_name, :string) # temp?
-        resolver = StructuredStore::RefResolvers::Registry.matching_resolver(json_schema,
-                                                                             property_name)
         resolver.define_attribute.call(self)
       end
     end
@@ -48,6 +46,18 @@ module StructuredStore
     #                or an empty hash if no properties exist
     def json_schema_properties
       json_schema.fetch('properties', {})
+    end
+
+    # Returns an array of property resolvers for each property in the JSON schema.
+    # The resolvers are responsible for handling references and defining attributes
+    # for each property defined in the schema.
+    #
+    # @return [Array<StructuredStore::RefResolvers::Base>] Array of resolver instances
+    def property_resolvers
+      @property_resolvers ||= json_schema_properties.keys.map do |property_name|
+        StructuredStore::RefResolvers::Registry.matching_resolver(json_schema,
+                                                                  property_name)
+      end
     end
 
     # Returns true if there is sufficient information to define accessors for this audit_store,
