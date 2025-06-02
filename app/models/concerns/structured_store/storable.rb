@@ -38,16 +38,6 @@ module StructuredStore
       end
     end
 
-    private
-
-    # Retrieves the properties from the JSON schema
-    #
-    # @return [Hash] a hash containing the properties defined in the JSON schema,
-    #                or an empty hash if no properties exist
-    def json_schema_properties
-      json_schema.fetch('properties', {})
-    end
-
     # Returns an array of property resolvers for each property in the JSON schema.
     # The resolvers are responsible for handling references and defining attributes
     # for each property defined in the schema.
@@ -58,6 +48,16 @@ module StructuredStore
         StructuredStore::RefResolvers::Registry.matching_resolver(json_schema,
                                                                   property_name)
       end
+    end
+
+    private
+
+    # Retrieves the properties from the JSON schema
+    #
+    # @return [Hash] a hash containing the properties defined in the JSON schema,
+    #                or an empty hash if no properties exist
+    def json_schema_properties
+      json_schema.fetch('properties', {})
     end
 
     # Returns true if there is sufficient information to define accessors for this audit_store,
