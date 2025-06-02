@@ -69,7 +69,7 @@ module StructuredStore
     def full_property_definition(field)
       hash = properties[field.to_s]
       definition_name = local_definition_name(field)
-      local_definition = definitions[definition_name]
+      local_definition = definitions[definition_name] unless definition_name.nil?
 
       hash = hash.merge(local_definition) unless local_definition.nil?
       hash
