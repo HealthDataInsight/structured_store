@@ -3,6 +3,15 @@
 require 'structured_store/ref_resolvers/registry'
 require 'test_helper'
 
+# This class is an example of a custom lookup resolver for structured store.
+# It resolves references to a lookup classes, allowing dynamic attribute creation
+# and providing options for selection in forms.
+#
+# The example reference format is 'external://custom_lookup/<lookup_class_name>'.
+# Lookup classes implements a method `all_current_lookups` that returns a relation
+# (or array) of all the current lookups, in the order that you want them displayed.
+# If your lookup classes have a different method for retrieving lookups, you can
+# change the `options_array` method in the resolver in your implementation.
 class CustomLookupResolver < StructuredStore::RefResolvers::Base
   def self.matching_ref_pattern
     %r{\Aexternal://custom_lookup/}
@@ -45,6 +54,12 @@ class CustomLookupResolver < StructuredStore::RefResolvers::Base
   end
 end
 
+# This class is an example of a lookup class that could be used with the CustomLookupResolver.
+# It would typically be replaced with a real model class that interacts with the database.
+# It provides a simple interface to retrieve the current lookups.
+#
+# In a real application, this would be replaced with the actual model class that
+# interacts with the database, such as ActiveRecord or Mongoid.
 class YesNoUnknown
   include ActiveModel::Model
   include ActiveModel::Attributes
@@ -76,6 +91,15 @@ module StructuredStore
 
       teardown do
         CustomLookupResolver.unregister
+      end
+
+      test 'matching_ref_pattern' do
+        assert_match CustomLookupResolver.matching_ref_pattern, 'external://custom_lookup/yeah_but_no_but_yeah_but_no'
+        assert_match CustomLookupResolver.matching_ref_pattern, 'external://custom_lookup/yes_no_unknown'
+
+        assert_no_match CustomLookupResolver.matching_ref_pattern, ''
+        assert_no_match CustomLookupResolver.matching_ref_pattern, '#/definitions/foo'
+        assert_no_match CustomLookupResolver.matching_ref_pattern, 'external://structured_store/json_date_range/'
       end
 
       test 'matching_resolver' do

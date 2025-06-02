@@ -7,6 +7,15 @@ module StructuredStore
   module RefResolvers
     # This class tests the DefinitionsResolver.
     class DefinitionsResolverTest < ActiveSupport::TestCase
+      test 'matching_ref_pattern' do
+        assert_match DefinitionsResolver.matching_ref_pattern, '#/definitions/foo'
+        assert_match DefinitionsResolver.matching_ref_pattern, '#/definitions/bar'
+
+        assert_no_match DefinitionsResolver.matching_ref_pattern, ''
+        assert_no_match DefinitionsResolver.matching_ref_pattern, 'external://custom_lookup/yes_no_unknown'
+        assert_no_match DefinitionsResolver.matching_ref_pattern, 'external://structured_store/json_date_range/'
+      end
+
       test 'matching_resolver' do
         schema = {
           '$schema' => 'http://json-schema.org/draft/2019-09/schema#',
