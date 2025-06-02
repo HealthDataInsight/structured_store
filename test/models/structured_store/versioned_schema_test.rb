@@ -61,7 +61,7 @@ module StructuredStore
 
       versioned_schema.json_schema = <<~STR
         {
-          "$schema": "http://json-schema.org/draft/2019-09/schema#",
+          "$schema": "https://json-schema.org/draft/2019-09/schema#",
           "type": "object",
           "definitions": {
             "yes_no": {
@@ -70,22 +70,26 @@ module StructuredStore
                 "Yes",
                 "No"
               ],
-              "description": "CCA No lookup"
+              "description": "CCA Yes/No lookup"
             }
           },
           "properties": {
             "select_field": {
               "type": "string",
-              "enum": ["option1", "option2", "option3"]
+              "enum": ["option1", "option2", "option3"],
+              "description": "Property that uses an inline enum for options"
             },
             "select_field_via_local_definition": {
               "$ref": "#/definitions/yes_no",
-              "description": "Evidence in patient’s records that patient was signposted to ..."
+              "description": "Property that uses a local definition for Yes/No options"
             }
           },
           "additionalProperties": false
         }
       STR
+
+      versioned_schema.valid?
+      assert_empty versioned_schema.errors.details[:json_schema]
 
       assert_equal %w[option1 option2 option3], versioned_schema.field_options(:select_field)
       assert_equal %w[Yes No], versioned_schema.field_options(:select_field_via_local_definition)
