@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'ostruct'
 require 'structured_store/ref_resolvers/registry'
 require 'test_helper'
 
@@ -46,14 +45,20 @@ class CustomLookupResolver < StructuredStore::RefResolvers::Base
   end
 end
 
-class YesNoUnknown < ApplicationRecord
+class YesNoUnknown
+  include ActiveModel::Model
+  include ActiveModel::Attributes
+
   # This is a placeholder for the actual lookup class.
   # In a real application, this would be replaced with the actual model class.
+  attribute :id, :integer
+  attribute :label, :string
+
   def self.all_current_lookups
     [
-      ::OpenStruct.new(id: 1, label: 'Yes'),
-      ::OpenStruct.new(id: 2, label: 'No'),
-      ::OpenStruct.new(id: 3, label: 'Unknown')
+      new(id: 1, label: 'Yes'),
+      new(id: 2, label: 'No'),
+      new(id: 3, label: 'Unknown')
     ]
   end
 end

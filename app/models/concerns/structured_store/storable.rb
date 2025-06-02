@@ -30,10 +30,6 @@ module StructuredStore
       singleton_class.store_accessor(:store, json_schema_properties.keys)
 
       property_resolvers.each_value do |resolver|
-        # $ref: #/definitions/daterange
-        #   singleton_class.attribute("#{property_name}1", :string)
-        #   singleton_class.attribute("#{property_name}2", :string)
-        #   singleton_class.attribute(property_name, :string) # temp?
         resolver.define_attribute.call(self)
       end
     end
