@@ -47,47 +47,5 @@ module StructuredStore
     def gem_version
       Gem::Version.new(version)
     end
-
-    # Returns the lookup options for a given lookup.
-    def lookup_options(lookup)
-      definition = definitions[lookup.to_s]
-
-      raise "No definition for #{lookup}" if definition.nil?
-
-      definition['enum'] || []
-    end
-
-    # TODO: Do we still need this?
-    def field_options(field)
-      definition = full_property_definition(field)
-
-      definition['enum']
-    end
-
-    # Returns the full property definition for a given field.
-    # This includes the local definition if the property references one.
-    def full_property_definition(field)
-      hash = properties[field.to_s]
-      definition_name = local_definition_name(field)
-      local_definition = definitions[definition_name] unless definition_name.nil?
-
-      hash = hash.merge(local_definition) unless local_definition.nil?
-      hash
-    end
-
-    # Returns the local definition name for a given field.
-    # It raises an error if the field has a reference that is not local.
-    def local_definition_name(field)
-      hash = properties[field.to_s]
-
-      raise "No property definition for #{field}" if hash.nil?
-
-      ref = hash['$ref']
-
-      return nil if ref.nil?
-      raise "Not a local reference in $ref: #{ref}" unless ref.start_with?('#/definitions/')
-
-      ref.sub('#/definitions/', '')
-    end
   end
 end

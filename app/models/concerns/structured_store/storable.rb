@@ -13,8 +13,7 @@ module StructuredStore
                  class_name: 'StructuredStore::VersionedSchema',
                  foreign_key: 'structured_store_versioned_schema_id'
 
-      delegate :field_options, :json_schema, :lookup_options,
-               to: :versioned_schema
+      delegate :json_schema, to: :versioned_schema
     end
 
     # Dynamically define accessors for the properties defined in the

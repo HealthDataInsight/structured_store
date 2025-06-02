@@ -56,45 +56,6 @@ module StructuredStore
       assert_not_includes versioned_schema.errors.details[:name], error: :blank
     end
 
-    test 'field_options' do
-      versioned_schema = StructuredStore::VersionedSchema.new
-
-      versioned_schema.json_schema = <<~STR
-        {
-          "$schema": "https://json-schema.org/draft/2019-09/schema#",
-          "type": "object",
-          "definitions": {
-            "yes_no": {
-              "type": "string",
-              "enum": [
-                "Yes",
-                "No"
-              ],
-              "description": "CCA Yes/No lookup"
-            }
-          },
-          "properties": {
-            "select_field": {
-              "type": "string",
-              "enum": ["option1", "option2", "option3"],
-              "description": "Property that uses an inline enum for options"
-            },
-            "select_field_via_local_definition": {
-              "$ref": "#/definitions/yes_no",
-              "description": "Property that uses a local definition for Yes/No options"
-            }
-          },
-          "additionalProperties": false
-        }
-      STR
-
-      versioned_schema.valid?
-      assert_empty versioned_schema.errors.details[:json_schema]
-
-      assert_equal %w[option1 option2 option3], versioned_schema.field_options(:select_field)
-      assert_equal %w[Yes No], versioned_schema.field_options(:select_field_via_local_definition)
-    end
-
     test 'version validation' do
       versioned_schema = StructuredStore::VersionedSchema.new
       versioned_schema.valid?
