@@ -1,6 +1,25 @@
 if ENV['COVERAGE']
   require 'simplecov'
-  SimpleCov.start 'rails'
+
+  SimpleCov.start do
+    # Set root to the engine directory (where gemspec is located)
+    root File.expand_path('..', File.dirname(__FILE__))
+
+    add_group "Models", "app/models"
+    # add_group "Helpers", "app/helpers"
+    add_group "Libraries", "lib/"
+    add_group 'Validators', 'app/validators'
+
+    track_files "{app,lib}/**/*.rb"
+    track_files "test/dummy/{app,lib}/**/*.rb"
+
+    # Filter test directories
+    add_filter %r{^/test/(?!dummy/)}
+    add_filter %r{^/test/.+_test\.rb}
+    add_filter %r{^/test/dummy/(config|db|test)/}
+    add_filter { |source_file| source_file.lines.count < 8 }
+  end
+
   puts 'Required SimpleCov'
 end
 
