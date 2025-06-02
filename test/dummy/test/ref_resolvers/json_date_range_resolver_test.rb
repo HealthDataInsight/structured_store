@@ -40,6 +40,24 @@ module StructuredStore
         store_record.foo = { 'date1' => '2024-01-01', 'date2' => '2024-01-31' }
         assert_equal({ 'date1' => '2024-01-01', 'date2' => '2024-01-31' }, store_record.foo)
       end
+
+      test 'options_array' do
+        schema = {
+          '$schema' => 'http://json-schema.org/draft/2019-09/schema#',
+          'type' => 'object',
+          'properties' => {
+            'foo' => {
+              '$ref' => 'external://structured_store/json_date_range/'
+            }
+          },
+          'additionalProperties' => false
+        }
+
+        resolver = Registry.matching_resolver(schema, 'foo')
+        assert_instance_of JsonDateRangeResolver, resolver
+
+        assert_empty resolver.options_array
+      end
     end
   end
 end

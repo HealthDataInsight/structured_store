@@ -24,6 +24,13 @@ module StructuredStore
                                            date_range_converter: object.date_range_converter)
         end
       end
+
+      # Returns an empty array of options for date ranges
+      #
+      # @return [Array<Array>] Array of arrays containing id, value option pairs
+      def options_array
+        []
+      end
     end
 
     # Register the JsonDateRangeResolver with the registry
