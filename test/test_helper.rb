@@ -18,3 +18,6 @@ if ActiveSupport::TestCase.respond_to?(:fixture_paths=)
   ActiveSupport::TestCase.file_fixture_path = File.expand_path('fixtures', __dir__) + '/files'
   ActiveSupport::TestCase.fixtures :all
 end
+
+# Auto-require dummy app tests so they're discovered by `bin/rails test`
+Dir[File.expand_path('dummy/test/**/*_test.rb', __dir__)].each { |file| require file }
