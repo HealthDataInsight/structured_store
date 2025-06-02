@@ -5,13 +5,14 @@ if ENV['COVERAGE']
     # Set root to the engine directory (where gemspec is located)
     root File.expand_path('..', File.dirname(__FILE__))
 
-    add_group "Models", "app/models"
+    add_group 'Models', 'app/models'
     # add_group "Helpers", "app/helpers"
-    add_group "Libraries", "lib/"
+    add_group 'Resolvers', 'lib/structured_store/ref_resolvers'
+    add_group 'Libraries', 'lib/'
     add_group 'Validators', 'app/validators'
 
-    track_files "{app,lib}/**/*.rb"
-    track_files "test/dummy/{app,lib}/**/*.rb"
+    track_files '{app,lib}/**/*.rb'
+    track_files 'test/dummy/{app,lib}/**/*.rb'
 
     # Filter test directories
     add_filter %r{^/test/(?!dummy/)}

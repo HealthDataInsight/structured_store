@@ -1,4 +1,3 @@
-# json_date_range
 # frozen_string_literal: true
 
 require 'structured_store/ref_resolvers/base'
