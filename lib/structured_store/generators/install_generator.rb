@@ -1,5 +1,6 @@
 module StructuredStore
   module Generators
+    # This generator creates a migration for the structured store versioned schemas table
     class InstallGenerator < Rails::Generators::Base
       include Rails::Generators::Migration
 

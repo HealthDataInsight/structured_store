@@ -10,6 +10,7 @@ AllCops:
   TargetRubyVersion: 3.1
   Exclude:
     - "test/dummy/bin/*"
+    - "test/dummy/config/environments/*.rb"
     - "test/dummy/db/schema.rb"
 
 # Ignore rules related to templated files
