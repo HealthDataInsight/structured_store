@@ -13,11 +13,12 @@ module StructuredStore
                  class_name: 'StructuredStore::VersionedSchema',
                  foreign_key: 'structured_store_versioned_schema_id'
 
-      delegate :full_property_definition, :field_options, :lookup_options, to: :versioned_schema
+      delegate :field_options, :json_schema, :lookup_options,
+               to: :versioned_schema
     end
 
     # Dynamically define accessors for the properties defined in the
-    # `versioned_schema` that this record belongs to.
+    # JSON schema that this record has.
     #
     # This method is run automatically as an `after_initialize` callback, but can be called at
     # any time for debugging and testing purposes.
@@ -26,14 +27,14 @@ module StructuredStore
     def define_store_accessors!
       return unless sufficient_info_to_define_store_accessors?
 
-      singleton_class.store_accessor(:store, versioned_schema.properties.keys)
+      singleton_class.store_accessor(:store, json_schema_properties.keys)
 
-      versioned_schema.properties.each do |property_name, property_definition|
+      json_schema_properties.each_key do |property_name|
         # $ref: #/definitions/daterange
         #   singleton_class.attribute("#{property_name}1", :string)
         #   singleton_class.attribute("#{property_name}2", :string)
         #   singleton_class.attribute(property_name, :string) # temp?
-        resolver = StructuredStore::RefResolvers::Registry.matching_resolver(versioned_schema.json_schema,
+        resolver = StructuredStore::RefResolvers::Registry.matching_resolver(json_schema,
                                                                              property_name)
         resolver.define_attribute.call(self)
       end
@@ -41,18 +42,27 @@ module StructuredStore
 
     private
 
+    # Retrieves the properties from the JSON schema
+    #
+    # @return [Hash] a hash containing the properties defined in the JSON schema,
+    #                or an empty hash if no properties exist
+    def json_schema_properties
+      json_schema.fetch('properties', {})
+    end
+
     # Returns true if there is sufficient information to define accessors for this audit_store,
     # and false otherwise.
     #
-    # The versioned_schema must be defined, with a JSON schema containing properties definitions.
+    # The JSON schema must be defined, containing property definitions.
     def sufficient_info_to_define_store_accessors?
-      if versioned_schema.nil?
-        Rails.logger.info('This storable instance has no versioned_schema')
+      if json_schema.nil?
+        Rails.logger.info('This storable instance has no JSON schema')
         return false
       end
 
-      unless versioned_schema.properties.is_a?(Hash)
-        Rails.logger.warn("No JSON schema is defined for #{versioned_schema.name} (#{versioned_schema.version})")
+      unless json_schema_properties.is_a?(Hash)
+        Rails.logger.warn 'The JSON schema for this storable instance does not contain ' \
+                          "a valid 'properties' hash: #{json_schema_properties.inspect}"
         return false
       end
 
