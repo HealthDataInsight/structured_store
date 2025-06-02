@@ -8,6 +8,10 @@ module StructuredStore
   module RefResolvers
     # This class resolves $ref strings that point to definitions within the schema.
     class DefinitionsResolver < Base
+      def self.matching_ref_pattern
+        %r{\A#/definitions/}
+      end
+
       def initialize(schema, property_name, ref_string, context = {})
         super
       end
@@ -47,7 +51,7 @@ module StructuredStore
       end
     end
 
-    # Register the DefinitionsResolver with a specific pattern
-    Registry.register(DefinitionsResolver, %r{\A#/definitions/})
+    # Register the DefinitionsResolver with the registry
+    DefinitionsResolver.register
   end
 end

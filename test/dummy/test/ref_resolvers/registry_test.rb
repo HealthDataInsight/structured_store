@@ -3,6 +3,9 @@ require 'test_helper'
 module StructuredStore
   module RefResolvers
     class PotatoResolver < Base
+      def self.matching_ref_pattern
+        %r{\A#/potato/}
+      end
     end
 
     # Registry file handler tests
@@ -15,11 +18,11 @@ module StructuredStore
       test 'registering and unregistering a resolver' do
         assert_not_includes Registry.resolvers.keys, PotatoResolver
 
-        Registry.register(PotatoResolver, %r{\A#/potato/})
+        PotatoResolver.register
 
         assert_includes Registry.resolvers.keys, PotatoResolver
 
-        Registry.unregister(PotatoResolver)
+        PotatoResolver.unregister
 
         assert_not_includes Registry.resolvers.keys, PotatoResolver
       end

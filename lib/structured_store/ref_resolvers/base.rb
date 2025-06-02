@@ -9,6 +9,20 @@ module StructuredStore
                   :ref_string,
                   :schema
 
+      class << self
+        def matching_ref_pattern
+          raise NotImplementedError, 'Subclasses must implement the matching_ref_pattern method'
+        end
+
+        def register
+          StructuredStore::RefResolvers::Registry.register(self)
+        end
+
+        def unregister
+          StructuredStore::RefResolvers::Registry.unregister(self)
+        end
+      end
+
       # Initialize method for the base reference resolver
       #
       # @param schema [Hash] JSON Schema for the resolver

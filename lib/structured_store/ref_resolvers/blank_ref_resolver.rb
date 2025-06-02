@@ -6,6 +6,10 @@ module StructuredStore
   module RefResolvers
     # This class resolves properties where no $ref is defined.
     class BlankRefResolver < Base
+      def self.matching_ref_pattern
+        /\A\z/
+      end
+
       def initialize(schema, property_name, ref_string, context = {})
         super
       end
@@ -27,5 +31,8 @@ module StructuredStore
         end
       end
     end
+
+    # Register the BlankRefResolver with the registry
+    BlankRefResolver.register
   end
 end

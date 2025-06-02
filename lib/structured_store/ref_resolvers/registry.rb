@@ -16,9 +16,9 @@ module StructuredStore
         #
         # @param klass [Class] The resolver class to register.
         # @param regexp [Regexp] The regular expression pattern to match against references.
-        def register(klass, regexp)
+        def register(klass)
           @resolvers ||= {}
-          @resolvers[klass] = regexp
+          @resolvers[klass] = klass.matching_ref_pattern
         end
 
         # Unregisters a resolver class from the registry
@@ -51,10 +51,8 @@ module StructuredStore
         # @return [Object] An instance of the matching resolver class or NoRefResolver
         # @raise [RuntimeError] If no matching resolver class is found for the reference string
         def klass_factory(ref_string)
-          return StructuredStore::RefResolvers::BlankRefResolver if ref_string.blank?
-
           # Find the first registered resolver class that matches the ref_string
-          klass = resolvers.find { |_, regexp| ref_string.match?(regexp) }&.then { |(klass, _)| klass }
+          klass = resolvers.find { |_, regexp| ref_string.to_s.match?(regexp) }&.then { |(klass, _)| klass }
           return klass if klass
 
           raise "Error: No matching $ref resolver pattern for #{ref_string.inspect}"
@@ -64,4 +62,5 @@ module StructuredStore
   end
 end
 
+require_relative 'blank_ref_resolver'
 require_relative 'definitions_resolver'
