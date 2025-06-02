@@ -15,6 +15,7 @@ gem 'rubocop-rails-omakase', require: false
 
 gem 'chronic', '~> 0.10.2'
 gem 'ndr_dev_support', '~> 7.3'
+gem 'mocha', '~> 2.1'
 gem 'rake', '~> 13.3'
 gem 'rubocop', '~> 1.75'
 gem 'simplecov', '~> 0.22.0'

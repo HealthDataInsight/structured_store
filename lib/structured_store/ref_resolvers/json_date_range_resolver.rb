@@ -10,7 +10,7 @@ module StructuredStore
     # This class resolves properties where no $ref is defined.
     class JsonDateRangeResolver < Base
       def self.matching_ref_pattern
-        %r{\Aexternal://json_date_range/}
+        %r{\Aexternal://structured_store/json_date_range/}
       end
 
       # Defines the rails attribute(s) on the given singleton class

@@ -13,7 +13,7 @@ module StructuredStore
           'type' => 'object',
           'properties' => {
             'foo' => {
-              '$ref': 'external://json_date_range/'
+              '$ref': 'external://structured_store/json_date_range/'
             }
           }
         }
@@ -28,7 +28,7 @@ module StructuredStore
           'type' => 'object',
           'properties' => {
             'foo' => {
-              '$ref': 'external://json_date_range/'
+              '$ref': 'external://structured_store/json_date_range/'
             }
           }
         }
