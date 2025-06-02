@@ -9,7 +9,7 @@ module StructuredStore
     included do
       after_initialize :define_store_accessors!
 
-      belongs_to :versioned_schema,
+      belongs_to :versioned_schema, # rubocop:disable Rails/InverseOf
                  class_name: 'StructuredStore::VersionedSchema',
                  foreign_key: 'structured_store_versioned_schema_id'
 
