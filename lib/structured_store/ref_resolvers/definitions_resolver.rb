@@ -48,6 +48,6 @@ module StructuredStore
     end
 
     # Register the DefinitionsResolver with a specific pattern
-    Registry.register(DefinitionsResolver, %r{^#/definitions/})
+    Registry.register(DefinitionsResolver, %r{\A#/definitions/})
   end
 end

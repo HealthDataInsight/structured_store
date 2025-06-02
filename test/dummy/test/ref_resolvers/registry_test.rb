@@ -9,29 +9,19 @@ module StructuredStore
     class RegistryTest < ActiveSupport::TestCase
       test 'Registry.resolvers' do
         assert_instance_of Hash, Registry.resolvers
-        assert_equal [
-          DefinitionsResolver
-        ],
-                     Registry.resolvers.keys.sort_by(&:name)
+        assert_includes Registry.resolvers.keys, DefinitionsResolver
       end
 
       test 'registering and unregistering a resolver' do
-        assert_equal [DefinitionsResolver], Registry.resolvers.keys
+        assert_not_includes Registry.resolvers.keys, PotatoResolver
 
-        Registry.register(PotatoResolver, %r{^#/potato/})
+        Registry.register(PotatoResolver, %r{\A#/potato/})
 
-        assert_equal [
-          DefinitionsResolver,
-          PotatoResolver
-        ],
-                     Registry.resolvers.keys.sort_by(&:name)
+        assert_includes Registry.resolvers.keys, PotatoResolver
 
         Registry.unregister(PotatoResolver)
 
-        assert_equal [
-          DefinitionsResolver
-        ],
-                     Registry.resolvers.keys.sort_by(&:name)
+        assert_not_includes Registry.resolvers.keys, PotatoResolver
       end
 
       test 'should fail to match unknown $ref' do

@@ -5,7 +5,6 @@ module StructuredStore
     # This is the base class for all JSON Schema $ref resolvers.
     class Base
       attr_reader :context,
-                  :json_property_definition,
                   :property_name,
                   :ref_string,
                   :schema
@@ -19,8 +18,6 @@ module StructuredStore
         @property_name = property_name
         @ref_string = ref_string
         @context = context
-
-        @json_property_definition = schema.dig('properties', property_name) || {}
       end
 
       # Defines the rails attribute(s) on the given singleton class
@@ -30,6 +27,12 @@ module StructuredStore
       # @raise [NotImplementedError] if the method is not implemented in a subclass
       def define_attribute
         raise NotImplementedError, 'Subclasses must implement the define_attribute method'
+      end
+
+      private
+
+      def json_property_definition
+        @json_property_definition ||= schema.dig('properties', property_name)&.stringify_keys || {}
       end
     end
   end
