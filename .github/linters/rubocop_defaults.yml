@@ -1,0 +1,59 @@
+---
+require:
+  - ndr_dev_support
+
+inherit_mode:
+  merge:
+    - Exclude
+
+AllCops:
+  TargetRubyVersion: 3.1
+  Exclude:
+    - "test/dummy/bin/*"
+    - "test/dummy/config/environments/*.rb"
+    - "test/dummy/db/schema.rb"
+
+# Ignore rules related to templated files
+Layout/EmptyLines:
+  Exclude:
+    - "test/dummy/config/**/*.rb"
+
+Layout/SpaceInsideArrayLiteralBrackets:
+  Exclude:
+    - "test/dummy/config/**/*.rb"
+
+Rails/Date:
+  Enabled: false
+
+Rails/TimeZone:
+  Enabled: false
+
+Style/Documentation:
+  Exclude:
+    - "app/helpers/application_helper.rb"
+    - "test/dummy/config/**/*.rb"
+
+Style/GlobalStdStream:
+  Exclude:
+    - "test/dummy/config/environments/production.rb"
+
+Style/OptionalBooleanParameter:
+  Enabled: false
+
+Style/RedundantConstantBase:
+  Exclude:
+    - "test/dummy/config/environments/production.rb"
+
+Style/RedundantFetchBlock:
+  Exclude:
+    - "test/dummy/config/puma.rb"
+
+Style/StringLiterals:
+  Exclude:
+    - "test/dummy/config.ru"
+    - "test/dummy/config/**/*.rb"
+    - "Rakefile"
+
+Style/SymbolArray:
+  Exclude:
+    - "test/dummy/config/initializers/filter_parameter_logging.rb"
