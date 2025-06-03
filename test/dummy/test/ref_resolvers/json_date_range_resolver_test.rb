@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'structured_store/ref_resolvers/defaults'
 require 'structured_store/ref_resolvers/json_date_range_resolver'
 require 'test_helper'
 

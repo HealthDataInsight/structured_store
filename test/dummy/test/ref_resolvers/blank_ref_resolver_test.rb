@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'structured_store/ref_resolvers/registry'
+require 'structured_store/ref_resolvers/defaults'
 require 'test_helper'
 
 module StructuredStore

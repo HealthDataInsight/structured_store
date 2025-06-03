@@ -7,8 +7,8 @@ if ENV['COVERAGE']
 
     add_group 'Models', 'app/models'
     # add_group "Helpers", "app/helpers"
-    add_group 'Resolvers', 'lib/structured_store/ref_resolvers'
-    add_group 'Libraries', 'lib/'
+    add_group 'Resolvers', ['lib/structured_store/ref_resolvers', 'test/dummy/lib/custom_lookup_resolver.rb']
+    add_group 'Libraries', ['lib/structured_store/converters', 'lib/structured_store/types']
     add_group 'Validators', 'app/validators'
 
     track_files '{app,lib}/**/*.rb'
@@ -18,6 +18,7 @@ if ENV['COVERAGE']
     add_filter %r{^/test/(?!dummy/)}
     add_filter %r{^/test/.+_test\.rb}
     add_filter %r{^/test/dummy/(config|db|test)/}
+    # filter out short boilerplate dummy rails app files
     add_filter { |source_file| source_file.lines.count < 8 }
   end
 

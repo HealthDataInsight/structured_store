@@ -61,6 +61,3 @@ module StructuredStore
     end
   end
 end
-
-require_relative 'blank_ref_resolver'
-require_relative 'definitions_resolver'
