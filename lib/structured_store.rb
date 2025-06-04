@@ -10,7 +10,7 @@ loader.setup
 
 require 'structured_store/engine'
 require 'structured_store/generators/install_generator' if defined?(Rails::Generators)
-require 'structured_store/ref_resolvers/registry'
+require 'structured_store/ref_resolvers/defaults'
 
 # This module serves as a namespace for the StructuredStore gem
 module StructuredStore
