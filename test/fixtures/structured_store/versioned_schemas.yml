@@ -1,0 +1,29 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# This model initially had no columns defined. If you add columns to the
+# model remove the "{}" from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+
+demo:
+  name: MyAudit
+  version: 0.11.0
+  json_schema:
+    "$schema": https://json-schema.org/draft/2019-09/schema
+    type: object
+    properties:
+      theme:
+        type: string
+        description: User interface theme preference
+        default: light
+        examples: ["light", "dark", "system"]
+      notifications:
+        type: "boolean"
+        description: Whether user notifications are enabled
+        default: true
+    required: ["theme"]
+    additionalProperties: false
+
+independent_sector:
+  name: Independent Sector
+  version: 0.10.0
+  json_schema:
