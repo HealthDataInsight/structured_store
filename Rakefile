@@ -1,11 +1,11 @@
-require "bundler/setup"
+require 'bundler/setup'
 
-APP_RAKEFILE = File.expand_path("test/dummy/Rakefile", __dir__)
-load "rails/tasks/engine.rake"
+APP_RAKEFILE = File.expand_path('test/dummy/Rakefile', __dir__)
+load 'rails/tasks/engine.rake'
 
-load "rails/tasks/statistics.rake"
+load 'rails/tasks/statistics.rake'
 
-require "bundler/gem_tasks"
+require 'bundler/gem_tasks'
 
 # Running tests via rail will ensure that the dummy app tests are run
 namespace :test do
