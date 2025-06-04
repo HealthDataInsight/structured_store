@@ -14,4 +14,4 @@ gem 'rubocop-rails-omakase', require: false
 # gem 'debug', '>= 1.0.0'
 
 gem 'ndr_dev_support', '~> 7.3'
-gem 'rubocop', '~> 1.75'
+gem 'rubocop', '~> 1.76'
