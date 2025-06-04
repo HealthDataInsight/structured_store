@@ -34,12 +34,6 @@ module StructuredStore
       end
     end
 
-    def formatted_json_schema
-      return nil if json_schema.nil?
-
-      JSON.pretty_generate(json_schema)
-    end
-
     def gem_version
       Gem::Version.new(version)
     end

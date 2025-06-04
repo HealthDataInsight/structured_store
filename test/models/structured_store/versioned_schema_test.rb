@@ -10,7 +10,7 @@ module StructuredStore
 
       assert_kind_of StructuredStore::VersionedSchema, versioned_schema
       assert_kind_of Hash, versioned_schema.json_schema
-      assert_equal 'http://json-schema.org/draft/2019-09/schema#', versioned_schema.json_schema['$schema']
+      assert_equal 'https://json-schema.org/draft/2019-09/schema', versioned_schema.json_schema['$schema']
     end
 
     test 'json_schema validation' do
@@ -27,7 +27,7 @@ module StructuredStore
 
       versioned_schema.json_schema = <<~STR
         {
-          "$schema": "http://json-schema.org/draft/2019-09/schema#",
+          "$schema": "https://json-schema.org/draft/2019-09/schema",
           "type": "object",
           "properties": {
             "theme": {

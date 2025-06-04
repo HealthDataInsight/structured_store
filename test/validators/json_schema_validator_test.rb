@@ -27,7 +27,7 @@ class JsonSchemaValidatorTest < ActiveSupport::TestCase
           }
         }
       }
-    }
+    }.freeze
 
     DRAFT201909_NAME_SCHEMA = {
       '$schema' => 'https://json-schema.org/draft/2019-09/schema',
@@ -38,16 +38,24 @@ class JsonSchemaValidatorTest < ActiveSupport::TestCase
           'example' => 'John Doe'
         }
       }
-    }
+    }.freeze
 
-    attr_accessor :draft201909_json_schema, :name_json, :openapi31_json_schema
+    attr_accessor :draft201909_symbol_schema,
+                  :hash_schema,
+                  :instance_schema,
+                  :openapi31_symbol_schema,
+                  :string_schema,
+                  :unexpected_class_schema
 
-    validates :draft201909_json_schema, json_schema: { allow_blank: true, schema: :draft201909 }
-    validates :openapi31_json_schema, json_schema: { allow_blank: true, schema: :openapi31 }
-    validates :name_json, json_schema: { allow_blank: true, schema: DRAFT201909_NAME_SCHEMA }
+    validates :draft201909_symbol_schema, json_schema: { allow_blank: true, schema: :draft201909 }
+    validates :hash_schema, json_schema: { allow_blank: true, schema: DRAFT201909_NAME_SCHEMA }
+    validates :instance_schema, json_schema: { allow_blank: true, schema: JSONSchemer.schema(DRAFT201909_NAME_SCHEMA) }
+    validates :openapi31_symbol_schema, json_schema: { allow_blank: true, schema: :openapi31 }
+    validates :string_schema, json_schema: { allow_blank: true, schema: DRAFT201909_NAME_SCHEMA.to_json }
+    validates :unexpected_class_schema, json_schema: { allow_blank: true, schema: self }
   end
 
-  test 'valid constant schemas' do
+  test 'validate test schemas' do
     errors = JSONSchemer.openapi31.validate(JsonSchemaTestModel::OPENAPI31_USER_SCHEMA).to_a
     assert_empty errors
 
@@ -60,77 +68,84 @@ class JsonSchemaValidatorTest < ActiveSupport::TestCase
     assert_empty errors
   end
 
-  test 'named schema version' do
+  test 'symbol schema version' do
     object = JsonSchemaTestModel.new
 
-    object.draft201909_json_schema = 'invalid_json'
-    object.openapi31_json_schema = 'invalid_json'
+    object.draft201909_symbol_schema = 'invalid_json'
+    object.openapi31_symbol_schema = 'invalid_json'
     object.valid?
-    assert_includes object.errors.details[:draft201909_json_schema], { error: :invalid_json }
-    assert_includes object.errors.details[:openapi31_json_schema], { error: :invalid_json }
+    assert_includes object.errors.details[:draft201909_symbol_schema], { error: :invalid_json }
+    assert_includes object.errors.details[:openapi31_symbol_schema], { error: :invalid_json }
 
-    object.draft201909_json_schema = JsonSchemaTestModel::DRAFT201909_NAME_SCHEMA
-    object.openapi31_json_schema = JsonSchemaTestModel::OPENAPI31_USER_SCHEMA
+    object.draft201909_symbol_schema = JsonSchemaTestModel::DRAFT201909_NAME_SCHEMA
+    object.openapi31_symbol_schema = JsonSchemaTestModel::OPENAPI31_USER_SCHEMA
     object.valid?
-    assert_empty object.errors[:draft201909_json_schema]
-    assert_empty object.errors[:openapi31_json_schema]
+    assert_empty object.errors.details[:draft201909_symbol_schema]
+    assert_empty object.errors.details[:openapi31_symbol_schema]
   end
 
   test 'hash schema version' do
+    assert_kind_of Hash, JsonSchemaTestModel::DRAFT201909_NAME_SCHEMA
+
     object = JsonSchemaTestModel.new
 
-    object.name_json = 'invalid_json'
+    object.hash_schema = 'invalid_json'
     object.valid?
-    assert_includes object.errors.details[:name_json], { error: :invalid_json }
+    assert_includes object.errors.details[:hash_schema], { error: :invalid_json }
 
-    object.name_json = {
+    object.hash_schema = {
       'name' => 'John Doe'
     }
     object.valid?
-    assert_empty object.errors[:name_json]
+    assert_empty object.errors.details[:hash_schema]
+  end
+
+  test 'instance schema version' do
+    assert_kind_of JSONSchemer::Schema, JSONSchemer.schema(JsonSchemaTestModel::DRAFT201909_NAME_SCHEMA)
+
+    object = JsonSchemaTestModel.new
+
+    object.instance_schema = 'invalid_json'
+    object.valid?
+    assert_includes object.errors.details[:instance_schema], { error: :invalid_json }
+
+    object.instance_schema = {
+      'name' => 'John Doe'
+    }
+    object.valid?
+    assert_empty object.errors.details[:instance_schema]
+  end
+
+  test 'string schema version' do
+    assert_kind_of String, JsonSchemaTestModel::DRAFT201909_NAME_SCHEMA.to_json
+
+    object = JsonSchemaTestModel.new
+
+    object.string_schema = 'invalid_json'
+    object.valid?
+    assert_includes object.errors.details[:string_schema], { error: :invalid_json }
+
+    object.string_schema = {
+      'name' => 'John Doe'
+    }
+    object.valid?
+    assert_empty object.errors.details[:string_schema]
+
+    object.string_schema = {
+      'name' => 42
+    }
+    object.valid?
+    assert_includes object.errors.details[:string_schema], { error: 'value at `/name` is not a string' }
+  end
+
+  test 'unexpected class schema version' do
+    object = JsonSchemaTestModel.new
+
+    object.unexpected_class_schema = {
+      'name' => 'John Doe'
+    }
+    assert_raises(ArgumentError) do
+      object.valid?
+    end
   end
 end
-
-# class JsonSchemaValidator < ActiveModel::EachValidator
-#   NAMED_SCHEMA_VERSIONS = %i[draft201909 draft202012 draft4 draft6 draft7 openapi30 openapi31].freeze
-
-#   def validate_each(record, attribute, value)
-#     # Convert value to hash if it's a string
-#     json_data = value.is_a?(String) ? JSON.parse(value) : value
-
-#     # Get the schema from options
-#     schema = options[:schema] || options
-
-#     # Initialize JSONSchemer with proper handling based on schema type
-#     schemer = json_schemer(schema)
-
-#     # Collect validation errors
-#     validation_errors = schemer.validate(json_data).to_a
-
-#     # Add errors to the record using json_schemer's built-in I18n support
-#     validation_errors.each do |error|
-#       record.errors.add(attribute, error['error'])
-#     end
-#   rescue JSON::ParserError
-#     record.errors.add(attribute, :invalid_json)
-#   end
-
-#   private
-
-#   # Converts given schema to a JSONSchemer::Schema object.
-#   #
-#   # Accepts either a symbol referencing a known schema (e.g. :draft7), a string
-#   # or hash representing a schema, or a JSONSchemer::Schema object directly.
-#   #
-#   # Raises an ArgumentError if schema is in an unsupported format.
-#   def json_schemer(schema)
-#     case schema
-#     when String, Hash
-#       JSONSchemer.schema(schema)
-#     when JSONSchemer::Schema
-#       schema
-#     else
-#       raise ArgumentError, "Invalid schema format: #{schema.class}"
-#     end
-#   end
-# end
