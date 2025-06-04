@@ -1,17 +1,17 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
 # Specify your gem's dependencies in structured_store.gemspec.
 gemspec
 
-gem "puma"
+gem 'puma'
 
-gem "sqlite3"
+gem 'sqlite3'
 
 # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
-gem "rubocop-rails-omakase", require: false
+gem 'rubocop-rails-omakase', require: false
 
 # Start debugger with binding.b [https://github.com/ruby/debug]
-# gem "debug", ">= 1.0.0"
+# gem 'debug', '>= 1.0.0'
 
-gem "ndr_dev_support", "~> 7.3"
-gem "rubocop", "~> 1.75"
+gem 'ndr_dev_support', '~> 7.3'
+gem 'rubocop', '~> 1.75'
