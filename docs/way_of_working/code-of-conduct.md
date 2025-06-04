@@ -10,6 +10,7 @@ We have adopted the [Contributor Covenant](https://www.contributor-covenant.org/
 Using the Contributor Covenant Code of Conduct benefits any community or project by setting clear expectations for acceptable behaviour and creating a safer and more inclusive environment for everyone involved.
 The Code of Conduct establishes guidelines for respectful communication and conduct and consequences for inappropriate behaviour. By adhering to these guidelines, community members can build trust and mutual respect, which fosters a more collaborative and productive environment.
 
+<!--alex disable sex sexual-->
 The Contributor Covenant is specifically designed to promote diversity and inclusion within communities and projects. It includes provisions to prevent discrimination and harassment based on factors such as race, gender, sexual orientation, and ability. By adopting and enforcing the Code of Conduct, communities can create a more welcoming and supportive environment for underrepresented groups.
 
 In addition to promoting a positive and inclusive environment, the Contributor Covenant can help prevent conflicts and misunderstandings by providing a clear set of expectations for behaviour, reducing the likelihood of interpersonal conflicts and creating a more harmonious community.
