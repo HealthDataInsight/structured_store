@@ -1,6 +1,6 @@
 require 'structured_store/version'
-
 require 'zeitwerk'
+
 loader = Zeitwerk::Loader.for_gem
 
 # Avoid loading default resolvers by default
