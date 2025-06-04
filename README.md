@@ -4,7 +4,7 @@ StructuredStore is a Ruby gem designed for Rails applications that provides a ro
 
 It features a VersionedSchema model that tracks different versions of JSON schemas using semantic versioning, and a Storable concern that can be included in ActiveRecord models to automatically define accessor methods for schema properties. The gem supports schema evolution by allowing multiple versions of the same schema to coexist, making it ideal for applications that need to maintain backward compatibility while evolving their data structures.
 
-With built-in Rails generators for easy setup and dynamic property resolution through a configurable resolver registry, StructuredStore simplifies the management of complex, schema-validated JSON data in database applications.
+With a built-in Rails generator for reliable setup and dynamic property resolution through a configurable resolver registry, StructuredStore simplifies the management of complex, schema-validated JSON data in database applications.
 
 ## Installation
 
@@ -240,7 +240,7 @@ StructuredStore includes a `JsonDateRangeResolver` for handling date ranges thro
 
 #### Using Date Ranges
 
-To use date ranges, define a property in your JSON schema with the special reference:
+To use date ranges, define a property in your JSON schema with the custom reference:
 
 ```json
 {
@@ -354,11 +354,11 @@ CustomResolver.register
 
 2. **Use migrations for schema management**: Always use the `StructuredStore::MigrationHelper` and migrations to install schemas. This ensures proper version control and rollback capabilities.
 
-3. **Organize schema files clearly**: Keep your JSON schema files in `db/structured_store_versioned_schemas/` with clear naming: `{SchemaName}-{version}.json`.
+3. **Organize schema files consistently**: Keep your JSON schema files in `db/structured_store_versioned_schemas/` with clear naming: `{SchemaName}-{version}.json`.
 
 4. **Plan for backward compatibility**: When creating new schema versions, consider how existing data will be handled.
 
-5. **Use meaningful schema names**: Choose descriptive names for your schemas that clearly indicate their purpose.
+5. **Use meaningful schema names**: Choose descriptive names for your schemas that indicate their purpose.
 
 6. **Validate your JSON schemas**: Test your JSON schema files before creating migrations to ensure they're valid.
 
