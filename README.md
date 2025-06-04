@@ -21,6 +21,14 @@ Or install it yourself as:
 $ gem install structured_store
 ```
 
+To add the StructuredStore VersionedSchema model migration to your app, execute:
+
+```bash
+$ rails generate structured_store:install
+```
+
+This adds a versioned schema model and structured_store_versioned_schemas folder to your application.
+
 ## Contributing
 Contribution directions go here.
 

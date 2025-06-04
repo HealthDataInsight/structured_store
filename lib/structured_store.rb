@@ -5,6 +5,7 @@ loader = Zeitwerk::Loader.for_gem
 loader.setup
 
 require 'structured_store/engine'
+require 'structured_store/generators/install_generator' if defined?(Rails::Generators)
 
 # This module serves as a namespace for the StructuredStore gem
 module StructuredStore
