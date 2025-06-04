@@ -236,25 +236,81 @@ preference.notifications = "invalid" # Will cause validation error
 
 ### 6. Working with Complex Data Types
 
-StructuredStore includes converters for complex data types. For example, date ranges:
+StructuredStore includes a `JsonDateRangeResolver` for handling date ranges through JSON schema references. This resolver works with date range converters to transform natural language date strings into structured date ranges.
+
+#### Using Date Ranges
+
+To use date ranges, define a property in your JSON schema with the special reference:
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "type": "object",
+  "properties": {
+    "event_period": {
+      "$ref": "external://structured_store/json_date_range/"
+    }
+  }
+}
+```
+
+Then implement a `date_range_converter` method in your model:
 
 ```ruby
-class MyModel < ApplicationRecord
+class EventRecord < ApplicationRecord
   include StructuredStore::Storable
   
   def date_range_converter
     @date_range_converter ||= StructuredStore::Converters::ChronicDateRangeConverter.new
   end
 end
+```
 
-# Convert natural language date ranges
-converter = StructuredStore::Converters::ChronicDateRangeConverter.new
-start_date, end_date = converter.convert_to_dates("January 2024")
-# => [2024-01-01 00:00:00 UTC, 2024-01-31 00:00:00 UTC]
+#### Working with Date Range Data
 
-# Format dates back to strings
-date_string = converter.convert_to_string(Date.new(2024,1,1), Date.new(2024,1,31))
-# => "Jan 2024"
+```ruby
+# Create a record with a natural language date range
+event = EventRecord.create!(
+  versioned_schema: schema,
+  event_period: "January 2024"
+)
+
+# The converter transforms this to structured data internally
+event.store['event_period'] 
+# => {"date1"=>"2024-01-01", "date2"=>"2024-01-31"}
+
+# When accessed, it's converted back to the natural language format
+event.event_period # => "Jan 2024"
+
+# Other date range examples
+event.update!(event_period: "between 1st and 15th January 2024")
+event.update!(event_period: "2024") # Full year
+```
+
+#### Using Alternative Converters
+
+The `ChronicDateRangeConverter` is the default, but you can implement custom converters that respond to `convert_to_dates` and `convert_to_string`:
+
+```ruby
+class CustomDateRangeConverter
+  def convert_to_dates(value)
+    # Your custom logic to parse date ranges
+    # Should return [start_date, end_date]
+  end
+  
+  def convert_to_string(date1, date2)
+    # Your custom logic to format date ranges
+    # Should return a string representation
+  end
+end
+
+class MyModel < ApplicationRecord
+  include StructuredStore::Storable
+  
+  def date_range_converter
+    @date_range_converter ||= CustomDateRangeConverter.new
+  end
+end
 ```
 
 ### 7. Finding and Querying Schemas
