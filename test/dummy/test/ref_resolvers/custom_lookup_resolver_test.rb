@@ -28,9 +28,6 @@ class YesNoUnknown
   end
 end
 
-# Register the CustomLookupResolver with the registry
-StructuredStore::RefResolvers::Registry.register(CustomLookupResolver)
-
 module StructuredStore
   module RefResolvers
     # This class tests the CustomLookupResolver.
