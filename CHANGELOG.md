@@ -11,5 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Created a Rails JSON Schema validator to validate JSON attributes
 - Added a VersionedSchema model and migration generator to manage schemas
+- The Storable concern adds structured store functionality to models with a JSON store column
+- RefResolvers registry allows you to resolve custom $ref URIs, enabling composite fields and external lookups
+- Example custom lookup resolver included in the dummy app tests
+- New json_date_range attribute type for date ranges, with a related JsonDateRangeResolver
 
 [unreleased]: https://github.com/HealthDataInsight/structured_store/compare/...HEAD
