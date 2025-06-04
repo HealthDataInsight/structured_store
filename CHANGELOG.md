@@ -9,6 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Created a Rails JSON Schema validator
+- Created a Rails JSON Schema validator to validate JSON attributes
 
 [unreleased]: https://github.com/HealthDataInsight/structured_store/compare/...HEAD
