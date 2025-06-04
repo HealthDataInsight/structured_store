@@ -22,6 +22,7 @@ Gem::Specification.new do |spec|
     Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
   end
 
+  spec.add_dependency 'json_schemer', '~> 2.4'
   spec.add_dependency 'rails', '>= 7.2.2.1'
   spec.add_dependency 'zeitwerk', '~> 2.6'
   spec.metadata['rubygems_mfa_required'] = 'true'
