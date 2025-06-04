@@ -51,7 +51,7 @@ class ChronicDateRangeConverterTest < ActiveSupport::TestCase
 
   test 'convert to string date range' do
     start_date = Date.new(2023, 1, 1)
-    end_date = Date.new(2024, 2, 1)
-    assert_equal '1 Jan 2023 to 1 Feb 2024', @converter.convert_to_string(start_date, end_date)
+    end_date = Date.new(2024, 1, 17)
+    assert_equal '1 Jan 2023 to 17 Jan 2024', @converter.convert_to_string(start_date, end_date)
   end
 end

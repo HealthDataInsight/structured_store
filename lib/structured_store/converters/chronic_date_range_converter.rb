@@ -42,9 +42,11 @@ module StructuredStore
       def convert_to_string(date1, date2)
         if date1 == date2
           date1.strftime('%e %b %Y').strip
-        elsif date1.year == date2.year && date1.month == date2.month && date1.beginning_of_month && date2.end_of_month
+        elsif date1.year == date2.year && date1.month == date2.month &&
+              date1 == date1.beginning_of_month && date2 == date2.end_of_month
           date1.strftime('%b %Y')
-        elsif date1.year == date2.year && date1.beginning_of_year && date2.end_of_year
+        elsif date1.year == date2.year &&
+              date1 == date1.beginning_of_year && date2 == date2.end_of_year
           date1.strftime('%Y')
         else
           "#{date1.strftime('%e %b %Y').strip} to #{date2.strftime('%e %b %Y').strip}"
