@@ -1,0 +1,49 @@
+require 'json_schemer'
+
+# This Rails validator checks that an attribute is either a valid JSON schema
+# or that it complies with a given schema.
+class JsonSchemaValidator < ActiveModel::EachValidator
+  NAMED_SCHEMA_VERSIONS = %i[draft201909 draft202012 draft4 draft6 draft7 openapi30 openapi31].freeze
+
+  def validate_each(record, attribute, value)
+    # Convert value to hash if it's a string
+    json_data = value.is_a?(String) ? JSON.parse(value) : value
+
+    # Get the schema from options
+    schema = options[:schema] || options
+
+    # Initialize JSONSchemer with proper handling based on schema type
+    schemer = json_schemer(schema)
+
+    # Collect validation errors
+    validation_errors = schemer.validate(json_data).to_a
+
+    # Add errors to the record using json_schemer's built-in I18n support
+    validation_errors.each do |error|
+      record.errors.add(attribute, error['error'])
+    end
+  rescue JSON::ParserError
+    record.errors.add(attribute, :invalid_json)
+  end
+
+  private
+
+  # Converts given schema to a JSONSchemer::Schema object.
+  #
+  # Accepts either a symbol referencing a known schema (e.g. :draft7), a string
+  # or hash representing a schema, or a JSONSchemer::Schema object directly.
+  #
+  # Raises an ArgumentError if schema is in an unsupported format.
+  def json_schemer(schema)
+    case schema
+    when *NAMED_SCHEMA_VERSIONS
+      JSONSchemer.send(schema)
+    when String, Hash
+      JSONSchemer.schema(schema)
+    when JSONSchemer::Schema
+      schema
+    else
+      raise ArgumentError, "Invalid schema format: #{schema.class}"
+    end
+  end
+end
