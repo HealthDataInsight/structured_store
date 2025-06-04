@@ -43,12 +43,16 @@ module StructuredStore
           }
         }
 
-        store_record = StoreRecord.new(versioned_schema: VersionedSchema.new(json_schema: schema))
+        versioned_schema = VersionedSchema.new(name: 'DateRangeSchema',
+                                               version: '0.1.0',
+                                               json_schema: schema)
+        store_record = StoreRecord.new(versioned_schema:)
 
         # Now the structured store attribute "foo" should be defined
         assert_nil store_record.foo
-        store_record.foo = { 'date1' => '2024-01-01', 'date2' => '2024-01-31' }
-        assert_equal({ 'date1' => '2024-01-01', 'date2' => '2024-01-31' }, store_record.foo)
+        store_record.foo = 'January 2024'
+        assert_equal({ 'date1' => '2024-01-01 00:00:00', 'date2' => '2024-01-31 00:00:00' }, store_record.store['foo'])
+        assert_equal 'Jan 2024', store_record.foo
       end
 
       test 'options_array' do

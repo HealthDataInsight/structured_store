@@ -277,7 +277,7 @@ event = EventRecord.create!(
 
 # The converter transforms this to structured data internally
 event.store['event_period'] 
-# => {"date1"=>"2024-01-01", "date2"=>"2024-01-31"}
+# => {"date1"=>"2024-01-01 00:00:00", "date2"=>"2024-01-31 00:00:00"}
 
 # When accessed, it's converted back to the natural language format
 event.event_period # => "Jan 2024"

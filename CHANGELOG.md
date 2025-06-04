@@ -14,6 +14,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The Storable concern adds structured store functionality to models with a JSON store column
 - RefResolvers registry allows you to resolve custom $ref URIs, enabling composite fields and external lookups
 - Example custom lookup resolver included in the test app tests
-- New json_date_range attribute type for date ranges, with a related JsonDateRangeResolver
+- New JsonDateRangeResolver for composite date ranges
 
 [unreleased]: https://github.com/HealthDataInsight/structured_store/compare/...HEAD

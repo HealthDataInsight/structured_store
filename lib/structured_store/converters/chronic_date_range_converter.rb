@@ -40,17 +40,48 @@ module StructuredStore
       #   convert_to_string(Date.new(2023,1,1), Date.new(2023,12,31)) #=> "2023"
       #   convert_to_string(Date.new(2023,1,1), Date.new(2023,2,1)) #=> "1 Jan 2023 to 1 Feb 2023"
       def convert_to_string(date1, date2)
-        if date1 == date2
-          date1.strftime('%e %b %Y').strip
-        elsif date1.year == date2.year && date1.month == date2.month &&
-              date1 == date1.beginning_of_month && date2 == date2.end_of_month
-          date1.strftime('%b %Y')
-        elsif date1.year == date2.year &&
-              date1 == date1.beginning_of_year && date2 == date2.end_of_year
-          date1.strftime('%Y')
-        else
-          "#{date1.strftime('%e %b %Y').strip} to #{date2.strftime('%e %b %Y').strip}"
-        end
+        return format_single_date(date1) if date1 == date2
+        return format_full_month(date1) if full_month_range?(date1, date2)
+        return format_full_year(date1) if full_year_range?(date1, date2)
+
+        format_date_range(date1, date2)
+      end
+
+      private
+
+      # Formats a single date
+      def format_single_date(date)
+        date.strftime('%e %b %Y').strip
+      end
+
+      # Formats a full month
+      def format_full_month(date)
+        date.strftime('%b %Y')
+      end
+
+      # Formats a full year
+      def format_full_year(date)
+        date.strftime('%Y')
+      end
+
+      # Formats a date range
+      def format_date_range(date1, date2)
+        "#{date1.strftime('%e %b %Y').strip} to #{date2.strftime('%e %b %Y').strip}"
+      end
+
+      # Checks if the date range spans a full month
+      def full_month_range?(date1, date2)
+        date1.year == date2.year &&
+          date1.month == date2.month &&
+          date1 == date1.beginning_of_month &&
+          date2 == date2.end_of_month
+      end
+
+      # Checks if the date range spans a full year
+      def full_year_range?(date1, date2)
+        date1.year == date2.year &&
+          date1 == date1.beginning_of_year &&
+          date2 == date2.end_of_year
       end
     end
   end
