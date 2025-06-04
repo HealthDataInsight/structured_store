@@ -5,10 +5,6 @@ require 'json'
 module StructuredStore
   # This model stores individual versions of each structured store schema
   class VersionedSchema < ApplicationRecord
-    # TODO: More JSON schema validations:
-    # - none of the properties is an object (preserving a flat structure)
-    # - additionalProperties must be false
-    # - check all required properties are defined in properties
     validates :json_schema, json_schema: { allow_blank: true, schema: :draft201909 }
     validates :name, presence: true, uniqueness: { scope: :version, case_sensitive: true }
     validates :version, presence: true, format: { with: Gem::Version::ANCHORED_VERSION_PATTERN }
