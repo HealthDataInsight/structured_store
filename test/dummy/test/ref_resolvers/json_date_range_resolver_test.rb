@@ -18,34 +18,14 @@ module StructuredStore
       end
 
       test 'matching_resolver' do
-        schema = {
-          '$schema' => 'http://json-schema.org/draft/2019-09/schema#',
-          'type' => 'object',
-          'properties' => {
-            'foo' => {
-              '$ref': 'external://structured_store/json_date_range/'
-            }
-          }
-        }
-
-        resolver = Registry.matching_resolver(schema, 'foo')
+        resolver = Registry.matching_resolver(simple_foo_date_range_schema, 'foo')
         assert_instance_of JsonDateRangeResolver, resolver
       end
 
       test 'define_attribute with string attribute' do
-        schema = {
-          '$schema' => 'http://json-schema.org/draft/2019-09/schema#',
-          'type' => 'object',
-          'properties' => {
-            'foo' => {
-              '$ref': 'external://structured_store/json_date_range/'
-            }
-          }
-        }
-
         versioned_schema = VersionedSchema.new(name: 'DateRangeSchema',
                                                version: '0.1.0',
-                                               json_schema: schema)
+                                               json_schema: simple_foo_date_range_schema)
         store_record = StoreRecord.new(versioned_schema:)
 
         # Now the structured store attribute "foo" should be defined
@@ -71,6 +51,20 @@ module StructuredStore
         assert_instance_of JsonDateRangeResolver, resolver
 
         assert_empty resolver.options_array
+      end
+
+      private
+
+      def simple_foo_date_range_schema
+        {
+          '$schema' => 'http://json-schema.org/draft/2019-09/schema#',
+          'type' => 'object',
+          'properties' => {
+            'foo' => {
+              '$ref': 'external://structured_store/json_date_range/'
+            }
+          }
+        }
       end
     end
   end
