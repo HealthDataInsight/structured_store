@@ -254,9 +254,12 @@ To use date ranges, define a property in your JSON schema with the custom refere
 }
 ```
 
-Then implement a `date_range_converter` method in your model:
+Then implement a `date_range_converter` method in your model and require the optional `JsonDateRangeResolver`:
 
 ```ruby
+require 'structured_store/ref_resolvers/defaults'
+require 'structured_store/ref_resolvers/json_date_range_resolver'
+
 class EventRecord < ApplicationRecord
   include StructuredStore::Storable
   
@@ -265,6 +268,8 @@ class EventRecord < ApplicationRecord
   end
 end
 ```
+
+If you choose to use the `ChronicDateRangeConverter`, you will also need to add `chronic` to your application's Gemfile.
 
 #### Working with Date Range Data
 
