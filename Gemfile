@@ -13,6 +13,7 @@ gem 'rubocop-rails-omakase', require: false
 # Start debugger with binding.b [https://github.com/ruby/debug]
 # gem 'debug', '>= 1.0.0'
 
+gem 'chronic', '~> 0.10.2'
 gem 'mocha', '~> 2.1'
 gem 'ndr_dev_support', '~> 7.3'
 gem 'rake', '~> 13.3'
