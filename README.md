@@ -54,19 +54,16 @@ Create `db/structured_store_versioned_schemas/UserPreferences-1.0.0.json`:
   "properties": {
     "theme": {
       "type": "string",
-      "description": "User interface theme preference",
-      "default": "light",
+      "description": "User interface theme preference"
       "examples": ["light", "dark", "system"]
     },
     "notifications": {
       "type": "boolean",
-      "description": "Whether user notifications are enabled",
-      "default": true
+      "description": "Whether user notifications are enabled"
     },
     "language": {
       "type": "string",
-      "description": "Preferred language",
-      "default": "en"
+      "description": "Preferred language"
     }
   },
   "required": ["theme"],
@@ -164,23 +161,19 @@ Create `db/structured_store_versioned_schemas/UserPreferences-1.1.0.json`:
     "theme": {
       "type": "string",
       "description": "User interface theme preference",
-      "default": "light",
       "examples": ["light", "dark", "system"]
     },
     "notifications": {
       "type": "boolean", 
-      "description": "Whether user notifications are enabled",
-      "default": true
+      "description": "Whether user notifications are enabled"
     },
     "language": {
       "type": "string",
-      "description": "Preferred language",
-      "default": "en"
+      "description": "Preferred language"
     },
     "timezone": {
       "type": "string",
-      "description": "User's timezone",
-      "default": "UTC"
+      "description": "User's timezone"
     }
   },
   "required": ["theme"],
@@ -369,7 +362,7 @@ CustomResolver.register
 
 7. **Document your schemas**: Include clear descriptions for all properties in your JSON schemas.
 
-8. **Use defaults wisely**: Provide sensible default values for optional properties to ensure data consistency.
+8. **JSON schema defaults**: Given the attribute lifecycle, StructuredStore does not support JSON Schema property defaults.
 
 9. **Version control schema files**: Keep your `.json` schema files in version control alongside your migrations.
 
