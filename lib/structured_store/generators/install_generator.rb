@@ -1,3 +1,6 @@
+require 'rails/generators'
+require 'rails/generators/base'
+
 module StructuredStore
   module Generators
     # This generator creates a migration for the structured store versioned schemas table
