@@ -6,6 +6,8 @@ module StructuredStore
   module Converters
     # This class is responsible for converting date ranges to and from a string format.
     class ChronicDateRangeConverter
+      MAX_CHRONIC_INPUT_LENGTH = 255
+
       # Converts a natural language date range string into an array containing start and end dates
       #
       # @param value [String] A natural language date range string (e.g., "between 1st and 15th January 2024")
@@ -19,6 +21,8 @@ module StructuredStore
           year = value.strip.to_i
           return [Time.new(year, 1, 1), Time.new(year, 12, 31)]
         end
+
+        return [nil, nil] if value.length > MAX_CHRONIC_INPUT_LENGTH
 
         parsed_date_range = Chronic.parse(value, endian_precedence: :little, guess: false)
 
