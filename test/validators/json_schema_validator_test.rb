@@ -148,4 +148,34 @@ class JsonSchemaValidatorTest < ActiveSupport::TestCase
       object.valid?
     end
   end
+
+  test 'json_schema_validator size limit' do
+    object = JsonSchemaTestModel.new
+    limit = JsonSchemaValidator::MAX_JSON_INPUT_SIZE_BYTES
+
+    # Test with a string that is too large for hash_schema
+    # Overhead for '{ "a": "" }' is 8 bytes. Plus 1 to exceed.
+    padding_size = limit - '{"a":""}'.bytesize + 1
+    large_json_string = "{ \"a\": \"#{'b' * padding_size}\" }"
+
+    object.hash_schema = large_json_string
+    assert_not object.valid? # Expecting validation to fail
+    assert_includes object.errors.details[:hash_schema], { error: :json_too_large }
+
+    # Test with a valid, small JSON string for hash_schema
+    small_json_string = '{ "name": "Valid Name" }' # Complies with DRAFT201909_NAME_SCHEMA
+    object.hash_schema = small_json_string
+    assert object.valid?, "Object should be valid with small JSON: #{object.errors.full_messages.join(', ')}"
+    error_details = object.errors.details[:hash_schema]
+    assert_not error_details.any? { |e| e[:error] == :json_too_large }, "Should not have json_too_large error"
+    assert_not error_details.any? { |e| e[:error] == :invalid_json }, "Should not have invalid_json error"
+
+    # Additionally, ensure that a non-string value (already parsed JSON) doesn't trigger size check implicitly
+    # and is still validated against the schema correctly.
+    object.hash_schema = { 'name' => 123 } # Invalid according to DRAFT201909_NAME_SCHEMA (name should be string)
+    assert_not object.valid?
+    error_details = object.errors.details[:hash_schema]
+    assert_not error_details.any? { |e| e[:error] == :json_too_large }, "Should not have json_too_large for pre-parsed JSON"
+    assert error_details.any? { |e| e[:error].include?("is not a string") }, "Should have schema validation error for type mismatch"
+  end
 end

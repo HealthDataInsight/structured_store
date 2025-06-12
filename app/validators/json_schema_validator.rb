@@ -3,11 +3,20 @@ require 'json_schemer'
 # This Rails validator checks that an attribute is either a valid JSON schema
 # or that it complies with a given schema.
 class JsonSchemaValidator < ActiveModel::EachValidator
+  MAX_JSON_INPUT_SIZE_BYTES = 1_048_576
   NAMED_SCHEMA_VERSIONS = %i[draft201909 draft202012 draft4 draft6 draft7 openapi30 openapi31].freeze
 
   def validate_each(record, attribute, value)
     # Convert value to hash if it's a string
-    json_data = value.is_a?(String) ? JSON.parse(value) : value
+    if value.is_a?(String)
+      if value.bytesize > MAX_JSON_INPUT_SIZE_BYTES
+        record.errors.add(attribute, :json_too_large, message: "exceeds maximum allowed size of #{MAX_JSON_INPUT_SIZE_BYTES} bytes")
+        return
+      end
+      json_data = JSON.parse(value)
+    else
+      json_data = value
+    end
 
     # Get the schema from options
     schema = options[:schema] || options

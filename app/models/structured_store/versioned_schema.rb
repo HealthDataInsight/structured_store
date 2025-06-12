@@ -5,6 +5,8 @@ require 'json'
 module StructuredStore
   # This model stores individual versions of each structured store schema
   class VersionedSchema < ApplicationRecord
+    MAX_JSON_INPUT_SIZE_BYTES = 1_048_576
+
     validates :json_schema, json_schema: { allow_blank: true, schema: :draft201909 }
     validates :name, presence: true, uniqueness: { scope: :version, case_sensitive: true }
     validates :version, presence: true, format: { with: Gem::Version::ANCHORED_VERSION_PATTERN }
@@ -28,10 +30,18 @@ module StructuredStore
     def json_schema=(json)
       case json
       when String
+        if json.bytesize > MAX_JSON_INPUT_SIZE_BYTES
+          raise ArgumentError, "JSON input exceeds maximum allowed size of #{MAX_JSON_INPUT_SIZE_BYTES} bytes"
+        end
         super(JSON.parse(json))
       else
         super
       end
+    rescue JSON::ParserError
+      # Let the validator handle the error by assigning the original string
+      # This ensures the validator has access to the invalid JSON string
+      # and can add an appropriate error message to the record.
+      self[:json_schema] = json
     end
 
     def gem_version
