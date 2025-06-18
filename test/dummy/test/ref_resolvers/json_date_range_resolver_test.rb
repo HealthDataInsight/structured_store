@@ -18,7 +18,9 @@ module StructuredStore
       end
 
       test 'matching_resolver' do
-        resolver = Registry.matching_resolver(simple_foo_date_range_schema, 'foo')
+        schema_inspector = StructuredStore::SchemaInspector.new(simple_foo_date_range_schema)
+        resolver = Registry.matching_resolver(schema_inspector, 'foo')
+
         assert_instance_of JsonDateRangeResolver, resolver
       end
 
