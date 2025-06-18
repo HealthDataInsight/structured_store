@@ -47,7 +47,8 @@ module StructuredStore
           'additionalProperties' => false
         }
 
-        resolver = Registry.matching_resolver(schema, 'foo')
+        schema_inspector = StructuredStore::SchemaInspector.new(schema)
+        resolver = Registry.matching_resolver(schema_inspector, 'foo')
         assert_instance_of JsonDateRangeResolver, resolver
 
         assert_empty resolver.options_array

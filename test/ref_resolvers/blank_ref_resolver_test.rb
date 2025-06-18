@@ -27,7 +27,8 @@ module StructuredStore
           }
         }
 
-        resolver = Registry.matching_resolver(schema, 'foo')
+        schema_inspector = StructuredStore::SchemaInspector.new(schema)
+        resolver = Registry.matching_resolver(schema_inspector, 'foo')
         assert_instance_of BlankRefResolver, resolver
       end
 
@@ -44,7 +45,8 @@ module StructuredStore
           'additionalProperties' => false
         }
 
-        resolver = Registry.matching_resolver(schema, 'foo')
+        schema_inspector = StructuredStore::SchemaInspector.new(schema)
+        resolver = Registry.matching_resolver(schema_inspector, 'foo')
         assert_instance_of BlankRefResolver, resolver
 
         assert_equal [%w[option1 option1], %w[option2 option2], %w[option3 option3]], resolver.options_array

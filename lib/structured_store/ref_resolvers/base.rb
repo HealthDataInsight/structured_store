@@ -7,7 +7,7 @@ module StructuredStore
       attr_reader :context,
                   :property_name,
                   :ref_string,
-                  :schema
+                  :schema_inspector
 
       class << self
         def matching_ref_pattern
@@ -27,8 +27,8 @@ module StructuredStore
       #
       # @param schema [Hash] JSON Schema for the resolver
       # @param options [Hash] Additional options for the resolver
-      def initialize(schema, property_name, ref_string, context = {})
-        @schema = schema
+      def initialize(schema_inspector, property_name, ref_string, context = {})
+        @schema_inspector = schema_inspector
         @property_name = property_name
         @ref_string = ref_string
         @context = context
@@ -57,8 +57,8 @@ module StructuredStore
 
       private
 
-      def json_property_definition
-        @json_property_definition ||= schema.dig('properties', property_name)&.stringify_keys || {}
+      def json_property_schema
+        @json_property_schema ||= schema_inspector.property_schema(property_name) || {}
       end
     end
   end

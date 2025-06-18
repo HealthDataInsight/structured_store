@@ -38,8 +38,9 @@ module StructuredStore
           }
         }
 
+        schema_inspector = StructuredStore::SchemaInspector.new(schema)
         exception = assert_raises(RuntimeError) do
-          Registry.matching_resolver(schema, 'foo')
+          Registry.matching_resolver(schema_inspector, 'foo')
         end
 
         assert_equal 'Error: No matching $ref resolver pattern for "#/unknown/ref"', exception.message
@@ -62,7 +63,8 @@ module StructuredStore
           }
         }
 
-        resolver = Registry.matching_resolver(schema, 'foo')
+        schema_inspector = StructuredStore::SchemaInspector.new(schema)
+        resolver = Registry.matching_resolver(schema_inspector, 'foo')
         assert_instance_of DefinitionsResolver, resolver
       end
     end
