@@ -2,7 +2,7 @@ require 'json_schemer'
 
 module StructuredStore
   # This class inspects a JSON Schema and provides methods to retrieve
-  # information about properties, such as their type and structure.
+  # property and definition schemas.
   #
   # It allows us to abstract away the implementation details of JSONSchemer
   # and provides a clean interface for working with JSON Schemas.
