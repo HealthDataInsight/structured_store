@@ -15,5 +15,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - RefResolvers registry allows you to resolve custom $ref URIs, enabling composite fields and external lookups
 - Example custom lookup resolver included in the test app tests
 - New JsonDateRangeResolver for composite date ranges
+- Added a SchemaInspector to abstract away schema inspection and validation
 
 [unreleased]: https://github.com/HealthDataInsight/structured_store/compare/...HEAD
