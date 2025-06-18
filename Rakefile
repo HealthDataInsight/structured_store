@@ -6,6 +6,8 @@ load 'rails/tasks/engine.rake'
 load 'rails/tasks/statistics.rake'
 
 require 'bundler/gem_tasks'
+require 'ndr_dev_support/tasks'
+require 'rubocop/rake_task'
 
 # Running tests via rail will ensure that the dummy app tests are run
 namespace :test do
