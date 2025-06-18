@@ -61,7 +61,8 @@ module StructuredStore
           }
         }
 
-        resolver = Registry.matching_resolver(schema, 'foo')
+        schema_inspector = StructuredStore::SchemaInspector.new(schema)
+        resolver = Registry.matching_resolver(schema_inspector, 'foo')
         assert_instance_of CustomLookupResolver, resolver
       end
 
@@ -117,7 +118,8 @@ module StructuredStore
           'additionalProperties' => false
         }
 
-        resolver = Registry.matching_resolver(schema, 'foo')
+        schema_inspector = StructuredStore::SchemaInspector.new(schema)
+        resolver = Registry.matching_resolver(schema_inspector, 'foo')
         assert_instance_of CustomLookupResolver, resolver
         assert_equal [[1, 'Yes'], [2, 'No'], [3, 'Unknown']], resolver.options_array
       end

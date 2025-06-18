@@ -16,7 +16,7 @@ module StructuredStore
       # @return [Proc] a lambda that defines the attribute on the singleton class
       # @raise [RuntimeError] if the property type is unsupported
       def define_attribute
-        type = json_property_definition['type']
+        type = json_property_schema['type']
 
         unless %w[boolean integer string].include?(type)
           raise "Unsupported attribute type: #{type.inspect} for property '#{property_name}'"
@@ -33,7 +33,7 @@ module StructuredStore
       #
       # @return [Array<Array>] Array of arrays containing id, value option pairs
       def options_array
-        enum = json_property_definition['enum']
+        enum = json_property_schema['enum']
 
         enum.map { |option| [option, option] }
       end
