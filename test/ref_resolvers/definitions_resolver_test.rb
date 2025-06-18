@@ -18,7 +18,7 @@ module StructuredStore
 
       test 'matching_resolver' do
         schema = {
-          '$schema' => 'http://json-schema.org/draft/2019-09/schema#',
+          '$schema' => 'https://json-schema.org/draft/2019-09/schema',
           'type' => 'object',
           'definitions' => {
             'foo_lookup' => {
@@ -33,13 +33,14 @@ module StructuredStore
           }
         }
 
-        resolver = Registry.matching_resolver(schema, 'foo')
+        schema_inspector = StructuredStore::SchemaInspector.new(schema)
+        resolver = Registry.matching_resolver(schema_inspector, 'foo')
         assert_instance_of DefinitionsResolver, resolver
       end
 
       test 'options_array' do
         schema = {
-          '$schema' => 'http://json-schema.org/draft/2019-09/schema#',
+          '$schema' => 'https://json-schema.org/draft/2019-09/schema',
           'type' => 'object',
           'definitions' => {
             'foo_lookup' => {
@@ -55,7 +56,8 @@ module StructuredStore
           'additionalProperties' => false
         }
 
-        resolver = Registry.matching_resolver(schema, 'foo')
+        schema_inspector = StructuredStore::SchemaInspector.new(schema)
+        resolver = Registry.matching_resolver(schema_inspector, 'foo')
         assert_instance_of DefinitionsResolver, resolver
 
         assert_equal [%w[option1 option1], %w[option2 option2], %w[option3 option3]], resolver.options_array

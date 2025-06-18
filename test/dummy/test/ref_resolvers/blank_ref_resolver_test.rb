@@ -9,7 +9,7 @@ module StructuredStore
     class BlankRefResolverTest < ActiveSupport::TestCase
       test 'define_attribute with no attribute' do
         schema = {
-          '$schema' => 'http://json-schema.org/draft/2019-09/schema#',
+          '$schema' => 'https://json-schema.org/draft/2019-09/schema',
           'type' => 'object',
           'properties' => {}
         }
@@ -23,7 +23,7 @@ module StructuredStore
 
       test 'define_attribute with string attribute' do
         schema = {
-          '$schema' => 'http://json-schema.org/draft/2019-09/schema#',
+          '$schema' => 'https://json-schema.org/draft/2019-09/schema',
           'type' => 'object',
           'properties' => {
             'foo' => {
@@ -43,7 +43,7 @@ module StructuredStore
 
       test 'define_attribute with untested attribute type' do
         schema = {
-          '$schema' => 'http://json-schema.org/draft/2019-09/schema#',
+          '$schema' => 'https://json-schema.org/draft/2019-09/schema',
           'type' => 'object',
           'properties' => {
             'foo' => {

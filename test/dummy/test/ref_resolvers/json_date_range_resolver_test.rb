@@ -18,7 +18,9 @@ module StructuredStore
       end
 
       test 'matching_resolver' do
-        resolver = Registry.matching_resolver(simple_foo_date_range_schema, 'foo')
+        schema_inspector = StructuredStore::SchemaInspector.new(simple_foo_date_range_schema)
+        resolver = Registry.matching_resolver(schema_inspector, 'foo')
+
         assert_instance_of JsonDateRangeResolver, resolver
       end
 
@@ -37,7 +39,7 @@ module StructuredStore
 
       test 'options_array' do
         schema = {
-          '$schema' => 'http://json-schema.org/draft/2019-09/schema#',
+          '$schema' => 'https://json-schema.org/draft/2019-09/schema',
           'type' => 'object',
           'properties' => {
             'foo' => {
@@ -47,7 +49,8 @@ module StructuredStore
           'additionalProperties' => false
         }
 
-        resolver = Registry.matching_resolver(schema, 'foo')
+        schema_inspector = StructuredStore::SchemaInspector.new(schema)
+        resolver = Registry.matching_resolver(schema_inspector, 'foo')
         assert_instance_of JsonDateRangeResolver, resolver
 
         assert_empty resolver.options_array
@@ -57,7 +60,7 @@ module StructuredStore
 
       def simple_foo_date_range_schema
         {
-          '$schema' => 'http://json-schema.org/draft/2019-09/schema#',
+          '$schema' => 'https://json-schema.org/draft/2019-09/schema',
           'type' => 'object',
           'properties' => {
             'foo' => {

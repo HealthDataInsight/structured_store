@@ -36,11 +36,10 @@ module StructuredStore
         # @param [Hash] context Optional context hash (default: {})
         # @return [RefResolver] An instance of the appropriate resolver class for the reference
         # @raise [RuntimeError] If no matching resolver can be found for the reference
-        def matching_resolver(schema, property_name, context = {})
-          property = schema.dig('properties', property_name.to_s).stringify_keys
-          ref_string = property['$ref']
+        def matching_resolver(schema_inspector, property_name, context = {})
+          ref_string = schema_inspector.property_schema(property_name)['$ref']
 
-          klass_factory(ref_string).new(schema, property_name, ref_string, context)
+          klass_factory(ref_string).new(schema_inspector, property_name, ref_string, context)
         end
 
         private

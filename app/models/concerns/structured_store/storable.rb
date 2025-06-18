@@ -40,12 +40,17 @@ module StructuredStore
     # @return [Array<StructuredStore::RefResolvers::Base>] Array of resolver instances
     def property_resolvers
       @property_resolvers ||= json_schema_properties.keys.index_with do |property_name|
-        StructuredStore::RefResolvers::Registry.matching_resolver(json_schema,
+        StructuredStore::RefResolvers::Registry.matching_resolver(schema_inspector,
                                                                   property_name)
       end
     end
 
     private
+
+    # Returns a SchemaInspector instance for the current JSON schema.
+    def schema_inspector
+      @schema_inspector ||= StructuredStore::SchemaInspector.new(json_schema)
+    end
 
     # Retrieves the properties from the JSON schema
     #
