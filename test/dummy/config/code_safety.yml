@@ -66,8 +66,8 @@ file safety:
     safe_revision: 1e57432ae9f41f94c37c19952b983184131e5c3e
   Gemfile.lock:
     comments:
-    reviewed_by: shilpigoeldev
-    safe_revision: 58636e6aca82097252149240781371f0cb1c8a92
+    reviewed_by: timgentry
+    safe_revision: 60e40344a37554880420b605e83c21bc3264614e
   MIT-LICENSE:
     comments:
     reviewed_by: timgentry
@@ -453,4 +453,4 @@ file safety:
   test/zeitwerk_loader_test.rb:
     comments:
     reviewed_by: timgentry
-    safe_revision: fca06effbf2b71c6845e29a5cf0c406beb9d5dce
+    safe_revision: 6cba4e0347486e9d3c9bfcbe2f207244f8b107c6
