@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.0]
+
 ### Added
 
 - Created a Rails JSON Schema validator to validate JSON attributes
@@ -17,4 +19,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New JsonDateRangeResolver for composite date ranges
 - Added a SchemaInspector to abstract away schema inspection and validation
 
-[unreleased]: https://github.com/HealthDataInsight/structured_store/compare/...HEAD
+[unreleased]: https://github.com/HealthDataInsight/structured_store/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/HealthDataInsight/structured_store/releases/tag/v0.1.0
