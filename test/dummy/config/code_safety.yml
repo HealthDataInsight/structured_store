@@ -14,8 +14,8 @@ file safety:
     safe_revision: 3351cd3b4445b95366f54d8a9177170fabc63ff4
   ".github/dependabot.yml":
     comments:
-    reviewed_by:
-    safe_revision:
+    reviewed_by: shilpigoeldev
+    safe_revision: 44ccff00aae9911641a5224ed3e616944009af75
   ".github/linters/.markdown-link-check.json":
     comments:
     reviewed_by: timgentry
@@ -62,12 +62,12 @@ file safety:
     safe_revision: 3351cd3b4445b95366f54d8a9177170fabc63ff4
   Gemfile:
     comments:
-    reviewed_by:
-    safe_revision:
+    reviewed_by: shilpigoeldev
+    safe_revision: 1e57432ae9f41f94c37c19952b983184131e5c3e
   Gemfile.lock:
     comments:
-    reviewed_by:
-    safe_revision:
+    reviewed_by: shilpigoeldev
+    safe_revision: 58636e6aca82097252149240781371f0cb1c8a92
   MIT-LICENSE:
     comments:
     reviewed_by: timgentry
@@ -78,20 +78,21 @@ file safety:
     safe_revision: 373b706d1ff6da6b377f08eff4a3ae5be494f946
   Rakefile:
     comments:
-    reviewed_by: timgentry
-    safe_revision: fb589bf1e09e3d00bc84af6660b88423049b6eac
+    reviewed_by: shilpigoeldev
+    safe_revision: 6cba4e0347486e9d3c9bfcbe2f207244f8b107c6
   app/models/concerns/structured_store/storable.rb:
-    comments:
-    reviewed_by:
-    safe_revision:
+    comments: "# rubocop:disable Rails/InverseOf , comment to give context why disabled
+      would be good to add."
+    reviewed_by: shilpigoeldev
+    safe_revision: bf094508b444e4623ef8864b0928a3f6f8276371
   app/models/structured_store/versioned_schema.rb:
     comments:
-    reviewed_by:
-    safe_revision:
+    reviewed_by: shilpigoeldev
+    safe_revision: b042b663d220917c09f1995385581bf70ea83cc3
   app/validators/json_schema_validator.rb:
     comments:
-    reviewed_by:
-    safe_revision:
+    reviewed_by: shilpigoeldev
+    safe_revision: 72c54604888d62351f7c7c4d38e4dbf50b7d9d69
   bin/rails:
     comments:
     reviewed_by: timgentry
@@ -150,68 +151,69 @@ file safety:
     safe_revision: 3351cd3b4445b95366f54d8a9177170fabc63ff4
   lib/structured_store.rb:
     comments:
-    reviewed_by:
-    safe_revision:
+    reviewed_by: shilpigoeldev
+    safe_revision: 373b706d1ff6da6b377f08eff4a3ae5be494f946
   lib/structured_store/converters/chronic_date_range_converter.rb:
     comments:
-    reviewed_by:
-    safe_revision:
+    reviewed_by: shilpigoeldev
+    safe_revision: 373b706d1ff6da6b377f08eff4a3ae5be494f946
   lib/structured_store/engine.rb:
     comments:
     reviewed_by: timgentry
     safe_revision: fb589bf1e09e3d00bc84af6660b88423049b6eac
   lib/structured_store/generators/install_generator.rb:
     comments:
-    reviewed_by:
-    safe_revision:
+    reviewed_by: shilpigoeldev
+    safe_revision: 785a82544a788572bb3f769247f3f009ee172c3f
   lib/structured_store/generators/templates/create_structured_store.rb.tt:
     comments:
-    reviewed_by:
-    safe_revision:
+    reviewed_by: shilpigoeldev
+    safe_revision: b042b663d220917c09f1995385581bf70ea83cc3
   lib/structured_store/migration_helper.rb:
     comments:
-    reviewed_by:
-    safe_revision:
+    reviewed_by: shilpigoeldev
+    safe_revision: b042b663d220917c09f1995385581bf70ea83cc3
   lib/structured_store/ref_resolvers/base.rb:
     comments:
-    reviewed_by:
-    safe_revision:
+    reviewed_by: shilpigoeldev
+    safe_revision: bf094508b444e4623ef8864b0928a3f6f8276371
   lib/structured_store/ref_resolvers/blank_ref_resolver.rb:
     comments:
-    reviewed_by:
-    safe_revision:
+    reviewed_by: shilpigoeldev
+    safe_revision: bf094508b444e4623ef8864b0928a3f6f8276371
   lib/structured_store/ref_resolvers/defaults.rb:
     comments:
-    reviewed_by:
-    safe_revision:
+    reviewed_by: shilpigoeldev
+    safe_revision: 373b706d1ff6da6b377f08eff4a3ae5be494f946
   lib/structured_store/ref_resolvers/definitions_resolver.rb:
     comments:
-    reviewed_by:
-    safe_revision:
+    reviewed_by: shilpigoeldev
+    safe_revision: bf094508b444e4623ef8864b0928a3f6f8276371
   lib/structured_store/ref_resolvers/json_date_range_resolver.rb:
     comments:
-    reviewed_by:
-    safe_revision:
+    reviewed_by: shilpigoeldev
+    safe_revision: 373b706d1ff6da6b377f08eff4a3ae5be494f946
   lib/structured_store/ref_resolvers/registry.rb:
     comments:
-    reviewed_by:
-    safe_revision:
+    reviewed_by: shilpigoeldev
+    safe_revision: bf094508b444e4623ef8864b0928a3f6f8276371
   lib/structured_store/schema_inspector.rb:
     comments:
-    reviewed_by:
-    safe_revision:
+    reviewed_by: shilpigoeldev
+    safe_revision: bf094508b444e4623ef8864b0928a3f6f8276371
   lib/structured_store/version.rb:
     comments:
     reviewed_by: timgentry
     safe_revision: 44ccff00aae9911641a5224ed3e616944009af75
   lib/tasks/structured_store_tasks.rake:
     comments:
-    reviewed_by:
-    safe_revision:
+    reviewed_by: shilpigoeldev
+    safe_revision: 46cb823eba3c543daa93419c709d1da6280e2563
   structured_store.gemspec:
-    comments:
-    reviewed_by:
-    safe_revision:
+    comments: spec.metadata['allowed_push_host'] is set to a placeholder (TODO) and
+      should be updated before publishing.
+    reviewed_by: shilpigoeldev
+    safe_revision: 373b706d1ff6da6b377f08eff4a3ae5be494f946
   test/converters/chronic_date_range_converter_test.rb:
     comments:
     reviewed_by: timgentry
