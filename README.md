@@ -147,7 +147,7 @@ preference.update!(theme: "light", notifications: true)
 preference.store # => {"theme"=>"light", "notifications"=>true, "language"=>"es"}
 ```
 
-If you chose to alter the migration to use a column type other that `json` or `jsonb`, you will need to amend your model to define the store and JSON serialiser (aka coder):
+If you chose to alter the migration to use a column type other than `json` or `jsonb`, you will need to amend your model to define the store and JSON serialiser (aka coder):
 
 ```ruby
 # app/models/user_preference.rb
