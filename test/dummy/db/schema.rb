@@ -10,9 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_30_114142) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_09_170436) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "binary_json_store_records", force: :cascade do |t|
+    t.bigint "structured_store_versioned_schema_id", null: false
+    t.jsonb "store"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["structured_store_versioned_schema_id"], name: "index_jsonb_ss_records_on_versioned_schema_id"
+  end
+
+  create_table "binary_store_records", force: :cascade do |t|
+    t.bigint "structured_store_versioned_schema_id", null: false
+    t.binary "store"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["structured_store_versioned_schema_id"], name: "index_bin_ss_records_on_versioned_schema_id"
+  end
+
   create_table "store_records", force: :cascade do |t|
-    t.integer "structured_store_versioned_schema_id", null: false
+    t.bigint "structured_store_versioned_schema_id", null: false
     t.json "store"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -28,5 +47,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_30_114142) do
     t.index ["name", "version"], name: "index_structured_store_versioned_schemas_on_name_and_version", unique: true
   end
 
+  create_table "text_store_records", force: :cascade do |t|
+    t.bigint "structured_store_versioned_schema_id", null: false
+    t.text "store"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["structured_store_versioned_schema_id"], name: "index_text_records_on_versioned_schema_id"
+  end
+
+  add_foreign_key "binary_json_store_records", "structured_store_versioned_schemas"
+  add_foreign_key "binary_store_records", "structured_store_versioned_schemas"
   add_foreign_key "store_records", "structured_store_versioned_schemas"
+  add_foreign_key "text_store_records", "structured_store_versioned_schemas"
 end

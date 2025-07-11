@@ -1,13 +1,12 @@
 require_relative '../../../test_helper'
 require_relative '../helpers/store_accessor_test_helper'
 
-# This tests the StoreRecord model
-class StoreRecordTest < ActiveSupport::TestCase
+class TextStoreRecordTest < ActiveSupport::TestCase
   include StoreAccessorTestHelper
 
   private
 
   def klass
-    ::StoreRecord
+    ::TextStoreRecord
   end
 end

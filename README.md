@@ -147,6 +147,17 @@ preference.update!(theme: "light", notifications: true)
 preference.store # => {"theme"=>"light", "notifications"=>true, "language"=>"es"}
 ```
 
+If you chose to alter the migration to use a column type other than `json` or `jsonb`, you will need to amend your model to define the store and JSON serialiser (aka coder):
+
+```ruby
+# app/models/user_preference.rb
+class UserPreference < ApplicationRecord
+  include StructuredStore::Storable
+
+  store :store, coder: JSON
+end
+```
+
 ### 4. Schema Versioning
 
 StructuredStore supports schema evolution. You can create new versions of your schema by adding new JSON files and creating migrations to install them.
