@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # This migration creates the underlying table for the structured store
-class CreateStructuredStore < ActiveRecord::Migration[8.0]
+class CreateStructuredStore < ActiveRecord::Migration[7.2]
   def change
     create_table :structured_store_versioned_schemas do |t|
       t.string :name, null: false

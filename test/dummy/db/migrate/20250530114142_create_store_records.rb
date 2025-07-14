@@ -1,4 +1,4 @@
-class CreateStoreRecords < ActiveRecord::Migration[8.0]
+class CreateStoreRecords < ActiveRecord::Migration[7.2]
   def change
     create_table :store_records do |t|
       t.references :structured_store_versioned_schema, null: false, foreign_key: true,
