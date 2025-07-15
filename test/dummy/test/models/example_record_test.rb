@@ -39,5 +39,25 @@ class ExampleRecordTest < ActiveSupport::TestCase
     assert_equal 'structured_store_settings_versioned_schema_id', association.foreign_key
   end
 
+  test 'helper methods are defined correctly' do
+    instance = ExampleRecord.new(
+      store_versioned_schema: structured_store_versioned_schemas(:party),
+      metadata_schema: structured_store_versioned_schemas(:metadata),
+      settings_versioned_schema: structured_store_versioned_schemas(:ui_preferences)
+    )
+
+    # Check that store helper method is defined
+    assert_respond_to instance, :store_json_schema
+    assert_equal structured_store_versioned_schemas(:party).json_schema, instance.store_json_schema
+
+    # Check that metadata helper method is defined
+    assert_respond_to instance, :metadata_json_schema
+    assert_equal structured_store_versioned_schemas(:metadata).json_schema, instance.metadata_json_schema
+
+    # Check that settings helper method is defined
+    assert_respond_to instance, :settings_json_schema
+    assert_equal structured_store_versioned_schemas(:ui_preferences).json_schema, instance.settings_json_schema
+  end
+
   # TODO: Add tests for ExampleRecord model
 end

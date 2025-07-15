@@ -29,5 +29,13 @@ class DepotRecordTest < ActiveSupport::TestCase
     assert_equal 'structured_store_depot_versioned_schema_id', association.foreign_key
   end
 
+  test 'helper_method_is_defined_correctly' do
+    instance = DepotRecord.new(depot_versioned_schema: structured_store_versioned_schemas(:metadata))
+
+    # Check that helper method is defined
+    assert_respond_to instance, :depot_json_schema
+    assert_equal structured_store_versioned_schemas(:metadata).json_schema, instance.depot_json_schema
+  end
+
   # TODO: Add tests for DepotRecord model
 end

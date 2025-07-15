@@ -5,24 +5,6 @@ require_relative '../helpers/store_accessor_test_helper'
 class StoreRecordTest < ActiveSupport::TestCase
   include StoreAccessorTestHelper
 
-  # test 'explicit configuration creates proper associations' do
-  #   # Verify that calling structured_store :store explicitly
-  #   # results in the same behavior as the default
-  #   assert ExplicitStoreRecord.respond_to?(:_structured_store_configurations)
-
-  #   configs = ExplicitStoreRecord._structured_store_configurations
-  #   assert_equal 1, configs.size
-
-  #   config = configs.first
-  #   assert_equal :store, config[:column_name]
-  #   assert_equal :store_versioned_schema, config[:schema_name]
-
-  #   # Test association exists
-  #   model = ExplicitStoreRecord.new
-  #   assert model.respond_to?(:store_versioned_schema)
-  #   assert model.respond_to?(:store_versioned_schema=)
-  # end
-
   # test 'validation works with explicit configuration' do
   #   schema = create_validation_schema
   #   model = ExplicitStoreRecord.new(store_versioned_schema: schema)

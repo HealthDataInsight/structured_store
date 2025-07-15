@@ -29,5 +29,13 @@ class WarehouseRecordTest < ActiveSupport::TestCase
     assert_equal 'structured_store_warehouse_schema_id', association.foreign_key
   end
 
+  test 'helper method is defined correctly' do
+    instance = WarehouseRecord.new(warehouse_schema: structured_store_versioned_schemas(:metadata))
+
+    # Check that helper method is defined
+    assert_respond_to instance, :inventory_json_schema
+    assert_equal structured_store_versioned_schemas(:metadata).json_schema, instance.inventory_json_schema
+  end
+
   # TODO: Add tests for WarehouseRecord model
 end
