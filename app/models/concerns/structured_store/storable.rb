@@ -9,11 +9,43 @@ module StructuredStore
     included do
       after_initialize :define_store_accessors!
 
+      class_attribute :_structured_store_configurations, default: [
+        {
+          column_name: 'store',
+          schema_name: 'store_versioned_schema',
+          foreign_key: 'structured_store_store_versioned_schema_id'
+        }
+      ]
+
       belongs_to :versioned_schema, # rubocop:disable Rails/InverseOf
                  class_name: 'StructuredStore::VersionedSchema',
                  foreign_key: 'structured_store_versioned_schema_id'
 
       delegate :json_schema, to: :versioned_schema
+    end
+
+    class_methods do
+      # Configures the store column name
+      #
+      # @param column_name [String, Symbol] The name of the store column
+      # @param schema_name [String, Symbol, nil] Optional schema name for the association
+      #   If not provided, defaults to "#{column_name}_versioned_schema"
+      #
+      # @example
+      #   structured_store :custom_store
+      #   structured_store 'metadata', schema_name: 'custom_schema'
+      def structured_store(column_name, schema_name: nil)
+        column_name = column_name.to_s
+        schema_name ||= "#{column_name}_versioned_schema"
+        schema_name = schema_name.to_s
+
+        # Add configuration for this column
+        self._structured_store_configurations = _structured_store_configurations + [{
+          column_name: column_name,
+          schema_name: schema_name,
+          foreign_key: "structured_store_#{schema_name}_id"
+        }]
+      end
     end
 
     # Dynamically define accessors for the properties defined in the
