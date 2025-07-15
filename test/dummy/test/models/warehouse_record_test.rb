@@ -16,7 +16,7 @@ class WarehouseRecordTest < ActiveSupport::TestCase
   end
 
   test 'association for versioned_schema' do
-    record = WarehouseRecord.new
+    record = WarehouseRecord.new(warehouse_schema: structured_store_versioned_schemas(:metadata))
 
     # Verify no store association
     assert_nil record.class.reflect_on_association(:store_versioned_schema)
@@ -24,9 +24,10 @@ class WarehouseRecordTest < ActiveSupport::TestCase
     # Verify the association properties
     association = record.class.reflect_on_association(:warehouse_schema)
     assert_not_nil association
-    assert_equal :warehouse_schema, association.name
     assert_equal 'StructuredStore::VersionedSchema', association.class_name
     assert_equal 'structured_store_warehouse_schema_id', association.foreign_key
+
+    assert_equal structured_store_versioned_schemas(:metadata), record.warehouse_schema
   end
 
   test 'helper method is defined correctly' do

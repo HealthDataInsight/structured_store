@@ -16,7 +16,7 @@ class DepotRecordTest < ActiveSupport::TestCase
   end
 
   test 'association for versioned_schema' do
-    record = DepotRecord.new
+    record = DepotRecord.new(depot_versioned_schema: structured_store_versioned_schemas(:metadata))
 
     # Verify no store association
     assert_nil record.class.reflect_on_association(:store_versioned_schema)
@@ -24,12 +24,13 @@ class DepotRecordTest < ActiveSupport::TestCase
     # Verify the association properties
     association = record.class.reflect_on_association(:depot_versioned_schema)
     assert_not_nil association
-    assert_equal :depot_versioned_schema, association.name
     assert_equal 'StructuredStore::VersionedSchema', association.class_name
     assert_equal 'structured_store_depot_versioned_schema_id', association.foreign_key
+
+    assert_equal structured_store_versioned_schemas(:metadata), record.depot_versioned_schema
   end
 
-  test 'helper_method_is_defined_correctly' do
+  test 'helper method is defined correctly' do
     instance = DepotRecord.new(depot_versioned_schema: structured_store_versioned_schemas(:metadata))
 
     # Check that helper method is defined
