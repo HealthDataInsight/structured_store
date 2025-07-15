@@ -40,6 +40,7 @@ end
 ```
 
 This creates:
+
 - Store column: `depot` (JSON field)
 - Association: `depot_versioned_schema`
 - Foreign key: `structured_store_depot_versioned_schema_id`
@@ -57,6 +58,7 @@ end
 ```
 
 This creates:
+
 - Store column: `inventory` (JSON field)
 - Association: `warehouse_schema`
 - Foreign key: `structured_store_warehouse_schema_id`
@@ -74,6 +76,7 @@ end
 ```
 
 This creates:
+
 - Store column: `store` (JSON field)
 - Association: `store_versioned_schema`
 - Foreign key: `structured_store_store_versioned_schema_id`
@@ -93,6 +96,7 @@ end
 ```
 
 This creates:
+
 - Store columns: `profile`, `metadata`, `settings`, `preferences` (JSON fields)
 - Associations: `profile_versioned_schema`, `user_metadata`, `settings_versioned_schema`, `user_preferences`
 - Foreign keys: `structured_store_profile_versioned_schema_id`, `structured_store_user_metadata_id`, etc.
@@ -129,12 +133,13 @@ end
 ### Configuration Override
 
 All stores must be explicitly configured:
+
 - **No calls**: No store columns are configured, model will not work
 - **Any calls**: Only explicitly configured stores exist
 
 ## Database Migration Examples
 
-### Single Custom Store
+### Single Custom Store Migration
 
 ```ruby
 class CreateDepotRecords < ActiveRecord::Migration[7.2]
@@ -156,7 +161,7 @@ class CreateDepotRecords < ActiveRecord::Migration[7.2]
 end
 ```
 
-### Single Store with Custom Schema Association
+### Single Store with Custom Schema Association Migration
 
 ```ruby
 class CreateWarehouseRecords < ActiveRecord::Migration[7.2]
@@ -178,7 +183,7 @@ class CreateWarehouseRecords < ActiveRecord::Migration[7.2]
 end
 ```
 
-### Multiple Store Columns
+### Multiple Store Columns Migration
 
 ```ruby
 class CreateUsers < ActiveRecord::Migration[7.2]
@@ -221,10 +226,12 @@ end
 Configures a store column and its associated schema.
 
 **Parameters:**
+
 - `column_name` (String|Symbol): Name of the JSON store column
 - `schema_name` (String|Symbol, optional): Name for the schema association. Defaults to `"#{column_name}_versioned_schema"`
 
 **Examples:**
+
 ```ruby
 # Default schema association name
 structured_store :profile  # Creates 'profile_versioned_schema'
@@ -387,6 +394,7 @@ user.save!
 **Migration Required**: Existing models that relied on implicit behavior will need to be updated.
 
 **Before (no longer works):**
+
 ```ruby
 class User < ApplicationRecord
   include StructuredStore::Storable
@@ -395,6 +403,7 @@ end
 ```
 
 **After:**
+
 ```ruby
 class User < ApplicationRecord
   include StructuredStore::Storable
@@ -407,6 +416,7 @@ end
 ### Why This Change?
 
 This change provides much more flexibility:
+
 - **Single custom-named stores**: You can now have a model with only a `depot` column instead of being forced to use `store`
 - **Multiple stores**: Multiple structured stores per model
 - **Better naming**: More descriptive association names based on purpose
@@ -431,11 +441,13 @@ Each `structured_store` call:
 ### Store Configuration
 
 The **stores** are processed in the order they are configured:
+
 - `_structured_store_configurations` is an array that maintains insertion order
 - All stores get equal treatment - no magic "first store" behavior
 - Consistent - every store works the same way
 
 The configuration is stored in:
+
 - `_structured_store_configurations`: Array of all store configurations
 
 ## Error Handling

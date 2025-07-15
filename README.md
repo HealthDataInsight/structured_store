@@ -35,8 +35,8 @@ StructuredStore provides a robust way to manage JSON data with versioned schemas
 After installation, create the necessary database tables:
 
 ```bash
-$ rails generate structured_store:install
-$ rails db:migrate
+rails generate structured_store:install
+rails db:migrate
 ```
 
 This creates a `structured_store_versioned_schemas` table and a `db/structured_store_versioned_schemas/` directory for your schema files.
@@ -90,7 +90,7 @@ end
 Run the migration:
 
 ```bash
-$ rails db:migrate
+rails db:migrate
 ```
 
 ### 2. Creating a Model with Structured Storage
@@ -396,7 +396,7 @@ CustomResolver.register
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/HealthDataInsight/structured_store. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/HealthDataInsight/structured_store/blob/main/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at <https://github.com/HealthDataInsight/structured_store>. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/HealthDataInsight/structured_store/blob/main/CODE_OF_CONDUCT.md).
 
 ## License
 
