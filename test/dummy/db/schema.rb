@@ -30,14 +30,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_09_170436) do
     t.index ["structured_store_store_versioned_schema_id"], name: "idx_on_structured_store_store_versioned_schema_id_1c22ed32c1"
   end
 
-  create_table "default_store_records", force: :cascade do |t|
-    t.bigint "structured_store_store_versioned_schema_id", null: false
-    t.json "store"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["structured_store_store_versioned_schema_id"], name: "idx_on_structured_store_store_versioned_schema_id_5096e58453"
-  end
-
   create_table "depot_records", force: :cascade do |t|
     t.string "name"
     t.json "depot"
@@ -60,6 +52,14 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_09_170436) do
     t.index ["structured_store_metadata_schema_id"], name: "index_example_records_on_structured_store_metadata_schema_id"
     t.index ["structured_store_settings_versioned_schema_id"], name: "idx_on_structured_store_settings_versioned_schema_i_c43f71aabb"
     t.index ["structured_store_store_versioned_schema_id"], name: "idx_on_structured_store_store_versioned_schema_id_f85a08fb17"
+  end
+
+  create_table "store_records", force: :cascade do |t|
+    t.bigint "structured_store_store_versioned_schema_id", null: false
+    t.json "store"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["structured_store_store_versioned_schema_id"], name: "idx_on_structured_store_store_versioned_schema_id_efc7fe1562"
   end
 
   create_table "structured_store_versioned_schemas", force: :cascade do |t|
@@ -90,11 +90,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_09_170436) do
 
   add_foreign_key "binary_json_store_records", "structured_store_versioned_schemas", column: "structured_store_store_versioned_schema_id"
   add_foreign_key "binary_store_records", "structured_store_versioned_schemas", column: "structured_store_store_versioned_schema_id"
-  add_foreign_key "default_store_records", "structured_store_versioned_schemas", column: "structured_store_store_versioned_schema_id"
   add_foreign_key "depot_records", "structured_store_versioned_schemas", column: "structured_store_depot_versioned_schema_id"
   add_foreign_key "example_records", "structured_store_versioned_schemas", column: "structured_store_metadata_schema_id"
   add_foreign_key "example_records", "structured_store_versioned_schemas", column: "structured_store_settings_versioned_schema_id"
   add_foreign_key "example_records", "structured_store_versioned_schemas", column: "structured_store_store_versioned_schema_id"
+  add_foreign_key "store_records", "structured_store_versioned_schemas", column: "structured_store_store_versioned_schema_id"
   add_foreign_key "text_store_records", "structured_store_versioned_schemas", column: "structured_store_store_versioned_schema_id"
   add_foreign_key "warehouse_records", "structured_store_versioned_schemas", column: "structured_store_warehouse_schema_id"
 end
