@@ -1,6 +1,6 @@
 module StoreAccessorTestHelper
   def test_define_store_accessors
-    record = klass.new(versioned_schema: total_count_versioned_schema)
+    record = klass.new(store_versioned_schema: total_count_versioned_schema)
 
     assert record.respond_to?(:theme)
     assert record.respond_to?(:theme=)

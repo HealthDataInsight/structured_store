@@ -24,7 +24,7 @@ module StructuredStore
           }
         }
 
-        store_record = StoreRecord.new(versioned_schema: VersionedSchema.new(json_schema: schema))
+        store_record = StoreRecord.new(store_versioned_schema: VersionedSchema.new(json_schema: schema))
 
         # Now the structured store attribute "foo" should be defined
         assert_nil store_record.foo
@@ -49,7 +49,7 @@ module StructuredStore
         }
 
         exception = assert_raises(RuntimeError) do
-          StoreRecord.new(versioned_schema: VersionedSchema.new(json_schema: schema))
+          StoreRecord.new(store_versioned_schema: VersionedSchema.new(json_schema: schema))
         end
 
         assert_equal 'Unsupported attribute type: "object" for property \'foo\'', exception.message
