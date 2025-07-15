@@ -26,31 +26,31 @@ module StructuredStore
     included do
       after_initialize :define_all_store_accessors!
 
-      class_attribute :_structured_store_configurations, default: [
-        {
-          column_name: 'store',
-          schema_name: 'store_versioned_schema',
-          foreign_key: 'structured_store_store_versioned_schema_id'
-        }
-      ]
-
-      belongs_to :versioned_schema, # rubocop:disable Rails/InverseOf
-                 class_name: 'StructuredStore::VersionedSchema',
-                 foreign_key: 'structured_store_versioned_schema_id'
-
-      delegate :json_schema, to: :versioned_schema
+      class_attribute :_structured_store_configurations, default: []
     end
 
     class_methods do
-      # Configures the store column name
+      # Configures a structured store column and creates the necessary associations.
       #
-      # @param column_name [String, Symbol] The name of the store column
-      # @param schema_name [String, Symbol, nil] Optional schema name for the association
+      # This method must be called explicitly for each store column you want to use.
+      # It will:
+      # - Add the column configuration to the internal tracking
+      # - Create a belongs_to association to StructuredStore::VersionedSchema
+      # - Define a helper method to access the JSON schema for this store
+      #
+      # @param column_name [String, Symbol] The name of the store column in your model
+      # @param schema_name [String, Symbol, nil] Optional custom name for the schema association
       #   If not provided, defaults to "#{column_name}_versioned_schema"
       #
-      # @example
-      #   structured_store :custom_store
-      #   structured_store 'metadata', schema_name: 'custom_schema'
+      # @example Simple store configuration
+      #   structured_store :preferences
+      #   # Creates: belongs_to :preferences_versioned_schema
+      #   # Helper method: preferences_json_schema
+      #
+      # @example Custom schema name
+      #   structured_store :config, schema_name: 'product_configuration'
+      #   # Creates: belongs_to :product_configuration
+      #   # Helper method: product_configuration_json_schema
       def structured_store(column_name, schema_name: nil)
         column_name = column_name.to_s
         schema_name ||= "#{column_name}_versioned_schema"
@@ -59,9 +59,25 @@ module StructuredStore
         # Add configuration for this column
         self._structured_store_configurations = _structured_store_configurations + [{
           column_name: column_name,
-          schema_name: schema_name,
-          foreign_key: "structured_store_#{schema_name}_id"
+          schema_name: schema_name
         }]
+
+        # Define the belongs_to association immediately
+        belongs_to schema_name.to_sym, # rubocop:disable Rails/InverseOf
+                   class_name: 'StructuredStore::VersionedSchema',
+                   foreign_key: "structured_store_#{schema_name}_id"
+
+        # Define helper method to get schema for this specific store
+        define_method "#{column_name}_json_schema" do
+          send(schema_name)&.json_schema
+        end
+      end
+    end
+
+    # Define accessors for all configured store columns
+    def define_all_store_accessors!
+      _structured_store_configurations.each do |config|
+        define_store_accessors_for_column(config[:column_name])
       end
     end
 
@@ -112,27 +128,47 @@ module StructuredStore
       @schema_inspectors[column_name] ||= StructuredStore::SchemaInspector.new(json_schema_for_column(column_name))
     end
 
-    # Retrieves the properties from the JSON schema
+    # Retrieves the properties from the JSON schema for the specified store column
     #
+    # @param column_name [String] The name of the store column
     # @return [Hash] a hash containing the properties defined in the JSON schema,
     #                or an empty hash if no properties exist
-    def json_schema_properties
-      json_schema.fetch('properties', {})
+    def json_schema_properties(column_name)
+      return {} if column_name.nil?
+
+      json_schema_for_column(column_name).fetch('properties', {})
     end
 
-    # Returns true if there is sufficient information to define accessors for this audit_store,
+    # Gets the JSON schema for a specific store column
+    #
+    # @param column_name [String] The name of the store column
+    # @return [Hash] The JSON schema hash
+    def json_schema_for_column(column_name)
+      return {} if column_name.nil?
+
+      send("#{column_name}_json_schema") || {}
+    end
+
+    # Returns true if there is sufficient information to define accessors for the specified store column,
     # and false otherwise.
     #
     # The JSON schema must be defined, containing property definitions.
-    def sufficient_info_to_define_store_accessors?
-      if json_schema.nil?
-        Rails.logger.info('This storable instance has no JSON schema')
+    #
+    # @param column_name [String] The name of the store column
+    def sufficient_info_to_define_store_accessors?(column_name)
+      return false if column_name.nil?
+
+      schema = json_schema_for_column(column_name)
+      properties = json_schema_properties(column_name)
+
+      if schema.blank?
+        Rails.logger.info("This storable instance has no JSON schema for column '#{column_name}'")
         return false
       end
 
-      unless json_schema_properties.is_a?(Hash)
-        Rails.logger.warn 'The JSON schema for this storable instance does not contain ' \
-                          "a valid 'properties' hash: #{json_schema_properties.inspect}"
+      unless properties.is_a?(Hash)
+        Rails.logger.warn "The JSON schema for column '#{column_name}' does not contain " \
+                          "a valid 'properties' hash: #{properties.inspect}"
         return false
       end
 

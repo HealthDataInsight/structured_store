@@ -28,3 +28,17 @@ independent_sector:
   name: Independent Sector
   version: 0.10.0
   json_schema:
+
+party:
+  name: Party
+  version: 0.10.0
+  json_schema:
+    "$schema": https://json-schema.org/draft/2019-09/schema
+    type: object
+    properties:
+      party_theme:
+        type: string
+      balloon_count:
+        type: integer
+    required: []
+    additionalProperties: false

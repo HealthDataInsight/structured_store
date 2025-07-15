@@ -21,50 +21,35 @@ module StoreAccessorTestHelper
     assert_equal 'structured_store_store_versioned_schema_id', association.foreign_key
   end
 
+  def test_helper_method_is_defined_correctly
+    instance = klass.new(store_versioned_schema: structured_store_versioned_schemas(:party))
+
+    # Check that helper method is defined
+    assert_respond_to instance, :store_json_schema
+    assert_equal structured_store_versioned_schemas(:party).json_schema, instance.store_json_schema
+  end
+
   def test_define_store_accessors
-    record = klass.new(store_versioned_schema: total_count_versioned_schema)
+    record = klass.new(store_versioned_schema: structured_store_versioned_schemas(:party))
 
-    assert record.respond_to?(:theme)
-    assert record.respond_to?(:theme=)
-    record.theme = 'Disco'
+    assert record.respond_to?(:party_theme)
+    assert record.respond_to?(:party_theme=)
+    record.party_theme = 'Disco'
 
-    assert record.respond_to?(:total_count)
-    assert record.respond_to?(:total_count=)
-    record.total_count = 42
+    assert record.respond_to?(:balloon_count)
+    assert record.respond_to?(:balloon_count=)
+    record.balloon_count = 42
 
     record.save!
 
     record = klass.find(record.id)
 
-    assert record.respond_to?(:theme)
-    assert record.respond_to?(:theme=)
-    assert_equal 'Disco', record.theme
+    assert record.respond_to?(:party_theme)
+    assert record.respond_to?(:party_theme=)
+    assert_equal 'Disco', record.party_theme
 
-    assert record.respond_to?(:total_count)
-    assert record.respond_to?(:total_count=)
-    assert_equal 42, record.total_count
-  end
-
-  private
-
-  def total_count_versioned_schema
-    StructuredStore::VersionedSchema.find_or_create_by!(name: 'Party', version: '0.10.0') do |schema|
-      schema.json_schema = <<~STR
-        {
-          "$schema": "https://json-schema.org/draft/2019-09/schema",
-          "type": "object",
-          "properties": {
-            "theme": {
-              "type": "string"
-            },
-            "total_count": {
-              "type": "integer"
-            }
-          },
-          "required": [],
-          "additionalProperties": false
-        }
-      STR
-    end
+    assert record.respond_to?(:balloon_count)
+    assert record.respond_to?(:balloon_count=)
+    assert_equal 42, record.balloon_count
   end
 end
