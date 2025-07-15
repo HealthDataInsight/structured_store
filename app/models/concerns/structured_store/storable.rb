@@ -1,13 +1,30 @@
 module StructuredStore
   # This module is included in models that need to be stored in a structured way.
   # It provides the necessary methods and attributes for structured storage.
-  # The `storeable_attributes` method defines the attributes that will be stored.
-  # The `to_s` method is overridden to return the name of the object or the default string representation.
+  #
+  # To use this module, include it in your model and call `structured_store` for each
+  # store column you want to configure. Each call will create a belongs_to association
+  # to a VersionedSchema and define helper methods for accessing the JSON schema.
+  #
+  # @example Basic usage
+  #   class User < ApplicationRecord
+  #     include StructuredStore::Storable
+  #
+  #     structured_store :preferences
+  #     structured_store :metadata
+  #   end
+  #
+  # @example Custom schema name
+  #   class Product < ApplicationRecord
+  #     include StructuredStore::Storable
+  #
+  #     structured_store :configuration, schema_name: 'product_config_schema'
+  #   end
   module Storable
     extend ActiveSupport::Concern
 
     included do
-      after_initialize :define_store_accessors!
+      after_initialize :define_all_store_accessors!
 
       class_attribute :_structured_store_configurations, default: [
         {
@@ -49,18 +66,20 @@ module StructuredStore
     end
 
     # Dynamically define accessors for the properties defined in the
-    # JSON schema that this record has.
+    # JSON schema for this specific store column.
     #
     # This method is run automatically as an `after_initialize` callback, but can be called at
     # any time for debugging and testing purposes.
     #
     # It skips defining the accessors if there is insufficient information to do so.
-    def define_store_accessors!
-      return unless sufficient_info_to_define_store_accessors?
+    #
+    # @param column_name [String] The name of the store column
+    def define_store_accessors_for_column(column_name)
+      return unless sufficient_info_to_define_store_accessors?(column_name)
 
-      singleton_class.store_accessor(:store, json_schema_properties.keys)
+      singleton_class.store_accessor(column_name.to_sym, json_schema_properties(column_name).keys)
 
-      property_resolvers.each_value do |resolver|
+      property_resolvers(column_name).each_value do |resolver|
         resolver.define_attribute.call(self)
       end
     end
@@ -69,19 +88,28 @@ module StructuredStore
     # The resolvers are responsible for handling references and defining attributes
     # for each property defined in the schema.
     #
-    # @return [Array<StructuredStore::RefResolvers::Base>] Array of resolver instances
-    def property_resolvers
-      @property_resolvers ||= json_schema_properties.keys.index_with do |property_name|
-        StructuredStore::RefResolvers::Registry.matching_resolver(schema_inspector,
+    # @param column_name [String] The name of the store column
+    # @return [Hash<String, StructuredStore::RefResolvers::Base>] Hash of resolver instances
+    def property_resolvers(column_name)
+      return {} if column_name.nil?
+
+      @property_resolvers ||= {}
+      @property_resolvers[column_name] ||= json_schema_properties(column_name).keys.index_with do |property_name|
+        StructuredStore::RefResolvers::Registry.matching_resolver(schema_inspector(column_name),
                                                                   property_name)
       end
     end
 
     private
 
-    # Returns a SchemaInspector instance for the current JSON schema.
-    def schema_inspector
-      @schema_inspector ||= StructuredStore::SchemaInspector.new(json_schema)
+    # Returns a SchemaInspector instance for the specified store column's JSON schema.
+    #
+    # @param column_name [String] The name of the store column
+    def schema_inspector(column_name)
+      return nil if column_name.nil?
+
+      @schema_inspectors ||= {}
+      @schema_inspectors[column_name] ||= StructuredStore::SchemaInspector.new(json_schema_for_column(column_name))
     end
 
     # Retrieves the properties from the JSON schema
