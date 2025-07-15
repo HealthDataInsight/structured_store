@@ -20,7 +20,7 @@ end
 # This WILL work
 class GoodExample < ApplicationRecord
   include StructuredStore::Storable
-  
+
   structured_store :depot  # Configures the store
 end
 ```
@@ -32,7 +32,7 @@ end
 ```ruby
 class DepotRecord < ApplicationRecord
   include StructuredStore::Storable
-  
+
   # Single store column called 'depot'
   structured_store :depot
 end
@@ -40,7 +40,7 @@ end
 
 This creates:
 - Store column: `depot` (JSON field)
-- Association: `depot_versioned_schema` 
+- Association: `depot_versioned_schema`
 - Foreign key: `structured_store_depot_versioned_schema_id`
 - Schema access: `depot.depot_versioned_schema_json_schema`
 
@@ -49,7 +49,7 @@ This creates:
 ```ruby
 class WarehouseRecord < ApplicationRecord
   include StructuredStore::Storable
-  
+
   # Store column 'inventory' with custom schema association name
   structured_store :inventory, schema_name: 'warehouse_schema'
 end
@@ -57,7 +57,7 @@ end
 
 This creates:
 - Store column: `inventory` (JSON field)
-- Association: `warehouse_schema` 
+- Association: `warehouse_schema`
 - Foreign key: `structured_store_warehouse_schema_id`
 - Schema access: `warehouse.warehouse_schema_json_schema`
 
@@ -66,7 +66,7 @@ This creates:
 ```ruby
 class User < ApplicationRecord
   include StructuredStore::Storable
-  
+
   # Traditional 'store' column - now explicit
   structured_store :store
 end
@@ -74,7 +74,7 @@ end
 
 This creates:
 - Store column: `store` (JSON field)
-- Association: `store_versioned_schema` 
+- Association: `store_versioned_schema`
 - Foreign key: `structured_store_store_versioned_schema_id`
 
 ### Multiple Store Columns
@@ -82,10 +82,10 @@ This creates:
 ```ruby
 class User < ApplicationRecord
   include StructuredStore::Storable
-  
+
   # Multiple stores for different purposes
   structured_store :profile                  # Creates 'profile_versioned_schema'
-  structured_store :metadata, schema_name: 'user_metadata' 
+  structured_store :metadata, schema_name: 'user_metadata'
   structured_store :settings                # Creates 'settings_versioned_schema'
   structured_store :preferences, schema_name: 'user_preferences'
 end
@@ -113,7 +113,7 @@ end
 # This WILL work
 class GoodExample < ApplicationRecord
   include StructuredStore::Storable
-  
+
   structured_store :depot  # Configures the store
 end
 ```
@@ -140,15 +140,15 @@ class CreateDepotRecords < ActiveRecord::Migration[7.2]
   def change
     create_table :depot_records do |t|
       t.string :name
-      
+
       # Single store column called 'depot'
       t.json :depot
-      
+
       # Foreign key to versioned schema
       t.references :structured_store_depot_versioned_schema,
                    null: false,
                    foreign_key: { to_table: :structured_store_versioned_schemas }
-                   
+
       t.timestamps
     end
   end
@@ -162,15 +162,15 @@ class CreateWarehouseRecords < ActiveRecord::Migration[7.2]
   def change
     create_table :warehouse_records do |t|
       t.string :name
-      
+
       # Single store column called 'inventory'
       t.json :inventory
-      
+
       # Foreign key to versioned schema with custom name
       t.references :structured_store_warehouse_schema,
                    null: false,
                    foreign_key: { to_table: :structured_store_versioned_schemas }
-                   
+
       t.timestamps
     end
   end
@@ -184,25 +184,25 @@ class CreateUsers < ActiveRecord::Migration[7.2]
   def change
     create_table :users do |t|
       t.string :email
-      
+
       # Store columns (JSON fields)
       t.json :profile
       t.json :metadata
       t.json :settings
       t.json :preferences
-      
+
       # Foreign keys to versioned schemas
-      t.references :structured_store_profile_versioned_schema, 
-                   null: false, 
+      t.references :structured_store_profile_versioned_schema,
+                   null: false,
                    foreign_key: { to_table: :structured_store_versioned_schemas }
-      t.references :structured_store_user_metadata, 
-                   null: false, 
+      t.references :structured_store_user_metadata,
+                   null: false,
                    foreign_key: { to_table: :structured_store_versioned_schemas }
-      t.references :structured_store_settings_versioned_schema, 
-                   null: false, 
+      t.references :structured_store_settings_versioned_schema,
+                   null: false,
                    foreign_key: { to_table: :structured_store_versioned_schemas }
-      t.references :structured_store_user_preferences, 
-                   null: false, 
+      t.references :structured_store_user_preferences,
+                   null: false,
                    foreign_key: { to_table: :structured_store_versioned_schemas }
 
       t.timestamps
@@ -228,7 +228,7 @@ Configures a store column and its associated schema.
 # Default schema association name
 structured_store :profile  # Creates 'profile_versioned_schema'
 
-# Custom schema association name  
+# Custom schema association name
 structured_store :metadata, schema_name: 'user_metadata'
 ```
 
@@ -264,7 +264,7 @@ Each configured store gets helper methods:
 # For store column 'metadata' with schema 'user_metadata'
 user.user_metadata_json_schema  # Returns the JSON schema hash
 
-# For store column 'settings' with default schema 'settings_versioned_schema'  
+# For store column 'settings' with default schema 'settings_versioned_schema'
 user.settings_versioned_schema_json_schema  # Returns the JSON schema hash
 ```
 
@@ -324,7 +324,7 @@ profile_schema = StructuredStore::VersionedSchema.create!(
 )
 
 metadata_schema = StructuredStore::VersionedSchema.create!(
-  name: 'user_metadata', 
+  name: 'user_metadata',
   version: '1.0.0',
   json_schema: {
     'type' => 'object',
@@ -338,7 +338,7 @@ metadata_schema = StructuredStore::VersionedSchema.create!(
 
 settings_schema = StructuredStore::VersionedSchema.create!(
   name: 'user_settings',
-  version: '1.0.0', 
+  version: '1.0.0',
   json_schema: {
     'type' => 'object',
     'properties' => {
@@ -357,7 +357,7 @@ user = User.new(email: 'user@example.com')
 
 # Assign schemas to different stores
 user.profile_versioned_schema = profile_schema
-user.user_metadata = metadata_schema  
+user.user_metadata = metadata_schema
 user.settings_versioned_schema = settings_schema
 
 # After initialization, accessors are automatically defined for all stores
@@ -397,7 +397,7 @@ end
 ```ruby
 class User < ApplicationRecord
   include StructuredStore::Storable
-  
+
   # Now explicit configuration is required
   structured_store :store
 end

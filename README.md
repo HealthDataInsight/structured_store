@@ -101,7 +101,7 @@ Create a model that includes the `StructuredStore::Storable` concern and explici
 # app/models/user_preference.rb
 class UserPreference < ApplicationRecord
   include StructuredStore::Storable
-  
+
   # Must explicitly configure structured store column(s)
   structured_store :preferences
 end
@@ -156,9 +156,9 @@ If you chose to alter the migration to use a column type other than `json` or `j
 # app/models/user_preference.rb
 class UserPreference < ApplicationRecord
   include StructuredStore::Storable
-  
+
   structured_store :preferences
-  
+
   store :preferences, coder: JSON
 end
 ```
@@ -180,7 +180,7 @@ Create `db/structured_store_versioned_schemas/UserPreferences-1.1.0.json`:
       "examples": ["light", "dark", "system"]
     },
     "notifications": {
-      "type": "boolean", 
+      "type": "boolean",
       "description": "Whether user notifications are enabled"
     },
     "language": {
@@ -271,9 +271,9 @@ require 'structured_store/ref_resolvers/json_date_range_resolver'
 
 class EventRecord < ApplicationRecord
   include StructuredStore::Storable
-  
+
   structured_store :event_data
-  
+
   def date_range_converter
     @date_range_converter ||= StructuredStore::Converters::ChronicDateRangeConverter.new
   end
@@ -292,7 +292,7 @@ event = EventRecord.create!(
 )
 
 # The converter transforms this to structured data internally
-event.event_data['event_period'] 
+event.event_data['event_period']
 # => {"date1"=>"2024-01-01 00:00:00", "date2"=>"2024-01-31 00:00:00"}
 
 # When accessed, it's converted back to the natural language format
@@ -313,7 +313,7 @@ class CustomDateRangeConverter
     # Your custom logic to parse date ranges
     # Should return [start_date, end_date]
   end
-  
+
   def convert_to_string(date1, date2)
     # Your custom logic to format date ranges
     # Should return a string representation
@@ -322,9 +322,9 @@ end
 
 class MyModel < ApplicationRecord
   include StructuredStore::Storable
-  
+
   structured_store :data
-  
+
   def date_range_converter
     @date_range_converter ||= CustomDateRangeConverter.new
   end
