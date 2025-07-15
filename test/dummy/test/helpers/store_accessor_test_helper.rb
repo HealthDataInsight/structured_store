@@ -52,4 +52,42 @@ module StoreAccessorTestHelper
     assert record.respond_to?(:balloon_count=)
     assert_equal 42, record.balloon_count
   end
+
+  def test_define_store_accessors_for_column_works_correctly
+    instance = klass.new
+
+    refute_respond_to instance, :balloon_count
+    refute_respond_to instance, :balloon_count=
+    refute_respond_to instance, :party_theme
+    refute_respond_to instance, :party_theme=
+
+    # Set the versioned schema and define accessors
+    instance.store_versioned_schema = structured_store_versioned_schemas(:party)
+    instance.define_store_accessors_for_column('store')
+
+    # Should have accessors for store properties
+    assert_respond_to instance, :balloon_count
+    assert_respond_to instance, :balloon_count=
+    assert_respond_to instance, :party_theme
+    assert_respond_to instance, :party_theme=
+  end
+
+  def test_define_all_store_accessors_works_correctly
+    instance = klass.new
+
+    refute_respond_to instance, :balloon_count
+    refute_respond_to instance, :balloon_count=
+    refute_respond_to instance, :party_theme
+    refute_respond_to instance, :party_theme=
+
+    # Set the versioned schema and define accessors for all columns
+    instance.store_versioned_schema = structured_store_versioned_schemas(:party)
+    instance.define_all_store_accessors!
+
+    # Should have accessors for store properties
+    assert_respond_to instance, :balloon_count
+    assert_respond_to instance, :balloon_count=
+    assert_respond_to instance, :party_theme
+    assert_respond_to instance, :party_theme=
+  end
 end

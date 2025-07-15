@@ -38,5 +38,51 @@ class WarehouseRecordTest < ActiveSupport::TestCase
     assert_equal structured_store_versioned_schemas(:metadata).json_schema, instance.inventory_json_schema
   end
 
+  test 'define_store_accessors_for_column works correctly' do
+    instance = WarehouseRecord.new
+
+    refute_respond_to instance, :created_by
+    refute_respond_to instance, :created_by=
+    refute_respond_to instance, :description
+    refute_respond_to instance, :description=
+    refute_respond_to instance, :updated_by
+    refute_respond_to instance, :updated_by=
+
+    # Set the versioned schema and define accessors
+    instance.warehouse_schema = structured_store_versioned_schemas(:metadata)
+    instance.define_store_accessors_for_column('inventory')
+
+    # Should have accessors for inventory properties
+    assert_respond_to instance, :created_by
+    assert_respond_to instance, :created_by=
+    assert_respond_to instance, :description
+    assert_respond_to instance, :description=
+    assert_respond_to instance, :updated_by
+    assert_respond_to instance, :updated_by=
+  end
+
+  test 'define_all_store_accessors! works correctly' do
+    instance = WarehouseRecord.new
+
+    refute_respond_to instance, :created_by
+    refute_respond_to instance, :created_by=
+    refute_respond_to instance, :description
+    refute_respond_to instance, :description=
+    refute_respond_to instance, :updated_by
+    refute_respond_to instance, :updated_by=
+
+    # Set the versioned schema and define accessors
+    instance.warehouse_schema = structured_store_versioned_schemas(:metadata)
+    instance.define_all_store_accessors!
+
+    # Should have accessors for inventory properties
+    assert_respond_to instance, :created_by
+    assert_respond_to instance, :created_by=
+    assert_respond_to instance, :description
+    assert_respond_to instance, :description=
+    assert_respond_to instance, :updated_by
+    assert_respond_to instance, :updated_by=
+  end
+
   # TODO: Add tests for WarehouseRecord model
 end
