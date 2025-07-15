@@ -100,7 +100,7 @@ class StoreRecordTest < ActiveSupport::TestCase
   private
 
   def klass
-    ::ExplicitStoreRecord
+    ::StoreRecord
   end
 
   # def create_validation_schema
