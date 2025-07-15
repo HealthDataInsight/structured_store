@@ -1,3 +1,4 @@
+<!--alex disable invalid retext-equality-->
 # Configurable Store Columns with StructuredStore
 
 The `StructuredStore::Storable` module supports configurable store columns, allowing you to:
@@ -379,7 +380,7 @@ user.save!
 
 ## Backward Compatibility
 
-**Important**: This implementation introduces a **breaking change** for existing code. Models that previously worked by just including `StructuredStore::Storable` will now need explicit `structured_store` calls.
+**Important**: This implementation introduces a **breaking change** for existing code. Models that previously worked by only including `StructuredStore::Storable` will now need explicit `structured_store` calls.
 
 ### Migrating Existing Code
 
@@ -406,7 +407,7 @@ end
 ### Why This Change?
 
 This change provides much more flexibility:
-- **Single custom-named stores**: You can now have a model with just a `depot` column instead of being forced to use `store`
+- **Single custom-named stores**: You can now have a model with only a `depot` column instead of being forced to use `store`
 - **Multiple stores**: Multiple structured stores per model
 - **Better naming**: More descriptive association names based on purpose
 - **Explicit configuration**: Makes store configuration explicit and discoverable
@@ -431,8 +432,8 @@ Each `structured_store` call:
 
 The **stores** are processed in the order they are configured:
 - `_structured_store_configurations` is an array that maintains insertion order
-- All stores get equal treatment - no special "first store" behavior
-- Simple and consistent - every store works the same way
+- All stores get equal treatment - no magic "first store" behavior
+- Consistent - every store works the same way
 
 The configuration is stored in:
 - `_structured_store_configurations`: Array of all store configurations
