@@ -50,21 +50,6 @@ class CreateOtherStoreRecords < ActiveRecord::Migration[7.2]
       t.timestamps
     end
 
-    # Example record with explicit store configuration
-    create_table :explicit_store_records do |t|
-      t.string :name
-
-      # Explicit store column
-      t.json :store
-
-      # Foreign key to versioned schema
-      t.references :structured_store_store_versioned_schema,
-                   null: false,
-                   foreign_key: { to_table: :structured_store_versioned_schemas }
-
-      t.timestamps
-    end
-
     # Example record with single custom-named store
     create_table :depot_records do |t|
       t.string :name

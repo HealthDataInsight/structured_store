@@ -1,31 +1,33 @@
 # Configurable Store Columns with StructuredStore
 
-The `StructuredStore::Storable` module now supports configurable store columns with elegant defaults, allowing you to:
+The `StructuredStore::Storable` module supports configurable store columns, allowing you to:
 
-1. **Use automatic defaults** - no configuration needed for simple cases
-2. **Use a single custom-named store column** (e.g., `depot` instead of `store`)
-3. **Use multiple store columns** within the same model
-4. **Organize different types of structured data separately** while maintaining proper schema versioning
+1. **Use a single store column** (e.g., `depot` or `store`)
+2. **Use multiple store columns** within the same model
+3. **Organize different types of structured data separately** while maintaining proper schema versioning
 
-## Basic Usage
+## Important: No Automatic Defaults
 
-### Automatic Default (Zero Configuration)
+**Breaking Change**: Models now require explicit `structured_store` calls. Including `StructuredStore::Storable` alone no longer automatically creates any store column configurations.
 
 ```ruby
-class User < ApplicationRecord
+# This will NOT work (no store columns configured)
+class BadExample < ApplicationRecord
+  include StructuredStore::Storable
+  # Missing structured_store calls!
+end
+
+# This WILL work
+class GoodExample < ApplicationRecord
   include StructuredStore::Storable
   
-  # That's it! No structured_store calls needed
+  structured_store :depot  # Configures the store
 end
 ```
 
-This automatically creates:
-- Store column: `store` (JSON field)
-- Association: `store_versioned_schema` 
-- Foreign key: `structured_store_store_versioned_schema_id`
-- Schema access: `user.store_versioned_schema_json_schema`
+## Basic Usage
 
-### Single Custom Store Column
+### Single Store Column
 
 ```ruby
 class DepotRecord < ApplicationRecord
@@ -59,13 +61,13 @@ This creates:
 - Foreign key: `structured_store_warehouse_schema_id`
 - Schema access: `warehouse.warehouse_schema_json_schema`
 
-### Traditional Store Column (Backward Compatible)
+### Traditional Store Column
 
 ```ruby
 class User < ApplicationRecord
   include StructuredStore::Storable
   
-  # Traditional 'store' column
+  # Traditional 'store' column - now explicit
   structured_store :store
 end
 ```
@@ -82,7 +84,7 @@ class User < ApplicationRecord
   include StructuredStore::Storable
   
   # Multiple stores for different purposes
-  structured_store :store                    # First store gets automatic accessor setup
+  structured_store :profile                  # Creates 'profile_versioned_schema'
   structured_store :metadata, schema_name: 'user_metadata' 
   structured_store :settings                # Creates 'settings_versioned_schema'
   structured_store :preferences, schema_name: 'user_preferences'
@@ -90,29 +92,29 @@ end
 ```
 
 This creates:
-- Store columns: `store`, `metadata`, `settings`, `preferences` (JSON fields)
-- Associations: `store_versioned_schema`, `user_metadata`, `settings_versioned_schema`, `user_preferences`
-- Foreign keys: `structured_store_store_versioned_schema_id`, `structured_store_user_metadata_id`, etc.
-- Schema access: `user.store_versioned_schema_json_schema`, `user.user_metadata_json_schema`, etc.
+- Store columns: `profile`, `metadata`, `settings`, `preferences` (JSON fields)
+- Associations: `profile_versioned_schema`, `user_metadata`, `settings_versioned_schema`, `user_preferences`
+- Foreign keys: `structured_store_profile_versioned_schema_id`, `structured_store_user_metadata_id`, etc.
+- Schema access: `user.profile_versioned_schema_json_schema`, `user.user_metadata_json_schema`, etc.
 
 ## Important Notes
 
-### No Automatic Default Store
+### Explicit Configuration Required
 
-**Breaking Change**: Models now require explicit `structured_store_column` calls. Including `StructuredStore::Storable` alone no longer automatically creates a 'store' column configuration.
+**Breaking Change**: Models now require explicit `structured_store` calls. Including `StructuredStore::Storable` alone no longer automatically creates any store column configurations.
 
 ```ruby
 # This will NOT work (no store columns configured)
 class BadExample < ApplicationRecord
   include StructuredStore::Storable
-  # Missing structured_store_column calls!
+  # Missing structured_store calls!
 end
 
 # This WILL work
 class GoodExample < ApplicationRecord
   include StructuredStore::Storable
   
-  structured_store_column :depot  # Configures the store
+  structured_store :depot  # Configures the store
 end
 ```
 
@@ -125,9 +127,9 @@ end
 
 ### Configuration Override
 
-The automatic default only applies when no `structured_store` calls are made:
-- **No calls**: Gets automatic `store` column with `store_versioned_schema` association
-- **Any calls**: Only configured stores exist, no automatic defaults
+All stores must be explicitly configured:
+- **No calls**: No store columns are configured, model will not work
+- **Any calls**: Only explicitly configured stores exist
 
 ## Database Migration Examples
 
@@ -184,13 +186,13 @@ class CreateUsers < ActiveRecord::Migration[7.2]
       t.string :email
       
       # Store columns (JSON fields)
-      t.json :store
+      t.json :profile
       t.json :metadata
       t.json :settings
       t.json :preferences
       
       # Foreign keys to versioned schemas
-      t.references :structured_store_store_versioned_schema, 
+      t.references :structured_store_profile_versioned_schema, 
                    null: false, 
                    foreign_key: { to_table: :structured_store_versioned_schemas }
       t.references :structured_store_user_metadata, 
@@ -354,19 +356,12 @@ settings_schema = StructuredStore::VersionedSchema.create!(
 user = User.new(email: 'user@example.com')
 
 # Assign schemas to different stores
-user.store_versioned_schema = profile_schema
+user.profile_versioned_schema = profile_schema
 user.user_metadata = metadata_schema  
 user.settings_versioned_schema = settings_schema
 
-# After initialization, accessors are automatically defined for the primary store
-# But you can manually define them for other stores
-user.define_store_accessors_for_column('metadata')
-user.define_store_accessors_for_column('settings')
-
-# Or define all at once
-user.define_all_store_accessors!
-
-# Now you can use the accessors
+# After initialization, accessors are automatically defined for all stores
+# You can use them directly
 user.first_name = 'John'
 user.last_name = 'Doe'
 user.bio = 'Software developer'
@@ -384,17 +379,17 @@ user.save!
 
 ## Backward Compatibility
 
-**Important**: This implementation introduces a **breaking change** for existing code. Models that previously worked by just including `StructuredStore::Storable` will now need explicit `structured_store_column` calls.
+**Important**: This implementation introduces a **breaking change** for existing code. Models that previously worked by just including `StructuredStore::Storable` will now need explicit `structured_store` calls.
 
 ### Migrating Existing Code
 
-**Fully Compatible**: No migration needed! Existing models that used the implicit `store` column will continue to work exactly as before.
+**Migration Required**: Existing models that relied on implicit behavior will need to be updated.
 
-**Before (still works):**
+**Before (no longer works):**
 ```ruby
 class User < ApplicationRecord
   include StructuredStore::Storable
-  # This still works - gets automatic default
+  # This no longer works - no automatic defaults
 end
 ```
 
@@ -403,16 +398,10 @@ end
 class User < ApplicationRecord
   include StructuredStore::Storable
   
-  # This achieves the same thing explicitly
+  # Now explicit configuration is required
   structured_store :store
 end
 ```
-
-**Note**: The association name is now consistent:
-- **Automatic default**: `store_versioned_schema` association 
-- **Explicit store**: `store_versioned_schema` association
-
-Both work exactly the same way with consistent naming.
 
 ### Why This Change?
 

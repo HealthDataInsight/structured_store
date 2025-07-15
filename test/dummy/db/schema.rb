@@ -62,15 +62,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_09_170436) do
     t.index ["structured_store_store_versioned_schema_id"], name: "idx_on_structured_store_store_versioned_schema_id_f85a08fb17"
   end
 
-  create_table "explicit_store_records", force: :cascade do |t|
-    t.string "name"
-    t.json "store"
-    t.bigint "structured_store_store_versioned_schema_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["structured_store_store_versioned_schema_id"], name: "idx_on_structured_store_store_versioned_schema_id_e6bf6fdba9"
-  end
-
   create_table "structured_store_versioned_schemas", force: :cascade do |t|
     t.string "name", null: false
     t.string "version", null: false
@@ -104,7 +95,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_09_170436) do
   add_foreign_key "example_records", "structured_store_versioned_schemas", column: "structured_store_metadata_schema_id"
   add_foreign_key "example_records", "structured_store_versioned_schemas", column: "structured_store_settings_versioned_schema_id"
   add_foreign_key "example_records", "structured_store_versioned_schemas", column: "structured_store_store_versioned_schema_id"
-  add_foreign_key "explicit_store_records", "structured_store_versioned_schemas", column: "structured_store_store_versioned_schema_id"
   add_foreign_key "text_store_records", "structured_store_versioned_schemas", column: "structured_store_store_versioned_schema_id"
   add_foreign_key "warehouse_records", "structured_store_versioned_schemas", column: "structured_store_warehouse_schema_id"
 end
