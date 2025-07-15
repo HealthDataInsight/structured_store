@@ -28,7 +28,7 @@ module StructuredStore
         versioned_schema = VersionedSchema.new(name: 'DateRangeSchema',
                                                version: '0.1.0',
                                                json_schema: simple_foo_date_range_schema)
-        store_record = StoreRecord.new(store_versioned_schema: versioned_schema)
+        store_record = DefaultStoreRecord.new(store_versioned_schema: versioned_schema)
 
         # Now the structured store attribute "foo" should be defined
         assert_nil store_record.foo
