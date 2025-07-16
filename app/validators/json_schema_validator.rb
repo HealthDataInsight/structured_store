@@ -9,8 +9,8 @@ class JsonSchemaValidator < ActiveModel::EachValidator
     # Convert value to hash if it's a string
     json_data = value.is_a?(String) ? JSON.parse(value) : value
 
-    # Get the schema from options
-    schema = options[:schema] || options
+    # Get the schema from options, evaluating lambda if provided
+    schema = resolve_schema(record, attribute, value)
 
     # Initialize JSONSchemer with proper handling based on schema type
     schemer = json_schemer(schema)
@@ -27,6 +27,20 @@ class JsonSchemaValidator < ActiveModel::EachValidator
   end
 
   private
+
+  # Resolves the schema from options, evaluating lambda if provided.
+  #
+  # If the schema option is a lambda, it will be called with the record,
+  # attribute, and value as arguments.
+  def resolve_schema(record, attribute, value)
+    schema = options[:schema] || options
+
+    if schema.respond_to?(:call)
+      schema.call(record, attribute, value)
+    else
+      schema
+    end
+  end
 
   # Converts given schema to a JSONSchemer::Schema object.
   #

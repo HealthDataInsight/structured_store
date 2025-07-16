@@ -43,6 +43,8 @@ class JsonSchemaValidatorTest < ActiveSupport::TestCase
     attr_accessor :draft201909_symbol_schema,
                   :hash_schema,
                   :instance_schema,
+                  :lambda_schema,
+                  :lambda_schema_dynamic,
                   :openapi31_symbol_schema,
                   :string_schema,
                   :unexpected_class_schema
@@ -50,6 +52,41 @@ class JsonSchemaValidatorTest < ActiveSupport::TestCase
     validates :draft201909_symbol_schema, json_schema: { allow_blank: true, schema: :draft201909 }
     validates :hash_schema, json_schema: { allow_blank: true, schema: DRAFT201909_NAME_SCHEMA }
     validates :instance_schema, json_schema: { allow_blank: true, schema: JSONSchemer.schema(DRAFT201909_NAME_SCHEMA) }
+    validates :lambda_schema, json_schema: {
+      allow_blank: true,
+      schema: lambda { |_record, _attribute, value|
+        # Return a JSON schema hash based on the value
+        if value.is_a?(Hash) && value.key?('email')
+          {
+            'type' => 'object',
+            'properties' => {
+              'name' => { 'type' => 'string' },
+              'email' => { 'type' => 'string', 'format' => 'email' }
+            },
+            'required' => %w[name email]
+          }
+        else
+          {
+            'type' => 'object',
+            'properties' => {
+              'name' => { 'type' => 'string' }
+            },
+            'required' => ['name']
+          }
+        end
+      }
+    }
+    validates :lambda_schema_dynamic, json_schema: {
+      allow_blank: true,
+      schema: lambda { |record, _attribute, _value|
+        # Return different schemas based on record state
+        if record.respond_to?(:use_openapi?) && record.use_openapi?
+          :openapi31
+        else
+          DRAFT201909_NAME_SCHEMA
+        end
+      }
+    }
     validates :openapi31_symbol_schema, json_schema: { allow_blank: true, schema: :openapi31 }
     validates :string_schema, json_schema: { allow_blank: true, schema: DRAFT201909_NAME_SCHEMA.to_json }
     validates :unexpected_class_schema, json_schema: { allow_blank: true, schema: self }
@@ -136,6 +173,76 @@ class JsonSchemaValidatorTest < ActiveSupport::TestCase
     }
     object.valid?
     assert_includes object.errors.details[:string_schema], { error: 'value at `/name` is not a string' }
+  end
+
+  test 'lambda schema version' do
+    object = JsonSchemaTestModel.new
+
+    object.lambda_schema = 'invalid_json'
+    object.valid?
+    assert_includes object.errors.details[:lambda_schema], { error: :invalid_json }
+
+    # Test with basic name-only schema (no email key)
+    object.lambda_schema = {
+      'name' => 'John Doe'
+    }
+    object.valid?
+    assert_empty object.errors.details[:lambda_schema]
+
+    # Test with email schema (has email key)
+    object.lambda_schema = {
+      'name' => 'John Doe',
+      'email' => 'john@example.com'
+    }
+    object.valid?
+    assert_empty object.errors.details[:lambda_schema]
+
+    # Test validation failure with email schema - missing required name
+    object.lambda_schema = {
+      'email' => 'john@example.com'
+    }
+    object.valid?
+    assert_includes object.errors.details[:lambda_schema], { error: 'object at root is missing required properties: name' }
+
+    # Test validation failure with email schema - invalid email format
+    object.lambda_schema = {
+      'name' => 'John Doe',
+      'email' => 'invalid-email'
+    }
+    object.valid?
+    assert_includes object.errors.details[:lambda_schema], { error: 'value at `/email` does not match format: email' }
+  end
+
+  test 'lambda schema dynamic version' do
+    object = JsonSchemaTestModel.new
+
+    # Test with default behavior (use DRAFT201909_NAME_SCHEMA)
+    object.lambda_schema_dynamic = {
+      'name' => 'John Doe'
+    }
+    object.valid?
+    assert_empty object.errors.details[:lambda_schema_dynamic]
+
+    # Test with dynamic schema selection
+    object.define_singleton_method(:use_openapi?) { true }
+    object.lambda_schema_dynamic = {
+      'openapi' => '3.1.0',
+      'info' => {
+        'title' => 'Test API',
+        'version' => '1.0.0'
+      },
+      'paths' => {}
+    }
+    object.valid?
+    assert_empty object.errors.details[:lambda_schema_dynamic]
+
+    # Test validation failure with dynamic schema - switch back to DRAFT201909_NAME_SCHEMA
+    object.define_singleton_method(:use_openapi?) { false }
+    object.lambda_schema_dynamic = {
+      'name' => 42 # Should fail - name must be string in DRAFT201909_NAME_SCHEMA
+    }
+    object.valid?
+    assert_not_empty object.errors.details[:lambda_schema_dynamic]
   end
 
   test 'unexpected class schema version' do
