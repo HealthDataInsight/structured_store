@@ -157,9 +157,11 @@ If you chose to alter the migration to use a column type other than `json` or `j
 class UserPreference < ApplicationRecord
   include StructuredStore::Storable
 
-  structured_store :preferences
-
+  # Declare the ActiveRecord::Store and coder for unstructured database data types
   store :preferences, coder: JSON
+
+  # Declare that the structured store using the unstructured preferences column
+  structured_store :preferences
 end
 ```
 
