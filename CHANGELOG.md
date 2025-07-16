@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added tested examples using Binary JSON and non-JSON store columns (vanilla binary and text)
+- The Rails JSON Schema validator can now call a lambda schema
 
 ### Changed
 
