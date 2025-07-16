@@ -7,10 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## Added
+### Added
 
 - Added tested examples using Binary JSON and non-JSON store columns (vanilla binary and text)
 - The Rails JSON Schema validator can now call a lambda schema
+
+### Changed
+
+- The structured_store column is now explicitly named to allow for alternative store names and multiple stores per record
 
 ## [0.1.0]
 

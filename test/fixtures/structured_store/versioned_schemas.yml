@@ -5,14 +5,14 @@
 # model remove the "{}" from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 
-demo:
-  name: MyAudit
+ui_preferences:
+  name: UIPreferences
   version: 0.11.0
   json_schema:
     "$schema": https://json-schema.org/draft/2019-09/schema
     type: object
     properties:
-      theme:
+      display_mode:
         type: string
         description: User interface theme preference
         default: light
@@ -28,3 +28,36 @@ independent_sector:
   name: Independent Sector
   version: 0.10.0
   json_schema:
+
+metadata:
+  name: Metadata
+  version: 0.10.0
+  json_schema:
+    "$schema": https://json-schema.org/draft/2019-09/schema
+    type: object
+    properties:
+      description:
+        type: string
+        description: A brief description of the record
+      created_by:
+        type: string
+        description: User who created the record
+      updated_by:
+        type: string
+        description: User who last updated the record
+    required: ["description", "created_by", "updated_by"]
+    additionalProperties: false
+
+party:
+  name: Party
+  version: 0.10.0
+  json_schema:
+    "$schema": https://json-schema.org/draft/2019-09/schema
+    type: object
+    properties:
+      party_theme:
+        type: string
+      balloon_count:
+        type: integer
+    required: []
+    additionalProperties: false

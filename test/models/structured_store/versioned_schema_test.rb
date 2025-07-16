@@ -6,7 +6,7 @@ module StructuredStore
   # This class contains the StructuredStore::VersionedSchema unit tests
   class VersionedSchemaTest < ActiveSupport::TestCase
     test 'fixture' do
-      versioned_schema = StructuredStore::VersionedSchema.latest('MyAudit')
+      versioned_schema = StructuredStore::VersionedSchema.latest('UIPreferences')
 
       assert_kind_of StructuredStore::VersionedSchema, versioned_schema
       assert_kind_of Hash, versioned_schema.json_schema

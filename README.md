@@ -35,8 +35,8 @@ StructuredStore provides a robust way to manage JSON data with versioned schemas
 After installation, create the necessary database tables:
 
 ```bash
-$ rails generate structured_store:install
-$ rails db:migrate
+rails generate structured_store:install
+rails db:migrate
 ```
 
 This creates a `structured_store_versioned_schemas` table and a `db/structured_store_versioned_schemas/` directory for your schema files.
@@ -90,17 +90,20 @@ end
 Run the migration:
 
 ```bash
-$ rails db:migrate
+rails db:migrate
 ```
 
 ### 2. Creating a Model with Structured Storage
 
-Create a model that includes the `StructuredStore::Storable` concern:
+Create a model that includes the `StructuredStore::Storable` concern and explicitly configure the structured store column(s):
 
 ```ruby
 # app/models/user_preference.rb
 class UserPreference < ApplicationRecord
   include StructuredStore::Storable
+
+  # Must explicitly configure structured store column(s)
+  structured_store :preferences
 end
 ```
 
@@ -111,8 +114,8 @@ Generate and run a migration for your model:
 class CreateUserPreferences < ActiveRecord::Migration[7.0]
   def change
     create_table :user_preferences do |t|
-      t.references :structured_store_versioned_schema, null: false, foreign_key: true
-      t.json :store
+      t.references :structured_store_preferences_versioned_schema, null: false, foreign_key: { to_table: :structured_store_versioned_schemas }
+      t.json :preferences
       t.timestamps
     end
   end
@@ -121,7 +124,7 @@ end
 
 ### 3. Using the Structured Store
 
-Once your model includes `StructuredStore::Storable`, it automatically gets accessor methods for all properties defined in the associated JSON schema:
+Once your model includes `StructuredStore::Storable` and configures structured stores, it automatically gets accessor methods for all properties defined in the associated JSON schema:
 
 ```ruby
 # Find the latest version of your schema
@@ -129,7 +132,7 @@ schema = StructuredStore::VersionedSchema.latest("UserPreferences")
 
 # Create a new record
 preference = UserPreference.create!(
-  versioned_schema: schema,
+  preferences_versioned_schema: schema,
   theme: "dark",
   notifications: false,
   language: "es"
@@ -143,8 +146,8 @@ preference.language      # => "es"
 # Update structured data
 preference.update!(theme: "light", notifications: true)
 
-# The data is stored in the JSON `store` column
-preference.store # => {"theme"=>"light", "notifications"=>true, "language"=>"es"}
+# The data is stored in the JSON `preferences` column
+preference.preferences # => {"theme"=>"light", "notifications"=>true, "language"=>"es"}
 ```
 
 If you chose to alter the migration to use a column type other than `json` or `jsonb`, you will need to amend your model to define the store and JSON serialiser (aka coder):
@@ -154,7 +157,11 @@ If you chose to alter the migration to use a column type other than `json` or `j
 class UserPreference < ApplicationRecord
   include StructuredStore::Storable
 
-  store :store, coder: JSON
+  # Declare the ActiveRecord::Store and coder for unstructured database data types
+  store :preferences, coder: JSON
+
+  # Declare that the structured store using the unstructured preferences column
+  structured_store :preferences
 end
 ```
 
@@ -175,7 +182,7 @@ Create `db/structured_store_versioned_schemas/UserPreferences-1.1.0.json`:
       "examples": ["light", "dark", "system"]
     },
     "notifications": {
-      "type": "boolean", 
+      "type": "boolean",
       "description": "Whether user notifications are enabled"
     },
     "language": {
@@ -212,7 +219,7 @@ latest_schema = StructuredStore::VersionedSchema.latest("UserPreferences")
 
 # Create a record with the new schema
 new_preference = UserPreference.create!(
-  versioned_schema: latest_schema,
+  preferences_versioned_schema: latest_schema,
   theme: "system",
   timezone: "America/New_York"
 )
@@ -225,7 +232,7 @@ new_preference.timezone # => "America/New_York"
 All data is automatically validated against the associated JSON schema:
 
 ```ruby
-preference = UserPreference.new(versioned_schema: schema)
+preference = UserPreference.new(preferences_versioned_schema: schema)
 
 # This will fail validation because 'theme' is required
 preference.valid? # => false
@@ -266,7 +273,9 @@ require 'structured_store/ref_resolvers/json_date_range_resolver'
 
 class EventRecord < ApplicationRecord
   include StructuredStore::Storable
-  
+
+  structured_store :event_data
+
   def date_range_converter
     @date_range_converter ||= StructuredStore::Converters::ChronicDateRangeConverter.new
   end
@@ -280,12 +289,12 @@ If you choose to use the `ChronicDateRangeConverter`, you will also need to add 
 ```ruby
 # Create a record with a natural language date range
 event = EventRecord.create!(
-  versioned_schema: schema,
+  event_data_versioned_schema: schema,
   event_period: "January 2024"
 )
 
 # The converter transforms this to structured data internally
-event.store['event_period'] 
+event.event_data['event_period']
 # => {"date1"=>"2024-01-01 00:00:00", "date2"=>"2024-01-31 00:00:00"}
 
 # When accessed, it's converted back to the natural language format
@@ -306,7 +315,7 @@ class CustomDateRangeConverter
     # Your custom logic to parse date ranges
     # Should return [start_date, end_date]
   end
-  
+
   def convert_to_string(date1, date2)
     # Your custom logic to format date ranges
     # Should return a string representation
@@ -315,7 +324,9 @@ end
 
 class MyModel < ApplicationRecord
   include StructuredStore::Storable
-  
+
+  structured_store :data
+
   def date_range_converter
     @date_range_converter ||= CustomDateRangeConverter.new
   end
@@ -336,7 +347,13 @@ all_versions = StructuredStore::VersionedSchema.where(name: "UserPreferences")
                                                .order(:version)
 ```
 
-### 8. Advanced Usage: Custom Reference Resolvers
+### 8. Configurable Store Columns
+
+StructuredStore supports configurable store columns, allowing you to use alternative column names for a single store (e.g., `depot` instead of `store`) or configure multiple store columns within the same model. This enables you to organize different types of structured data separately while maintaining proper schema versioning.
+
+For detailed information on configuring single custom stores and multiple stores, see the [Custom Stores documentation](docs/custom_stores.md).
+
+### 9. Advanced Usage: Custom Reference Resolvers
 
 StructuredStore includes a resolver system for handling JSON schema references. You can create custom resolvers by extending `StructuredStore::RefResolvers::Base`:
 
@@ -381,7 +398,7 @@ CustomResolver.register
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/HealthDataInsight/structured_store. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/HealthDataInsight/structured_store/blob/main/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at <https://github.com/HealthDataInsight/structured_store>. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/HealthDataInsight/structured_store/blob/main/CODE_OF_CONDUCT.md).
 
 ## License
 
