@@ -5,7 +5,7 @@ gemspec
 
 gem 'puma'
 
-gem 'pg', '~> 1.5'
+gem 'pg', '~> 1.6'
 
 # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
 gem 'rubocop-rails-omakase', require: false
