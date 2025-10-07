@@ -12,10 +12,6 @@ module StructuredStore
         %r{\A#/definitions/}
       end
 
-      def initialize(schema, property_name, ref_string, context = {})
-        super
-      end
-
       # Defines the rails attribute(s) on the given singleton class
       #
       # @return [Proc] a lambda that defines the attribute on the singleton class
