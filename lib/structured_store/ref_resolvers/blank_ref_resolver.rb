@@ -16,7 +16,7 @@ module StructuredStore
       # @return [Proc] a lambda that defines the attribute on the singleton class
       # @raise [RuntimeError] if the property type is unsupported
       def define_attribute
-        type = json_property_schema['type']
+        type = property_schema['type']
 
         # Handle arrays
         return define_array_attribute if type == 'array'
@@ -34,35 +34,37 @@ module StructuredStore
       # Returns a two dimensional array of options from the 'enum' property definition
       # Each element contains a duplicate of the enum option for both the label and value
       #
+      # For arrays, delegates to a resolver for the items to get options recursively
+      #
       # @return [Array<Array>] Array of arrays containing id, value option pairs
       def options_array
-        # For arrays, get enum from items
-        if json_property_schema['type'] == 'array'
-          items_schema = json_property_schema['items'] || {}
-
-          # If items has a $ref, resolve it to get the enum
-          items_schema = resolve_items_ref(items_schema['$ref']) if items_schema['$ref']
-
-          enum = items_schema['enum']
-        else
-          enum = json_property_schema['enum']
+        # For arrays, delegate to the items resolver
+        if property_schema['type'] == 'array'
+          items_resolver = create_items_resolver
+          return items_resolver.options_array
         end
 
+        # For non-arrays, get enum directly
+        enum = property_schema['enum']
         enum&.map { |option| [option, option] } || []
       end
 
       private
 
-      # Defines an array attribute by delegating to the items type
+      # Defines an array attribute by delegating to the items resolver
       #
       # @return [Proc] a lambda that defines the array attribute
       def define_array_attribute
-        items_schema = json_property_schema['items'] || {}
+        items_resolver = create_items_resolver
 
-        # If items has a $ref, resolve it to get the actual type
-        items_schema = resolve_items_ref(items_schema['$ref']) if items_schema['$ref']
-
-        item_type = items_schema['type']
+        # Get the item type - different resolvers expose this differently
+        item_type = if items_resolver.is_a?(DefinitionsResolver)
+                      # DefinitionsResolver stores type in the resolved definition
+                      items_resolver.send(:local_definition)['type']
+                    else
+                      # BlankRefResolver has it directly in property_schema
+                      items_resolver.property_schema['type']
+                    end
 
         unless %w[boolean integer string].include?(item_type)
           raise "Unsupported array item type: #{item_type.inspect} for property '#{property_name}'"
@@ -74,19 +76,16 @@ module StructuredStore
         end
       end
 
-      # Resolves a $ref in items to the actual definition
+      # Creates a resolver for array items by delegating to the registry
+      # This allows arrays to recursively use any resolver (BlankRefResolver, DefinitionsResolver, etc.)
       #
-      # @param ref_string [String] The $ref string to resolve
-      # @return [Hash] The resolved definition
-      def resolve_items_ref(ref_string)
-        # Only handle #/definitions/ refs for now
-        raise "Unsupported $ref in array items: #{ref_string}" unless ref_string.match?(%r{\A#/definitions/})
+      # @return [Base] A resolver instance for the items
+      def create_items_resolver
+        items_schema = property_schema['items'] || {}
+        items_ref = items_schema['$ref'].to_s
 
-        definition_name = ref_string.sub('#/definitions/', '')
-        definition = schema_inspector.definition_schema(definition_name)
-        raise "No definition for #{ref_string}" if definition.nil?
-
-        definition
+        # Use the registry to create a resolver for the items schema
+        Registry.resolver_for_schema_hash(items_schema, items_ref, parent_schema, property_name, context)
       end
     end
 

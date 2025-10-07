@@ -438,19 +438,36 @@ StructuredStore includes a resolver system for handling JSON schema references. 
 ```ruby
 class CustomResolver < StructuredStore::RefResolvers::Base
   def self.matching_ref_pattern
-    /^#\/custom\//
+    /^external:\/\/my_custom_type\//
   end
 
   def define_attribute
-    lambda do |instance|
-      # Define custom attribute behavior
+    # Access property_schema to get the property's JSON schema
+    type = property_schema['type']
+
+    lambda do |object|
+      # Define custom attribute behavior on the object
+      object.singleton_class.attribute(property_name, type.to_sym)
     end
+  end
+
+  def options_array
+    # Return array of [value, label] pairs for form selects
+    # Access parent_schema.definition_schema(name) if you need to look up definitions
+    []
   end
 end
 
 # Register your custom resolver
 CustomResolver.register
 ```
+
+**Available instance variables in your resolver:**
+- `property_schema` - The property's JSON schema hash
+- `parent_schema` - The parent SchemaInspector for looking up definitions
+- `property_name` - The property name (for error messages)
+- `ref_string` - The `$ref` value
+- `context` - Additional context hash
 
 ### Best Practices
 

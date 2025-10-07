@@ -53,7 +53,7 @@ module StructuredStore
       #   resolver.local_definition  # => { "type" => "string" }
       def local_definition
         definition_name = ref_string.sub('#/definitions/', '')
-        local_definition = schema_inspector.definition_schema(definition_name)
+        local_definition = parent_schema.definition_schema(definition_name)
 
         raise "No definition for #{ref_string}" if local_definition.nil?
 

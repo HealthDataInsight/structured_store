@@ -7,7 +7,8 @@ module StructuredStore
       attr_reader :context,
                   :property_name,
                   :ref_string,
-                  :schema_inspector
+                  :property_schema,
+                  :parent_schema
 
       class << self
         def matching_ref_pattern
@@ -25,10 +26,14 @@ module StructuredStore
 
       # Initialize method for the base reference resolver
       #
-      # @param schema [Hash] JSON Schema for the resolver
-      # @param options [Hash] Additional options for the resolver
-      def initialize(schema_inspector, property_name, ref_string, context = {})
-        @schema_inspector = schema_inspector
+      # @param property_schema [Hash] The property's JSON schema (with type, $ref, etc.)
+      # @param parent_schema [SchemaInspector] Parent schema for definition lookups
+      # @param property_name [String] Name of the property (for error messages)
+      # @param ref_string [String] The $ref string if present
+      # @param context [Hash] Additional context
+      def initialize(property_schema, parent_schema, property_name, ref_string = '', context = {})
+        @property_schema = property_schema
+        @parent_schema = parent_schema
         @property_name = property_name
         @ref_string = ref_string
         @context = context
@@ -53,12 +58,6 @@ module StructuredStore
       # @raise [NotImplementedError] if the method is not implemented by a subclass
       def options_array
         raise NotImplementedError, 'Subclasses must implement the options_array method'
-      end
-
-      private
-
-      def json_property_schema
-        @json_property_schema ||= schema_inspector.property_schema(property_name) || {}
       end
     end
   end
