@@ -85,7 +85,7 @@ module StructuredStore
         items_ref = items_schema['$ref'].to_s
 
         # Use the registry to create a resolver for the items schema
-        Registry.resolver_for_schema_hash(items_schema, items_ref, parent_schema, property_name, context)
+        Registry.resolver_for_schema_hash(items_schema, parent_schema, property_name, items_ref, context)
       end
     end
 

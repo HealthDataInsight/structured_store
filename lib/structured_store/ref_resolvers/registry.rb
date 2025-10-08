@@ -40,20 +40,19 @@ module StructuredStore
           property_schema = schema_inspector.property_schema(property_name)
           ref_string = property_schema['$ref'].to_s
 
-          klass = klass_factory(ref_string)
-          klass.new(property_schema, schema_inspector, property_name, ref_string, context)
+          resolver_for_schema_hash(property_schema, schema_inspector, property_name, ref_string, context)
         end
 
         # Returns a resolver instance for a schema hash (e.g., array items)
         # Direct method that doesn't require looking up properties
         #
         # @param [Hash] schema_hash The schema hash (with potential $ref)
-        # @param [String] ref_string The $ref string
         # @param [SchemaInspector] parent_schema Parent schema for definition lookups
         # @param [String] property_name The property name for error messages
+        # @param [String] ref_string The $ref string
         # @param [Hash] context Optional context hash (default: {})
         # @return [RefResolver] An instance of the appropriate resolver class
-        def resolver_for_schema_hash(schema_hash, ref_string, parent_schema, property_name, context = {})
+        def resolver_for_schema_hash(schema_hash, parent_schema, property_name, ref_string, context = {})
           klass = klass_factory(ref_string)
           klass.new(schema_hash, parent_schema, property_name, ref_string, context)
         end
