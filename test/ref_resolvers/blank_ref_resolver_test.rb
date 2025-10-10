@@ -130,6 +130,35 @@ module StructuredStore
         assert_equal %w[A B], store_record.stains
       end
 
+      test 'array with $ref items pointing to integer definition' do
+        schema = {
+          '$schema' => 'https://json-schema.org/draft/2019-09/schema',
+          'type' => 'object',
+          'definitions' => {
+            'score_value' => {
+              'type' => 'integer'
+            }
+          },
+          'properties' => {
+            'scores' => {
+              'type' => 'array',
+              'items' => {
+                '$ref' => '#/definitions/score_value'
+              }
+            }
+          }
+        }
+
+        versioned_schema = VersionedSchema.new(json_schema: schema)
+        store_record = StoreRecord.new(store_versioned_schema: versioned_schema)
+
+        assert_respond_to store_record, :scores
+        assert_respond_to store_record, :scores=
+
+        store_record.scores = [10, 20, 30]
+        assert_equal [10, 20, 30], store_record.scores
+      end
+
       test 'array with $ref items - options_array' do
         schema = {
           '$schema' => 'https://json-schema.org/draft/2019-09/schema',
