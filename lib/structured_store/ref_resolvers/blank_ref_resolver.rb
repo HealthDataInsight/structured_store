@@ -70,10 +70,8 @@ module StructuredStore
           raise "Unsupported array item type: #{item_type.inspect} for property '#{property_name}'"
         end
 
-        # Define the attribute on the singleton class of the object
-        lambda do |object|
-          object.singleton_class.attribute(property_name, :string)
-        end
+        # Return a no-op lambda as the serializer will handle casting to an array
+        ->(_object) {}
       end
 
       # Creates a resolver for array items by delegating to the registry
