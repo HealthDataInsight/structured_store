@@ -31,15 +31,30 @@ module StructuredStore
 
         # Returns a resolver instance for the given schema property reference
         #
-        # @param [Hash] schema The JSON schema containing the property reference
+        # @param [SchemaInspector] schema_inspector The JSON schema inspector
         # @param [String, Symbol] property_name The name of the property containing the reference
         # @param [Hash] context Optional context hash (default: {})
         # @return [RefResolver] An instance of the appropriate resolver class for the reference
         # @raise [RuntimeError] If no matching resolver can be found for the reference
         def matching_resolver(schema_inspector, property_name, context = {})
-          ref_string = schema_inspector.property_schema(property_name)['$ref']
+          property_schema = schema_inspector.property_schema(property_name)
+          ref_string = property_schema['$ref'].to_s
 
-          klass_factory(ref_string).new(schema_inspector, property_name, ref_string, context)
+          resolver_for_schema_hash(property_schema, schema_inspector, property_name, ref_string, context)
+        end
+
+        # Returns a resolver instance for a schema hash (e.g., array items)
+        # Direct method that doesn't require looking up properties
+        #
+        # @param [Hash] schema_hash The schema hash (with potential $ref)
+        # @param [SchemaInspector] parent_schema Parent schema for definition lookups
+        # @param [String] property_name The property name for error messages
+        # @param [String] ref_string The $ref string
+        # @param [Hash] context Optional context hash (default: {})
+        # @return [RefResolver] An instance of the appropriate resolver class
+        def resolver_for_schema_hash(schema_hash, parent_schema, property_name, ref_string, context = {})
+          klass = klass_factory(ref_string)
+          klass.new(schema_hash, parent_schema, property_name, ref_string, context)
         end
 
         private

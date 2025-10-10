@@ -245,7 +245,85 @@ preference.valid? # => true
 preference.notifications = "invalid" # Will cause validation error
 ```
 
-### 6. Working with Complex Data Types
+### 6. Working with Array Properties
+
+StructuredStore supports JSON schema properties with `type: "array"` for both arrays with `$ref` items and arrays with direct type items.
+
+#### Arrays with Direct Type Items
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "type": "object",
+  "properties": {
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of tags"
+    }
+  }
+}
+```
+
+```ruby
+schema = StructuredStore::VersionedSchema.create!(
+  name: 'BlogPost',
+  version: '1.0.0',
+  json_schema: schema
+)
+
+post = BlogPost.new(data_versioned_schema: schema)
+post.tags = ['ruby', 'rails', 'testing']
+post.save!
+
+post.tags # => ['ruby', 'rails', 'testing']
+```
+
+#### Arrays with $ref Items
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "type": "object",
+  "definitions": {
+    "status_type": {
+      "type": "string",
+      "enum": ["pending", "active", "completed"]
+    }
+  },
+  "properties": {
+    "statuses": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/status_type"
+      },
+      "description": "List of statuses"
+    }
+  }
+}
+```
+
+```ruby
+schema = StructuredStore::VersionedSchema.create!(
+  name: 'Workflow',
+  version: '1.0.0',
+  json_schema: schema
+)
+
+workflow = Workflow.new(data_versioned_schema: schema)
+workflow.statuses = ['pending', 'active']
+workflow.save!
+
+workflow.statuses # => ['pending', 'active']
+```
+
+**Supported item types:** `string`, `integer`, `boolean`
+
+**Note:** Arrays with `object` or other complex item types are not currently supported.
+
+### 7. Working with Complex Data Types
 
 StructuredStore includes a `JsonDateRangeResolver` for handling date ranges through JSON schema references. This resolver works with date range converters to transform natural language date strings into structured date ranges.
 
@@ -333,7 +411,7 @@ class MyModel < ApplicationRecord
 end
 ```
 
-### 7. Finding and Querying Schemas
+### 8. Finding and Querying Schemas
 
 ```ruby
 # Find the latest version of a schema
@@ -347,32 +425,49 @@ all_versions = StructuredStore::VersionedSchema.where(name: "UserPreferences")
                                                .order(:version)
 ```
 
-### 8. Configurable Store Columns
+### 9. Configurable Store Columns
 
 StructuredStore supports configurable store columns, allowing you to use alternative column names for a single store (e.g., `depot` instead of `store`) or configure multiple store columns within the same model. This enables you to organize different types of structured data separately while maintaining proper schema versioning.
 
 For detailed information on configuring single custom stores and multiple stores, see the [Custom Stores documentation](docs/custom_stores.md).
 
-### 9. Advanced Usage: Custom Reference Resolvers
+### 10. Advanced Usage: Custom Reference Resolvers
 
 StructuredStore includes a resolver system for handling JSON schema references. You can create custom resolvers by extending `StructuredStore::RefResolvers::Base`:
 
 ```ruby
 class CustomResolver < StructuredStore::RefResolvers::Base
   def self.matching_ref_pattern
-    /^#\/custom\//
+    /^external:\/\/my_custom_type\//
   end
 
   def define_attribute
-    lambda do |instance|
-      # Define custom attribute behavior
+    # Access property_schema to get the property's JSON schema
+    type = property_schema['type']
+
+    lambda do |object|
+      # Define custom attribute behavior on the object
+      object.singleton_class.attribute(property_name, type.to_sym)
     end
+  end
+
+  def options_array
+    # Return array of [value, label] pairs for form selects
+    # Access parent_schema.definition_schema(name) if you need to look up definitions
+    []
   end
 end
 
 # Register your custom resolver
 CustomResolver.register
 ```
+
+**Available instance variables in your resolver:**
+- `property_schema` - The property's JSON schema hash
+- `parent_schema` - The parent SchemaInspector for looking up definitions
+- `property_name` - The property name (for error messages)
+- `ref_string` - The `$ref` value
+- `context` - Additional context hash
 
 ### Best Practices
 

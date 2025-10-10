@@ -12,10 +12,6 @@ module StructuredStore
         %r{\A#/definitions/}
       end
 
-      def initialize(schema, property_name, ref_string, context = {})
-        super
-      end
-
       # Defines the rails attribute(s) on the given singleton class
       #
       # @return [Proc] a lambda that defines the attribute on the singleton class
@@ -53,7 +49,7 @@ module StructuredStore
       #   resolver.local_definition  # => { "type" => "string" }
       def local_definition
         definition_name = ref_string.sub('#/definitions/', '')
-        local_definition = schema_inspector.definition_schema(definition_name)
+        local_definition = parent_schema.definition_schema(definition_name)
 
         raise "No definition for #{ref_string}" if local_definition.nil?
 

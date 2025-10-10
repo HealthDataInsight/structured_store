@@ -21,7 +21,7 @@ class CustomLookupResolver < StructuredStore::RefResolvers::Base
   def define_attribute
     # You could hard-code the type if it were always the same,
     # but it makes the JSON schema more declarative
-    type = json_property_schema['type']
+    type = property_schema['type']
 
     unless %w[boolean integer string].include?(type)
       raise "Unsupported attribute type: #{type.inspect} for property '#{property_name}'"
