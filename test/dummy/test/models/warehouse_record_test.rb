@@ -83,6 +83,4 @@ class WarehouseRecordTest < ActiveSupport::TestCase
     assert_respond_to instance, :updated_by
     assert_respond_to instance, :updated_by=
   end
-
-  # TODO: Add tests for WarehouseRecord model
 end

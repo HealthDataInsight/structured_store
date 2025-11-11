@@ -152,6 +152,4 @@ class ExampleRecordTest < ActiveSupport::TestCase
     assert_respond_to instance, :notifications  # from settings
     assert_respond_to instance, :notifications= # from settings
   end
-
-  # TODO: Add tests for ExampleRecord model
 end
