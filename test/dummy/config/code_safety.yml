@@ -62,8 +62,8 @@ file safety:
     safe_revision: 3e7c5df4a097e648d70919710e74b2e67197f979
   CHANGELOG.md:
     comments:
-    reviewed_by: timgentry
-    safe_revision: bf094508b444e4623ef8864b0928a3f6f8276371
+    reviewed_by: shilpigoeldev
+    safe_revision: 5ecf677eebb1a8ed711d6cc285152e79b89b4ff8
   CODE_OF_CONDUCT.md:
     comments:
     reviewed_by: timgentry
@@ -74,8 +74,8 @@ file safety:
     safe_revision: e67a9442e7caee56528c6a7e558aaef7fa0e04d0
   Gemfile.lock:
     comments:
-    reviewed_by: timgentry
-    safe_revision: e67a9442e7caee56528c6a7e558aaef7fa0e04d0
+    reviewed_by: shilpigoeldev
+    safe_revision: 5ecf677eebb1a8ed711d6cc285152e79b89b4ff8
   MIT-LICENSE:
     comments:
     reviewed_by: timgentry
@@ -92,7 +92,7 @@ file safety:
     comments: "# rubocop:disable Rails/InverseOf , comment to give context why disabled
       would be good to add."
     reviewed_by: shilpigoeldev
-    safe_revision: bf094508b444e4623ef8864b0928a3f6f8276371
+    safe_revision: f204c304174b26d80a4512d1dd8e50490017bf45
   app/models/structured_store/versioned_schema.rb:
     comments:
     reviewed_by: shilpigoeldev
@@ -100,7 +100,7 @@ file safety:
   app/validators/json_schema_validator.rb:
     comments:
     reviewed_by: shilpigoeldev
-    safe_revision: 72c54604888d62351f7c7c4d38e4dbf50b7d9d69
+    safe_revision: 18dee2d51bb519c5be944c2821142676e25f5ff9
   bin/rails:
     comments:
     reviewed_by: timgentry
@@ -188,11 +188,11 @@ file safety:
   lib/structured_store/ref_resolvers/base.rb:
     comments:
     reviewed_by: shilpigoeldev
-    safe_revision: bf094508b444e4623ef8864b0928a3f6f8276371
+    safe_revision: 71e97ebfc3543bf4be190d97cdeffe1f9a79659f
   lib/structured_store/ref_resolvers/blank_ref_resolver.rb:
     comments:
     reviewed_by: shilpigoeldev
-    safe_revision: bf094508b444e4623ef8864b0928a3f6f8276371
+    safe_revision: 71e97ebfc3543bf4be190d97cdeffe1f9a79659f
   lib/structured_store/ref_resolvers/defaults.rb:
     comments:
     reviewed_by: shilpigoeldev
@@ -200,7 +200,7 @@ file safety:
   lib/structured_store/ref_resolvers/definitions_resolver.rb:
     comments:
     reviewed_by: shilpigoeldev
-    safe_revision: bf094508b444e4623ef8864b0928a3f6f8276371
+    safe_revision: 71e97ebfc3543bf4be190d97cdeffe1f9a79659f
   lib/structured_store/ref_resolvers/json_date_range_resolver.rb:
     comments:
     reviewed_by: shilpigoeldev
@@ -208,15 +208,15 @@ file safety:
   lib/structured_store/ref_resolvers/registry.rb:
     comments:
     reviewed_by: shilpigoeldev
-    safe_revision: bf094508b444e4623ef8864b0928a3f6f8276371
+    safe_revision: 71e97ebfc3543bf4be190d97cdeffe1f9a79659f
   lib/structured_store/schema_inspector.rb:
     comments:
     reviewed_by: shilpigoeldev
     safe_revision: bf094508b444e4623ef8864b0928a3f6f8276371
   lib/structured_store/version.rb:
     comments:
-    reviewed_by: timgentry
-    safe_revision: 44ccff00aae9911641a5224ed3e616944009af75
+    reviewed_by: shilpigoeldev
+    safe_revision: 5ecf677eebb1a8ed711d6cc285152e79b89b4ff8
   lib/tasks/structured_store_tasks.rake:
     comments:
     reviewed_by: shilpigoeldev
@@ -459,12 +459,12 @@ file safety:
     safe_revision: faa80e9eebf11a68fd5bf06733afd2477a625457
   test/dummy/test/models/depot_record_test.rb:
     comments:
-    reviewed_by: timgentry
-    safe_revision: 1f157b7c915f1d0b8324b890efa912c760cad3a7
+    reviewed_by: shilpigoeldev
+    safe_revision: 5ecf677eebb1a8ed711d6cc285152e79b89b4ff8
   test/dummy/test/models/example_record_test.rb:
     comments:
-    reviewed_by: timgentry
-    safe_revision: 1f157b7c915f1d0b8324b890efa912c760cad3a7
+    reviewed_by: shilpigoeldev
+    safe_revision: 5ecf677eebb1a8ed711d6cc285152e79b89b4ff8
   test/dummy/test/models/store_record_test.rb:
     comments:
     reviewed_by: timgentry
@@ -475,8 +475,8 @@ file safety:
     safe_revision: faa80e9eebf11a68fd5bf06733afd2477a625457
   test/dummy/test/models/warehouse_record_test.rb:
     comments:
-    reviewed_by: timgentry
-    safe_revision: 1f157b7c915f1d0b8324b890efa912c760cad3a7
+    reviewed_by: shilpigoeldev
+    safe_revision: 5ecf677eebb1a8ed711d6cc285152e79b89b4ff8
   test/dummy/test/ref_resolvers/blank_ref_resolver_test.rb:
     comments:
     reviewed_by: timgentry
