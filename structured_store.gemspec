@@ -13,8 +13,8 @@ Gem::Specification.new do |spec|
   spec.metadata['allowed_push_host'] = 'https://rubygems.org'
 
   spec.metadata['homepage_uri'] = spec.homepage
-  spec.metadata['source_code_uri'] = 'https://github.com/HealthDataInsight/structured_store.git'
-  spec.metadata['changelog_uri'] = 'https://github.com/HealthDataInsight/structured_store.git/blob/main/CHANGELOG.md'
+  spec.metadata['source_code_uri'] = 'https://github.com/HealthDataInsight/structured_store'
+  spec.metadata['changelog_uri'] = 'https://github.com/HealthDataInsight/structured_store/blob/main/CHANGELOG.md'
 
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
     Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
