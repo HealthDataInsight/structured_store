@@ -12,6 +12,14 @@ file safety:
     comments:
     reviewed_by: timgentry
     safe_revision: 3351cd3b4445b95366f54d8a9177170fabc63ff4
+  ".github/ISSUE_TEMPLATE/epic.md":
+    comments:
+    reviewed_by: timgentry
+    safe_revision: a7cb3bedba889567158864df108493e8129c80ca
+  ".github/ISSUE_TEMPLATE/job-story.md":
+    comments:
+    reviewed_by: timgentry
+    safe_revision: a7cb3bedba889567158864df108493e8129c80ca
   ".github/dependabot.yml":
     comments:
     reviewed_by: shilpigoeldev
@@ -31,19 +39,19 @@ file safety:
   ".github/workflows/ci.yml":
     comments:
     reviewed_by: timgentry
-    safe_revision: 44ccff00aae9911641a5224ed3e616944009af75
+    safe_revision: 47c8b7a3af117c23ef34a24588424a2aea519521
   ".github/workflows/inclusive-language.yml":
     comments:
     reviewed_by: timgentry
-    safe_revision: 3351cd3b4445b95366f54d8a9177170fabc63ff4
+    safe_revision: e1c91af665d3c45c93118cd527827238c689e0a0
   ".github/workflows/mega-linter.yml":
     comments:
     reviewed_by: timgentry
-    safe_revision: 3e7c5df4a097e648d70919710e74b2e67197f979
+    safe_revision: 454ab96f2f105d7d20f24f55bb45c7b6c283f977
   ".gitignore":
     comments:
     reviewed_by: timgentry
-    safe_revision: fb589bf1e09e3d00bc84af6660b88423049b6eac
+    safe_revision: 71e97ebfc3543bf4be190d97cdeffe1f9a79659f
   ".mega-linter.yml":
     comments:
     reviewed_by: timgentry
@@ -62,12 +70,12 @@ file safety:
     safe_revision: 3351cd3b4445b95366f54d8a9177170fabc63ff4
   Gemfile:
     comments:
-    reviewed_by: shilpigoeldev
-    safe_revision: 1e57432ae9f41f94c37c19952b983184131e5c3e
+    reviewed_by: timgentry
+    safe_revision: e67a9442e7caee56528c6a7e558aaef7fa0e04d0
   Gemfile.lock:
     comments:
     reviewed_by: timgentry
-    safe_revision: 60e40344a37554880420b605e83c21bc3264614e
+    safe_revision: e67a9442e7caee56528c6a7e558aaef7fa0e04d0
   MIT-LICENSE:
     comments:
     reviewed_by: timgentry
@@ -75,7 +83,7 @@ file safety:
   README.md:
     comments:
     reviewed_by: timgentry
-    safe_revision: 373b706d1ff6da6b377f08eff4a3ae5be494f946
+    safe_revision: 71e97ebfc3543bf4be190d97cdeffe1f9a79659f
   Rakefile:
     comments:
     reviewed_by: shilpigoeldev
@@ -109,6 +117,10 @@ file safety:
     comments:
     reviewed_by: timgentry
     safe_revision: 46cb823eba3c543daa93419c709d1da6280e2563
+  docs/custom_stores.md:
+    comments:
+    reviewed_by: timgentry
+    safe_revision: f204c304174b26d80a4512d1dd8e50490017bf45
   docs/decisions/0000-use-markdown-any-decision-records.md:
     comments:
     reviewed_by: timgentry
@@ -210,10 +222,9 @@ file safety:
     reviewed_by: shilpigoeldev
     safe_revision: 46cb823eba3c543daa93419c709d1da6280e2563
   structured_store.gemspec:
-    comments: spec.metadata['allowed_push_host'] is set to a placeholder (TODO) and
-      should be updated before publishing.
-    reviewed_by: shilpigoeldev
-    safe_revision: 373b706d1ff6da6b377f08eff4a3ae5be494f946
+    comments:
+    reviewed_by: timgentry
+    safe_revision: 55e2bbd1057405be40ec309bb61ee76bc0c006fb
   test/converters/chronic_date_range_converter_test.rb:
     comments:
     reviewed_by: timgentry
@@ -246,14 +257,38 @@ file safety:
     comments:
     reviewed_by: timgentry
     safe_revision: 46cb823eba3c543daa93419c709d1da6280e2563
+  test/dummy/app/models/binary_json_store_record.rb:
+    comments:
+    reviewed_by: timgentry
+    safe_revision: f204c304174b26d80a4512d1dd8e50490017bf45
+  test/dummy/app/models/binary_store_record.rb:
+    comments:
+    reviewed_by: timgentry
+    safe_revision: f204c304174b26d80a4512d1dd8e50490017bf45
   test/dummy/app/models/concerns/.keep:
     comments:
     reviewed_by: timgentry
     safe_revision: 46cb823eba3c543daa93419c709d1da6280e2563
+  test/dummy/app/models/depot_record.rb:
+    comments:
+    reviewed_by: timgentry
+    safe_revision: f204c304174b26d80a4512d1dd8e50490017bf45
+  test/dummy/app/models/example_record.rb:
+    comments:
+    reviewed_by: timgentry
+    safe_revision: f204c304174b26d80a4512d1dd8e50490017bf45
   test/dummy/app/models/store_record.rb:
     comments:
     reviewed_by: timgentry
-    safe_revision: 373b706d1ff6da6b377f08eff4a3ae5be494f946
+    safe_revision: f204c304174b26d80a4512d1dd8e50490017bf45
+  test/dummy/app/models/text_store_record.rb:
+    comments:
+    reviewed_by: timgentry
+    safe_revision: f204c304174b26d80a4512d1dd8e50490017bf45
+  test/dummy/app/models/warehouse_record.rb:
+    comments:
+    reviewed_by: timgentry
+    safe_revision: f204c304174b26d80a4512d1dd8e50490017bf45
   test/dummy/app/views/layouts/application.html.erb:
     comments:
     reviewed_by: timgentry
@@ -293,7 +328,7 @@ file safety:
   test/dummy/config/database.yml:
     comments:
     reviewed_by: timgentry
-    safe_revision: 44ccff00aae9911641a5224ed3e616944009af75
+    safe_revision: faa80e9eebf11a68fd5bf06733afd2477a625457
   test/dummy/config/environment.rb:
     comments:
     reviewed_by: timgentry
@@ -341,15 +376,19 @@ file safety:
   test/dummy/db/migrate/20250530080001_create_structured_store.rb:
     comments:
     reviewed_by: timgentry
-    safe_revision: b042b663d220917c09f1995385581bf70ea83cc3
+    safe_revision: faa80e9eebf11a68fd5bf06733afd2477a625457
   test/dummy/db/migrate/20250530114142_create_store_records.rb:
     comments:
     reviewed_by: timgentry
-    safe_revision: 373b706d1ff6da6b377f08eff4a3ae5be494f946
+    safe_revision: f204c304174b26d80a4512d1dd8e50490017bf45
+  test/dummy/db/migrate/20250709170436_create_other_store_records.rb:
+    comments:
+    reviewed_by: timgentry
+    safe_revision: f204c304174b26d80a4512d1dd8e50490017bf45
   test/dummy/db/schema.rb:
     comments:
     reviewed_by: timgentry
-    safe_revision: b042b663d220917c09f1995385581bf70ea83cc3
+    safe_revision: f204c304174b26d80a4512d1dd8e50490017bf45
   test/dummy/db/structured_store_versioned_schemas/.keep:
     comments:
     reviewed_by: timgentry
@@ -361,7 +400,7 @@ file safety:
   test/dummy/lib/custom_lookup_resolver.rb:
     comments:
     reviewed_by: timgentry
-    safe_revision: bf094508b444e4623ef8864b0928a3f6f8276371
+    safe_revision: 71e97ebfc3543bf4be190d97cdeffe1f9a79659f
   test/dummy/log/.keep:
     comments:
     reviewed_by: timgentry
@@ -390,42 +429,82 @@ file safety:
     comments:
     reviewed_by: timgentry
     safe_revision: 46cb823eba3c543daa93419c709d1da6280e2563
+  test/dummy/test/fixtures/binary_json_store_records.yml:
+    comments:
+    reviewed_by: timgentry
+    safe_revision: faa80e9eebf11a68fd5bf06733afd2477a625457
+  test/dummy/test/fixtures/binary_store_records.yml:
+    comments:
+    reviewed_by: timgentry
+    safe_revision: faa80e9eebf11a68fd5bf06733afd2477a625457
   test/dummy/test/fixtures/store_records.yml:
     comments:
     reviewed_by: timgentry
     safe_revision: 373b706d1ff6da6b377f08eff4a3ae5be494f946
+  test/dummy/test/fixtures/text_store_records.yml:
+    comments:
+    reviewed_by: timgentry
+    safe_revision: faa80e9eebf11a68fd5bf06733afd2477a625457
+  test/dummy/test/helpers/store_accessor_test_helper.rb:
+    comments:
+    reviewed_by: timgentry
+    safe_revision: f204c304174b26d80a4512d1dd8e50490017bf45
+  test/dummy/test/models/binary_json_store_record_test.rb:
+    comments:
+    reviewed_by: timgentry
+    safe_revision: faa80e9eebf11a68fd5bf06733afd2477a625457
+  test/dummy/test/models/binary_store_record_test.rb:
+    comments:
+    reviewed_by: timgentry
+    safe_revision: faa80e9eebf11a68fd5bf06733afd2477a625457
+  test/dummy/test/models/depot_record_test.rb:
+    comments:
+    reviewed_by: timgentry
+    safe_revision: 1f157b7c915f1d0b8324b890efa912c760cad3a7
+  test/dummy/test/models/example_record_test.rb:
+    comments:
+    reviewed_by: timgentry
+    safe_revision: 1f157b7c915f1d0b8324b890efa912c760cad3a7
   test/dummy/test/models/store_record_test.rb:
     comments:
     reviewed_by: timgentry
-    safe_revision: bf094508b444e4623ef8864b0928a3f6f8276371
+    safe_revision: f204c304174b26d80a4512d1dd8e50490017bf45
+  test/dummy/test/models/text_store_record_test.rb:
+    comments:
+    reviewed_by: timgentry
+    safe_revision: faa80e9eebf11a68fd5bf06733afd2477a625457
+  test/dummy/test/models/warehouse_record_test.rb:
+    comments:
+    reviewed_by: timgentry
+    safe_revision: 1f157b7c915f1d0b8324b890efa912c760cad3a7
   test/dummy/test/ref_resolvers/blank_ref_resolver_test.rb:
     comments:
     reviewed_by: timgentry
-    safe_revision: bf094508b444e4623ef8864b0928a3f6f8276371
+    safe_revision: f204c304174b26d80a4512d1dd8e50490017bf45
   test/dummy/test/ref_resolvers/custom_lookup_resolver_test.rb:
     comments:
     reviewed_by: timgentry
-    safe_revision: bf094508b444e4623ef8864b0928a3f6f8276371
+    safe_revision: f204c304174b26d80a4512d1dd8e50490017bf45
   test/dummy/test/ref_resolvers/definitions_resolver_test.rb:
     comments:
     reviewed_by: timgentry
-    safe_revision: bf094508b444e4623ef8864b0928a3f6f8276371
+    safe_revision: f204c304174b26d80a4512d1dd8e50490017bf45
   test/dummy/test/ref_resolvers/json_date_range_resolver_test.rb:
     comments:
     reviewed_by: timgentry
-    safe_revision: bf094508b444e4623ef8864b0928a3f6f8276371
+    safe_revision: f204c304174b26d80a4512d1dd8e50490017bf45
   test/fixtures/structured_store/versioned_schemas.yml:
     comments:
     reviewed_by: timgentry
-    safe_revision: 373b706d1ff6da6b377f08eff4a3ae5be494f946
+    safe_revision: f204c304174b26d80a4512d1dd8e50490017bf45
   test/models/structured_store/versioned_schema_test.rb:
     comments:
     reviewed_by: timgentry
-    safe_revision: b042b663d220917c09f1995385581bf70ea83cc3
+    safe_revision: f204c304174b26d80a4512d1dd8e50490017bf45
   test/ref_resolvers/blank_ref_resolver_test.rb:
     comments:
     reviewed_by: timgentry
-    safe_revision: bf094508b444e4623ef8864b0928a3f6f8276371
+    safe_revision: 71e97ebfc3543bf4be190d97cdeffe1f9a79659f
   test/ref_resolvers/definitions_resolver_test.rb:
     comments:
     reviewed_by: timgentry
@@ -449,7 +528,7 @@ file safety:
   test/validators/json_schema_validator_test.rb:
     comments:
     reviewed_by: timgentry
-    safe_revision: 72c54604888d62351f7c7c4d38e4dbf50b7d9d69
+    safe_revision: 18dee2d51bb519c5be944c2821142676e25f5ff9
   test/zeitwerk_loader_test.rb:
     comments:
     reviewed_by: timgentry
