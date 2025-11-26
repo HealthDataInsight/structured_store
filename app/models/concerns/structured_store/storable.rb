@@ -41,6 +41,8 @@ module StructuredStore
       # @param column_name [String, Symbol] The name of the store column in your model
       # @param schema_name [String, Symbol, nil] Optional custom name for the schema association
       #   If not provided, defaults to "#{column_name}_versioned_schema"
+      # @param foreign_key [String, Symbol, nil] Optional custom foreign key for the belongs_to association
+      #   If not provided, defaults to "structured_store_#{schema_name}_id"
       #
       # @example Simple store configuration
       #   structured_store :preferences
@@ -51,10 +53,16 @@ module StructuredStore
       #   structured_store :config, schema_name: 'product_configuration'
       #   # Creates: belongs_to :product_configuration
       #   # Helper method: product_configuration_json_schema
-      def structured_store(column_name, schema_name: nil)
+      #
+      # @example Custom foreign key
+      #   structured_store :settings, foreign_key: 'custom_schema_id'
+      #   # Creates: belongs_to with foreign_key: 'custom_schema_id'
+      def structured_store(column_name, schema_name: nil, foreign_key: nil)
         column_name = column_name.to_s
         schema_name ||= "#{column_name}_versioned_schema"
         schema_name = schema_name.to_s
+        foreign_key ||= "structured_store_#{schema_name}_id"
+        foreign_key = foreign_key.to_s
 
         # Add configuration for this column
         self._structured_store_configurations = _structured_store_configurations + [{
@@ -65,7 +73,7 @@ module StructuredStore
         # Define the belongs_to association immediately
         belongs_to schema_name.to_sym, # rubocop:disable Rails/InverseOf
                    class_name: 'StructuredStore::VersionedSchema',
-                   foreign_key: "structured_store_#{schema_name}_id"
+                   foreign_key: foreign_key
 
         # Define helper method to get schema for this specific store
         define_method "#{column_name}_json_schema" do

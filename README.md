@@ -107,7 +107,7 @@ class UserPreference < ApplicationRecord
 end
 ```
 
-Generate and run a migration for your model:
+Generate and run a migration for your model (for advanced configuration options like custom foreign keys, see section 9):
 
 ```ruby
 # db/migrate/xxx_create_user_preferences.rb
@@ -425,13 +425,40 @@ all_versions = StructuredStore::VersionedSchema.where(name: "UserPreferences")
                                                .order(:version)
 ```
 
-### 9. Configurable Store Columns
+### 9. Custom Schema Names and Foreign Keys
+
+StructuredStore provides flexibility in naming your schema associations and foreign keys:
+
+```ruby
+class Product < ApplicationRecord
+  include StructuredStore::Storable
+
+  # Default naming: creates belongs_to :config_versioned_schema
+  # with foreign_key: 'structured_store_config_versioned_schema_id'
+  structured_store :config
+
+  # Custom schema name: creates belongs_to :product_configuration
+  # with foreign_key: 'structured_store_product_configuration_id'
+  structured_store :settings, schema_name: 'product_configuration'
+
+  # Custom foreign key: creates belongs_to :metadata_versioned_schema
+  # with foreign_key: 'custom_metadata_fk'
+  structured_store :metadata, foreign_key: 'custom_metadata_fk'
+
+  # Both custom schema name and foreign key
+  structured_store :options, schema_name: 'product_options', foreign_key: 'options_schema_id'
+end
+```
+
+For a complete working example of custom foreign keys, see `test/dummy/app/models/custom_foreign_key_record.rb`.
+
+### 10. Configurable Store Columns
 
 StructuredStore supports configurable store columns, allowing you to use alternative column names for a single store (e.g., `depot` instead of `store`) or configure multiple store columns within the same model. This enables you to organize different types of structured data separately while maintaining proper schema versioning.
 
 For detailed information on configuring single custom stores and multiple stores, see the [Custom Stores documentation](docs/custom_stores.md).
 
-### 10. Advanced Usage: Custom Reference Resolvers
+### 11. Advanced Usage: Custom Reference Resolvers
 
 StructuredStore includes a resolver system for handling JSON schema references. You can create custom resolvers by extending `StructuredStore::RefResolvers::Base`:
 
