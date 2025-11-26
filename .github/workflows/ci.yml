@@ -19,10 +19,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6.0.0
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@v1.268.0
         with:
           ruby-version: 3.3.5
           bundler-cache: true
@@ -57,10 +57,10 @@ jobs:
         # libjemalloc2
 
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6.0.0
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@v1.268.0
         with:
           ruby-version: 3.3.5
           bundler-cache: true
@@ -75,7 +75,7 @@ jobs:
         run: bin/test
 
       - name: Keep screenshots from failed system tests
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v5.0.0
         if: failure()
         with:
           name: screenshots
