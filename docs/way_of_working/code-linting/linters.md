@@ -16,11 +16,13 @@ The following tables detail the linters that we are currently using:
 | Bash         | BASH_SHELLCHECK                       | [shellcheck](https://megalinter.io/latest/descriptors/bash_shellcheck/)         |
 | Bash         | BASH_SHFMT                            | [shfmt](https://megalinter.io/latest/descriptors/bash_shfmt/)                   |
 | C            | C_CLANG_FORMAT                        | [clang-format](https://megalinter.io/latest/descriptors/c_clang_format/)        |
+| C            | ~~C_CPPCHECK~~                        | Not Used                                                                        |
 | C            | C_CPPLINT                             | [cpplint](https://megalinter.io/latest/descriptors/c_cpplint/)                  |
 | C#           | CSHARP_CSHARPIER                      | [csharpier](https://megalinter.io/latest/descriptors/csharp_csharpier/)         |
 | C#           | CSHARP_DOTNET_FORMAT                  | [dotnet-format](https://megalinter.io/latest/descriptors/csharp_dotnet_format/) |
 | C#           | CSHARP_ROSLYNATOR                     | [roslynator](https://megalinter.io/latest/descriptors/csharp_roslynator/)       |
 | C++          | CPP_CLANG_FORMAT                      | [clang-format](https://megalinter.io/latest/descriptors/cpp_clang_format/)      |
+| C++          | ~~CPP_CPPCHECK~~                      | Not Used                                                                        |
 | C++          | CPP_CPPLINT                           | [cpplint](https://megalinter.io/latest/descriptors/cpp_cpplint/)                |
 | Clojure      | ~~CLOJURE_CLJSTYLE~~                  | Not Used                                                                        |
 | Clojure      | ~~CLOJURE_CLJ_KONDO~~                 | Not Used                                                                        |
@@ -57,6 +59,7 @@ The following tables detail the linters that we are currently using:
 | Python       | PYTHON_PYLINT                         | [pylint](https://megalinter.io/latest/descriptors/python_pylint/)               |
 | Python       | PYTHON_PYRIGHT                        | [pyright](https://megalinter.io/latest/descriptors/python_pyright/)             |
 | Python       | PYTHON_RUFF                           | [ruff](https://megalinter.io/latest/descriptors/python_ruff/)                   |
+| Python       | ~~PYTHON_RUFF_FORMAT~~                | Not Used                                                                        |
 | R            | R_LINTR                               | [lintr](https://megalinter.io/latest/descriptors/r_lintr/)                      |
 | Raku         | ~~RAKU_RAKU~~                         | Not Used                                                                        |
 | Ruby         | ~~RUBY_RUBOCOP~~                      | Not Used (RuboCop is used directly)                                             |
@@ -91,7 +94,6 @@ The following tables detail the linters that we are currently using:
 | JSON             | JSON_V8R                          | [v8r](https://megalinter.io/latest/descriptors/json_v8r/)                                               |
 | LaTeX            | ~~LATEX_CHKTEX~~                  | Not Used                                                                                                |
 | Markdown         | MARKDOWN_MARKDOWNLINT             | [markdownlint](https://megalinter.io/latest/descriptors/markdown_markdownlint/)                         |
-| Markdown         | MARKDOWN_MARKDOWN_LINK_CHECK      | [markdown-link-check](https://megalinter.io/latest/descriptors/markdown_markdown_link_check/)           |
 | Markdown         | MARKDOWN_MARKDOWN_TABLE_FORMATTER | [markdown-table-formatter](https://megalinter.io/latest/descriptors/markdown_markdown_table_formatter/) |
 | Markdown         | MARKDOWN_REMARK_LINT              | [remark-lint](https://megalinter.io/latest/descriptors/markdown_remark_lint/)                           |
 | Protocol Buffers | ~~PROTOBUF_PROTOLINT~~            | Not Used                                                                                                |
@@ -120,6 +122,7 @@ The following tables detail the linters that we are currently using:
 | Kubernetes     | KUBERNETES_KUBECONFORM            | [kubeconform](https://megalinter.io/latest/descriptors/kubernetes_kubeconform/)                     |
 | Kubernetes     | KUBERNETES_KUBESCAPE              | [kubescape](https://megalinter.io/latest/descriptors/kubernetes_kubescape/)                         |
 | Puppet         | PUPPET_PUPPET_LINT                | [puppet-lint](https://megalinter.io/latest/descriptors/puppet_puppet_lint/)                         |
+| Robotframework | ~~ROBOTFRAMEWORK_ROBOCOP~~        | Not Used                                                                                            |
 | Snakemake      | ~~SNAKEMAKE_LINT~~                | Not Used                                                                                            |
 | Snakemake      | ~~SNAKEMAKE_SNAKEFMT~~            | Not Used                                                                                            |
 | Tekton         | ~~TEKTON_TEKTON_LINT~~            | Not Used                                                                                            |
