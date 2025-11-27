@@ -86,8 +86,7 @@ module StructuredStore
         }]
 
         # Define the belongs_to association immediately
-        belongs_to schema_name.to_sym, # rubocop:disable Rails/InverseOf
-                   **belongs_to_options
+        belongs_to schema_name.to_sym, **belongs_to_options
 
         # Define helper method to get schema for this specific store
         define_method "#{column_name}_json_schema" do
