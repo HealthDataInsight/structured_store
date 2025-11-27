@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_09_170437) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_09_170439) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -37,6 +37,22 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_09_170437) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["my_custom_schemaid"], name: "index_custom_foreign_key_records_on_my_custom_schemaid"
+  end
+
+  create_table "custom_primary_key_records", force: :cascade do |t|
+    t.string "name"
+    t.bigint "custom_schema_key"
+    t.json "settings"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["custom_schema_key"], name: "index_custom_primary_key_records_on_custom_schema_key"
+  end
+
+  create_table "custom_schemas", primary_key: "schema_key", force: :cascade do |t|
+    t.string "name"
+    t.json "json_schema"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "depot_records", force: :cascade do |t|

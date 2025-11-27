@@ -425,9 +425,9 @@ all_versions = StructuredStore::VersionedSchema.where(name: "UserPreferences")
                                                .order(:version)
 ```
 
-### 9. Custom Schema Names and Foreign Keys
+### 9. Custom Schema Names and Association Options
 
-StructuredStore provides flexibility in naming your schema associations and foreign keys:
+StructuredStore provides flexibility in configuring your schema associations. The `structured_store` method accepts any `belongs_to` options via the `**belongs_to_options` parameter:
 
 ```ruby
 class Product < ApplicationRecord
@@ -435,6 +435,7 @@ class Product < ApplicationRecord
 
   # Default naming: creates belongs_to :config_versioned_schema
   # with foreign_key: 'structured_store_config_versioned_schema_id'
+  # and class_name: 'StructuredStore::VersionedSchema'
   structured_store :config
 
   # Custom schema name: creates belongs_to :product_configuration
@@ -445,12 +446,63 @@ class Product < ApplicationRecord
   # with foreign_key: 'custom_metadata_fk'
   structured_store :metadata, foreign_key: 'custom_metadata_fk'
 
-  # Both custom schema name and foreign key
-  structured_store :options, schema_name: 'product_options', foreign_key: 'options_schema_id'
+  # Custom class name for using a different schema model
+  structured_store :advanced_config, class_name: 'CustomSchema'
+
+  # Multiple custom options
+  structured_store :options, 
+                   schema_name: 'product_options', 
+                   foreign_key: 'options_schema_id',
+                   class_name: 'ProductSchema'
 end
 ```
 
-For a complete working example of custom foreign keys, see `test/dummy/app/models/custom_foreign_key_record.rb`.
+#### Using Custom Schema Models
+
+You can associate with custom schema models that have non-conventional primary keys:
+
+```ruby
+# Custom schema model with non-standard primary key
+class CustomSchema < ApplicationRecord
+  self.primary_key = 'schema_key'
+end
+
+class Product < ApplicationRecord
+  include StructuredStore::Storable
+  
+  # Associate with CustomSchema using its custom primary key
+  structured_store :settings,
+                   schema_name: 'custom_schema',
+                   class_name: 'CustomSchema',
+                   foreign_key: 'custom_schema_key',
+                   primary_key: 'schema_key'
+end
+```
+
+#### Additional belongs_to Options
+
+Since all keyword arguments are passed through to `belongs_to`, you can use any standard Rails association options:
+
+```ruby
+class Product < ApplicationRecord
+  include StructuredStore::Storable
+  
+  # Make the association optional
+  structured_store :config, optional: true
+  
+  # Specify inverse_of
+  structured_store :settings, 
+                   class_name: 'CustomSchema',
+                   inverse_of: :products
+  
+  # Enable touch
+  structured_store :metadata, touch: true
+end
+```
+
+For complete working examples, see:
+- `test/dummy/app/models/custom_foreign_key_record.rb` - Custom foreign key example
+- `test/dummy/app/models/custom_primary_key_record.rb` - Custom primary key and class name example
 
 ### 10. Configurable Store Columns
 
