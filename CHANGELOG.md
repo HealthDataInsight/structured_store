@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- All `belongs_to` options (e.g., `foreign_key:`, `optional:`, `inverse_of:`, `touch:`) can now be passed directly through `structured_store`
+
 ## [1.0.1] - 2025-11-12
 
 ### Fixed
