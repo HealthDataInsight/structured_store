@@ -1,0 +1,21 @@
+# Fixture for custom schemas with non-conventional primary key
+theme_schema:
+  schema_key: 1
+  name: "Theme Schema"
+  json_schema:
+    type: object
+    properties:
+      color_scheme:
+        type: string
+      font_size:
+        type: integer
+layout_schema:
+  schema_key: 2
+  name: "Layout Schema"
+  json_schema:
+    type: object
+    properties:
+      sidebar_position:
+        type: string
+      header_style:
+        type: string
