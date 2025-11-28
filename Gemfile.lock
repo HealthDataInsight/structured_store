@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    structured_store (1.0.1)
+    structured_store (1.1.0)
       json_schemer (~> 2.4)
       rails (>= 7.0)
       zeitwerk (~> 2.6)
