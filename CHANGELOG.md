@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2025-12-03
+
 ### Added
 
 - All `belongs_to` options (e.g., `foreign_key:`, `optional:`, `inverse_of:`, `touch:`) can now be passed directly through `structured_store`
@@ -44,7 +46,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New JsonDateRangeResolver for composite date ranges
 - Added a SchemaInspector to abstract away schema inspection and validation
 
-[unreleased]: https://github.com/HealthDataInsight/structured_store/compare/v1.0.1...HEAD
+[unreleased]: https://github.com/HealthDataInsight/structured_store/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/HealthDataInsight/structured_store/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/HealthDataInsight/structured_store/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/HealthDataInsight/structured_store/compare/v0.1.0...v1.0.0
 [0.1.0]: https://github.com/HealthDataInsight/structured_store/releases/tag/v0.1.0
