@@ -1,3 +1,4 @@
+---
 # Fixture for custom schemas with non-conventional primary key
 theme_schema:
   schema_key: 1

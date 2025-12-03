@@ -39,15 +39,15 @@ file safety:
   ".github/workflows/ci.yml":
     comments:
     reviewed_by: timgentry
-    safe_revision: 47c8b7a3af117c23ef34a24588424a2aea519521
+    safe_revision: f0df04bfcb04aaeb74eb82302768a78d4a355af6
   ".github/workflows/inclusive-language.yml":
     comments:
     reviewed_by: timgentry
-    safe_revision: e1c91af665d3c45c93118cd527827238c689e0a0
+    safe_revision: f0df04bfcb04aaeb74eb82302768a78d4a355af6
   ".github/workflows/mega-linter.yml":
     comments:
     reviewed_by: timgentry
-    safe_revision: 454ab96f2f105d7d20f24f55bb45c7b6c283f977
+    safe_revision: f0df04bfcb04aaeb74eb82302768a78d4a355af6
   ".gitignore":
     comments:
     reviewed_by: timgentry
@@ -91,8 +91,8 @@ file safety:
   app/models/concerns/structured_store/storable.rb:
     comments: "# rubocop:disable Rails/InverseOf , comment to give context why disabled
       would be good to add."
-    reviewed_by: shilpigoeldev
-    safe_revision: f204c304174b26d80a4512d1dd8e50490017bf45
+    reviewed_by: timgentry
+    safe_revision: 4b95631f32f48aa4f714343390123ea25623dd2a
   app/models/structured_store/versioned_schema.rb:
     comments:
     reviewed_by: shilpigoeldev
@@ -144,7 +144,7 @@ file safety:
   docs/way_of_working/code-linting/linters.md:
     comments:
     reviewed_by: timgentry
-    safe_revision: 3e7c5df4a097e648d70919710e74b2e67197f979
+    safe_revision: f0df04bfcb04aaeb74eb82302768a78d4a355af6
   docs/way_of_working/code-of-conduct.md:
     comments:
     reviewed_by: timgentry
@@ -269,6 +269,18 @@ file safety:
     comments:
     reviewed_by: timgentry
     safe_revision: 46cb823eba3c543daa93419c709d1da6280e2563
+  test/dummy/app/models/custom_foreign_key_record.rb:
+    comments:
+    reviewed_by: timgentry
+    safe_revision: 4b95631f32f48aa4f714343390123ea25623dd2a
+  test/dummy/app/models/custom_primary_key_record.rb:
+    comments:
+    reviewed_by: timgentry
+    safe_revision: 4b95631f32f48aa4f714343390123ea25623dd2a
+  test/dummy/app/models/custom_schema.rb:
+    comments:
+    reviewed_by: timgentry
+    safe_revision: 4b95631f32f48aa4f714343390123ea25623dd2a
   test/dummy/app/models/depot_record.rb:
     comments:
     reviewed_by: timgentry
@@ -385,10 +397,22 @@ file safety:
     comments:
     reviewed_by: timgentry
     safe_revision: f204c304174b26d80a4512d1dd8e50490017bf45
+  test/dummy/db/migrate/20250709170437_create_custom_foreign_key_records.rb:
+    comments:
+    reviewed_by: timgentry
+    safe_revision: 4b95631f32f48aa4f714343390123ea25623dd2a
+  test/dummy/db/migrate/20250709170438_create_custom_schemas.rb:
+    comments:
+    reviewed_by: timgentry
+    safe_revision: 4b95631f32f48aa4f714343390123ea25623dd2a
+  test/dummy/db/migrate/20250709170439_create_custom_primary_key_records.rb:
+    comments:
+    reviewed_by: timgentry
+    safe_revision: 4b95631f32f48aa4f714343390123ea25623dd2a
   test/dummy/db/schema.rb:
     comments:
     reviewed_by: timgentry
-    safe_revision: f204c304174b26d80a4512d1dd8e50490017bf45
+    safe_revision: 4b95631f32f48aa4f714343390123ea25623dd2a
   test/dummy/db/structured_store_versioned_schemas/.keep:
     comments:
     reviewed_by: timgentry
@@ -457,6 +481,14 @@ file safety:
     comments:
     reviewed_by: timgentry
     safe_revision: faa80e9eebf11a68fd5bf06733afd2477a625457
+  test/dummy/test/models/custom_foreign_key_record_test.rb:
+    comments:
+    reviewed_by: timgentry
+    safe_revision: 4b95631f32f48aa4f714343390123ea25623dd2a
+  test/dummy/test/models/custom_primary_key_record_test.rb:
+    comments:
+    reviewed_by: timgentry
+    safe_revision: 4b95631f32f48aa4f714343390123ea25623dd2a
   test/dummy/test/models/depot_record_test.rb:
     comments:
     reviewed_by: shilpigoeldev
@@ -493,6 +525,10 @@ file safety:
     comments:
     reviewed_by: timgentry
     safe_revision: f204c304174b26d80a4512d1dd8e50490017bf45
+  test/fixtures/custom_schemas.yml:
+    comments:
+    reviewed_by:
+    safe_revision:
   test/fixtures/structured_store/versioned_schemas.yml:
     comments:
     reviewed_by: timgentry

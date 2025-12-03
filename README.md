@@ -450,8 +450,8 @@ class Product < ApplicationRecord
   structured_store :advanced_config, class_name: 'CustomSchema'
 
   # Multiple custom options
-  structured_store :options, 
-                   schema_name: 'product_options', 
+  structured_store :options,
+                   schema_name: 'product_options',
                    foreign_key: 'options_schema_id',
                    class_name: 'ProductSchema'
 end
@@ -469,7 +469,7 @@ end
 
 class Product < ApplicationRecord
   include StructuredStore::Storable
-  
+
   # Associate with CustomSchema using its custom primary key
   structured_store :settings,
                    schema_name: 'custom_schema',
@@ -486,21 +486,22 @@ Since all keyword arguments are passed through to `belongs_to`, you can use any 
 ```ruby
 class Product < ApplicationRecord
   include StructuredStore::Storable
-  
+
   # Make the association optional
   structured_store :config, optional: true
-  
+
   # Specify inverse_of
-  structured_store :settings, 
+  structured_store :settings,
                    class_name: 'CustomSchema',
                    inverse_of: :products
-  
+
   # Enable touch
   structured_store :metadata, touch: true
 end
 ```
 
 For complete working examples, see:
+
 - `test/dummy/app/models/custom_foreign_key_record.rb` - Custom foreign key example
 - `test/dummy/app/models/custom_primary_key_record.rb` - Custom primary key and class name example
 
@@ -542,6 +543,7 @@ CustomResolver.register
 ```
 
 **Available instance variables in your resolver:**
+
 - `property_schema` - The property's JSON schema hash
 - `parent_schema` - The parent SchemaInspector for looking up definitions
 - `property_name` - The property name (for error messages)
