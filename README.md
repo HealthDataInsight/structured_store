@@ -1,5 +1,7 @@
 # StructuredStore
 
+[![Gem Version](https://badge.fury.io/rb/structured_store.svg)](https://badge.fury.io/rb/structured_store)
+
 StructuredStore is a Ruby gem designed for Rails applications that provides a robust system for managing JSON data using versioned JSON schemas. The library enables developers to store structured data in a JSON database column while maintaining strict schema validation through the json_schemer gem.
 
 It features a VersionedSchema model that tracks different versions of JSON schemas using semantic versioning, and a Storable concern that can be included in ActiveRecord models to automatically define accessor methods for schema properties. The gem supports schema evolution by allowing multiple versions of the same schema to coexist, making it ideal for applications that need to maintain backward compatibility while evolving their data structures.
