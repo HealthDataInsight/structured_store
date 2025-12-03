@@ -38,16 +38,16 @@ file safety:
     safe_revision: 3351cd3b4445b95366f54d8a9177170fabc63ff4
   ".github/workflows/ci.yml":
     comments:
-    reviewed_by: timgentry
-    safe_revision: f0df04bfcb04aaeb74eb82302768a78d4a355af6
+    reviewed_by: shilpigoeldev
+    safe_revision: 7e87c5c8c8d0c89509c100cdadd9b1ee4aa0be88
   ".github/workflows/inclusive-language.yml":
     comments:
-    reviewed_by: timgentry
-    safe_revision: f0df04bfcb04aaeb74eb82302768a78d4a355af6
+    reviewed_by: shilpigoeldev
+    safe_revision: 7e87c5c8c8d0c89509c100cdadd9b1ee4aa0be88
   ".github/workflows/mega-linter.yml":
     comments:
-    reviewed_by: timgentry
-    safe_revision: f0df04bfcb04aaeb74eb82302768a78d4a355af6
+    reviewed_by: shilpigoeldev
+    safe_revision: 7e87c5c8c8d0c89509c100cdadd9b1ee4aa0be88
   ".gitignore":
     comments:
     reviewed_by: timgentry
@@ -62,8 +62,8 @@ file safety:
     safe_revision: 3e7c5df4a097e648d70919710e74b2e67197f979
   CHANGELOG.md:
     comments:
-    reviewed_by: timgentry
-    safe_revision: f2543eecc968a3690bde19c7f6ad1bad0a34768d
+    reviewed_by: shilpigoeldev
+    safe_revision: 74d03db45fc4edfb5efcb180eccc8f95b4cf3ea3
   CODE_OF_CONDUCT.md:
     comments:
     reviewed_by: timgentry
@@ -74,16 +74,16 @@ file safety:
     safe_revision: e67a9442e7caee56528c6a7e558aaef7fa0e04d0
   Gemfile.lock:
     comments:
-    reviewed_by: timgentry
-    safe_revision: f2543eecc968a3690bde19c7f6ad1bad0a34768d
+    reviewed_by: shilpigoeldev
+    safe_revision: 74d03db45fc4edfb5efcb180eccc8f95b4cf3ea3
   MIT-LICENSE:
     comments:
     reviewed_by: timgentry
     safe_revision: 46cb823eba3c543daa93419c709d1da6280e2563
   README.md:
-    comments:
-    reviewed_by: timgentry
-    safe_revision: 71e97ebfc3543bf4be190d97cdeffe1f9a79659f
+    comments: "Y"
+    reviewed_by: shilpigoeldev
+    safe_revision: 74d03db45fc4edfb5efcb180eccc8f95b4cf3ea3
   Rakefile:
     comments:
     reviewed_by: shilpigoeldev
@@ -215,8 +215,8 @@ file safety:
     safe_revision: bf094508b444e4623ef8864b0928a3f6f8276371
   lib/structured_store/version.rb:
     comments:
-    reviewed_by: timgentry
-    safe_revision: f2543eecc968a3690bde19c7f6ad1bad0a34768d
+    reviewed_by: shilpigoeldev
+    safe_revision: 74d03db45fc4edfb5efcb180eccc8f95b4cf3ea3
   lib/tasks/structured_store_tasks.rake:
     comments:
     reviewed_by: shilpigoeldev
@@ -527,8 +527,8 @@ file safety:
     safe_revision: f204c304174b26d80a4512d1dd8e50490017bf45
   test/fixtures/custom_schemas.yml:
     comments:
-    reviewed_by:
-    safe_revision:
+    reviewed_by: shilpigoeldev
+    safe_revision: 74d03db45fc4edfb5efcb180eccc8f95b4cf3ea3
   test/fixtures/structured_store/versioned_schemas.yml:
     comments:
     reviewed_by: timgentry
