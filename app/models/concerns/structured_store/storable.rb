@@ -48,18 +48,9 @@ module StructuredStore
 
     # Separates known attributes (columns and schema associations) from potential store attributes
     def separate_known_and_unknown_attributes(attributes)
-      known_attrs = {}
-      unknown_attrs = {}
-
-      attributes.each do |key, value|
-        if respond_to?(key.to_s)
-          known_attrs[key] = value
-        else
-          unknown_attrs[key] = value
-        end
+      attributes.each_with_object([{}, {}]) do |(key, value), (known, unknown)|
+        (respond_to?(key.to_s) ? known : unknown)[key] = value
       end
-
-      [known_attrs, unknown_attrs]
     end
 
     public
