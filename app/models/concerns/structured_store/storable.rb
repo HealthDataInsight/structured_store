@@ -29,6 +29,32 @@ module StructuredStore
       class_attribute :_structured_store_configurations, default: []
     end
 
+    # Override initialize to handle store attributes after accessors are defined
+    def initialize(attributes = nil)
+      unless attributes.is_a?(Hash)
+        super
+        return
+      end
+
+      # Separate known from unknown attributes and call super, then re-assign
+      known_attrs, unknown_attrs = separate_known_and_unknown_attributes(attributes)
+
+      super(known_attrs)
+
+      assign_attributes(unknown_attrs) if unknown_attrs.present?
+    end
+
+    private
+
+    # Separates known attributes (columns and schema associations) from potential store attributes
+    def separate_known_and_unknown_attributes(attributes)
+      attributes.each_with_object([{}, {}]) do |(key, value), (known, unknown)|
+        (respond_to?(key.to_s) ? known : unknown)[key] = value
+      end
+    end
+
+    public
+
     class_methods do
       # Configures a structured store column and creates the necessary associations.
       #
