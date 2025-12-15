@@ -48,12 +48,11 @@ module StructuredStore
 
     # Separates known attributes (columns and schema associations) from potential store attributes
     def separate_known_and_unknown_attributes(attributes)
-      schema_names = self.class._structured_store_configurations.pluck(:schema_name)
       known_attrs = {}
       unknown_attrs = {}
 
       attributes.each do |key, value|
-        if self.class.column_names.include?(key.to_s) || schema_names.include?(key.to_s)
+        if respond_to?(key.to_s)
           known_attrs[key] = value
         else
           unknown_attrs[key] = value
