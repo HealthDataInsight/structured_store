@@ -38,16 +38,16 @@ file safety:
     safe_revision: 3351cd3b4445b95366f54d8a9177170fabc63ff4
   ".github/workflows/ci.yml":
     comments:
-    reviewed_by: shilpigoeldev
-    safe_revision: 7e87c5c8c8d0c89509c100cdadd9b1ee4aa0be88
+    reviewed_by: timgentry
+    safe_revision: 698e532bb9c002d5feb52af58cbe77d13ccc151c
   ".github/workflows/inclusive-language.yml":
     comments:
-    reviewed_by: shilpigoeldev
-    safe_revision: 7e87c5c8c8d0c89509c100cdadd9b1ee4aa0be88
+    reviewed_by: timgentry
+    safe_revision: 93db00420ff4b197df036b32e1bc50b9d6255c98
   ".github/workflows/mega-linter.yml":
     comments:
-    reviewed_by: shilpigoeldev
-    safe_revision: 7e87c5c8c8d0c89509c100cdadd9b1ee4aa0be88
+    reviewed_by: timgentry
+    safe_revision: 61f00d9cb6fcbc4880768b77a0d401dc4b323386
   ".gitignore":
     comments:
     reviewed_by: timgentry
@@ -71,7 +71,7 @@ file safety:
   Gemfile:
     comments:
     reviewed_by: timgentry
-    safe_revision: e67a9442e7caee56528c6a7e558aaef7fa0e04d0
+    safe_revision: 5ed570a55978255904f473d7112bb5ce4aab3b23
   Gemfile.lock:
     comments:
     reviewed_by: shilpigoeldev
@@ -82,8 +82,8 @@ file safety:
     safe_revision: 46cb823eba3c543daa93419c709d1da6280e2563
   README.md:
     comments: "Y"
-    reviewed_by: shilpigoeldev
-    safe_revision: 74d03db45fc4edfb5efcb180eccc8f95b4cf3ea3
+    reviewed_by: timgentry
+    safe_revision: 66e490a68aa9f81584b3a2ce8f7ea63b9be48ed1
   Rakefile:
     comments:
     reviewed_by: shilpigoeldev
@@ -92,7 +92,7 @@ file safety:
     comments: "# rubocop:disable Rails/InverseOf , comment to give context why disabled
       would be good to add."
     reviewed_by: timgentry
-    safe_revision: 4b95631f32f48aa4f714343390123ea25623dd2a
+    safe_revision: 234140e514863b371d2e900079db319a42aa03fb
   app/models/structured_store/versioned_schema.rb:
     comments:
     reviewed_by: shilpigoeldev
@@ -472,7 +472,7 @@ file safety:
   test/dummy/test/helpers/store_accessor_test_helper.rb:
     comments:
     reviewed_by: timgentry
-    safe_revision: f204c304174b26d80a4512d1dd8e50490017bf45
+    safe_revision: 234140e514863b371d2e900079db319a42aa03fb
   test/dummy/test/models/binary_json_store_record_test.rb:
     comments:
     reviewed_by: timgentry
