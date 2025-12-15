@@ -7,10 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Fixed
-
-- Store attributes can be assigned with `new`, `create` and `create!`
-
 ## [1.1.0] - 2025-12-03
 
 ### Added
