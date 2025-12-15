@@ -172,7 +172,7 @@ GEM
     method_source (1.1.0)
     mini_mime (1.1.5)
     minitest (5.26.0)
-    mocha (2.8.2)
+    mocha (3.0.0)
       ruby2_keywords (>= 0.0.5)
     ndr_dev_support (7.3.5)
       activesupport (>= 6.1, < 8.1)
@@ -390,7 +390,7 @@ PLATFORMS
 
 DEPENDENCIES
   chronic (~> 0.10.2)
-  mocha (~> 2.8)
+  mocha (~> 3.0)
   ndr_dev_support (~> 7.3)
   pg (~> 1.6)
   puma
