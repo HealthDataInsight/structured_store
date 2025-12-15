@@ -149,6 +149,17 @@ module StoreAccessorTestHelper
     assert_equal 100, reloaded_record.balloon_count
   end
 
+  def test_setting_store_attributes_with_undefined_attribute
+    assert_raises(ActiveModel::UnknownAttributeError) do
+      klass.new(
+        store_versioned_schema: structured_store_versioned_schemas(:party),
+        party_theme: 'Pirates',
+        party_location: 'White Hart Lane',
+        balloon_count: 10
+      )
+    end
+  end
+
   def test_setting_store_attributes_without_schema_with_new
     # Test that store attributes cannot be set without a schema
     # When no schema is provided, unknown attributes should raise an error
