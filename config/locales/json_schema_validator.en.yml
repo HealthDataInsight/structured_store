@@ -1,0 +1,25 @@
+en:
+  errors:
+    messages:
+      # Format validations
+      invalid_email: "is not a valid email"
+      invalid_url: "is not a valid URL"
+      invalid_uuid: "is not a valid UUID"
+      invalid_date: "is not a valid date"
+      invalid_ip: "is not a valid IP address"
+      invalid_format: "format is invalid"
+
+      # Type validation
+      must_be_type: "must be a %{type}"
+
+      # Enum validation
+      enum_inclusion: "must be one of: %{values}"
+
+      # Unique items
+      must_be_unique: "must contain unique items"
+
+      # Multiple of
+      must_be_multiple_of: "must be a multiple of %{multiple}"
+
+      # Additional properties
+      unexpected_properties: "contains unexpected properties"
