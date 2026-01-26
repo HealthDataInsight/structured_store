@@ -41,6 +41,7 @@ class JsonSchemaValidatorTest < ActiveSupport::TestCase
     }.freeze
 
     attr_accessor :draft201909_symbol_schema,
+                  :email,
                   :hash_schema,
                   :instance_schema,
                   :lambda_schema,
@@ -54,6 +55,7 @@ class JsonSchemaValidatorTest < ActiveSupport::TestCase
     validates :instance_schema, json_schema: { allow_blank: true, schema: JSONSchemer.schema(DRAFT201909_NAME_SCHEMA) }
     validates :lambda_schema, json_schema: {
       allow_blank: true,
+      convert_to_rails_errors: true,
       schema: lambda { |_record, _attribute, value|
         # Return a JSON schema hash based on the value
         if value.is_a?(Hash) && value.key?('email')
@@ -175,7 +177,7 @@ class JsonSchemaValidatorTest < ActiveSupport::TestCase
     assert_includes object.errors.details[:string_schema], { error: 'value at `/name` is not a string' }
   end
 
-  test 'lambda schema version' do
+  test 'lambda schema version with rails error conversion' do
     object = JsonSchemaTestModel.new
 
     object.lambda_schema = 'invalid_json'
@@ -202,7 +204,10 @@ class JsonSchemaValidatorTest < ActiveSupport::TestCase
       'email' => 'john@example.com'
     }
     object.valid?
-    assert_includes object.errors.details[:lambda_schema], { error: 'object at root is missing required properties: name' }
+
+    expected_blank_error = { error: :blank }
+    assert_includes object.errors.details[:name], expected_blank_error
+    assert_empty object.errors.details[:lambda_schema], 'Blank error should have been remove from lambda_schema attribute'
 
     # Test validation failure with email schema - invalid email format
     object.lambda_schema = {
@@ -210,7 +215,9 @@ class JsonSchemaValidatorTest < ActiveSupport::TestCase
       'email' => 'invalid-email'
     }
     object.valid?
-    assert_includes object.errors.details[:lambda_schema], { error: 'value at `/email` does not match format: email' }
+    expected_format_error = { error: :invalid_email }
+    assert_includes object.errors.details[:email], expected_format_error
+    assert_empty object.errors.details[:lambda_schema], 'Format error should have been remove from lambda_schema attribute'
   end
 
   test 'lambda schema dynamic version' do

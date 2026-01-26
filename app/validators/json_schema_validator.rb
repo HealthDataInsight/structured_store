@@ -18,6 +18,9 @@ class JsonSchemaValidator < ActiveModel::EachValidator
     # Collect validation errors
     validation_errors = schemer.validate(json_data).to_a
 
+    # Convert JSON schema errors to Rails ActiveModel validation errors
+    add_rails_errors_from(validation_errors, record) if options[:convert_to_rails_errors]
+
     # Add errors to the record using json_schemer's built-in I18n support
     validation_errors.each do |error|
       record.errors.add(attribute, error['error'])
@@ -39,6 +42,14 @@ class JsonSchemaValidator < ActiveModel::EachValidator
       schema.call(record, attribute, value)
     else
       schema
+    end
+  end
+
+  def add_rails_errors_from(validation_errors, record)
+    validation_errors.each do |error|
+      if RailsErrorMapper.new(error, record).call
+        validation_errors.delete error
+      end
     end
   end
 
