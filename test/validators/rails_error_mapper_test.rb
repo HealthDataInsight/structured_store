@@ -277,7 +277,7 @@ class RailsErrorMapperTest < ActiveSupport::TestCase
     mapper = RailsErrorMapper.new(json_error, @record)
     mapper.call
 
-    expected_error = { error: :enum_inclusion_short, value: 'invalid', values: 'active, inactive, pending' }
+    expected_error = { error: :enum_inclusion_short_list, value: 'invalid', values: 'active, inactive, pending' }
     assert_includes @record.errors.details[:status], expected_error
   end
 

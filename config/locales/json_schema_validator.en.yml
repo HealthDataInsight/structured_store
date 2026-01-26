@@ -13,7 +13,7 @@ en:
       must_be_type: "must be a %{type}"
 
       # Enum validation
-      enum_inclusion: "must be one of: %{values}"
+      enum_inclusion_short_list: "must be one of: %{values}"
 
       # Unique items
       must_be_unique: "must contain unique items"

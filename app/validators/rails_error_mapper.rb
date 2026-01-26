@@ -94,7 +94,7 @@ class RailsErrorMapper
     'enum' => lambda { |attr, error, record|
       values = error['schema']['enum']
       if values.length <= 5
-        record.errors.add(attr, :enum_inclusion_short, value: record.send(attr), values: values.join(', '))
+        record.errors.add(attr, :enum_inclusion_short_list, value: record.send(attr), values: values.join(', '))
       else
         record.errors.add(attr, :inclusion, value: record.send(attr))
       end
