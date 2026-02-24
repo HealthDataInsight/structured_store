@@ -37,6 +37,33 @@ module StructuredStore
         assert_equal 'Jan 2024', store_record.foo
       end
 
+      # Regression tests: JsonDateRangeResolver previously hardcoded `store` as the
+      # store accessor method name, breaking any model whose column is not called "store".
+
+      test 'define_attribute with non-default column name (string input)' do
+        versioned_schema = VersionedSchema.new(name: 'DateRangeSchema',
+                                               version: '0.1.0',
+                                               json_schema: simple_foo_date_range_schema)
+        record = AuditStoreRecord.new(audit_store_versioned_schema: versioned_schema)
+
+        assert_nil record.foo
+        record.foo = 'January 2024'
+        assert_equal({ 'date1' => '2024-01-01 00:00:00', 'date2' => '2024-01-31 00:00:00' },
+                     record.audit_store['foo'])
+        assert_equal 'Jan 2024', record.foo
+      end
+
+      test 'define_attribute with non-default column name (blank value)' do
+        versioned_schema = VersionedSchema.new(name: 'DateRangeSchema',
+                                               version: '0.1.0',
+                                               json_schema: simple_foo_date_range_schema)
+        record = AuditStoreRecord.new(audit_store_versioned_schema: versioned_schema)
+
+        record.foo = ''
+        assert_nil record.audit_store['foo']
+        assert_nil record.foo
+      end
+
       test 'options_array' do
         schema = {
           '$schema' => 'https://json-schema.org/draft/2019-09/schema',
