@@ -16,9 +16,12 @@ module StructuredStore
       # @return [Proc] a lambda that defines the attribute on the singleton class
       # @raise [RuntimeError] if the property type is unsupported
       def define_attribute
-        # Capture the property name in a local variable for closure
+        # Capture the property name and store column name in local variables for closure.
+        # context[:column_name] is set by Storable#property_resolvers; fall back to 'store'
+        # for any resolver instantiated without that context (e.g. in isolation in tests).
         prop_name = property_name
-        resolver = self
+        col_name  = (context[:column_name] || 'store').to_s
+        resolver  = self
 
         # Define the attribute on the singleton class of the object
         lambda do |object|
@@ -26,11 +29,11 @@ module StructuredStore
 
           # Define custom getter and setter methods
           object.singleton_class.define_method(prop_name) do
-            resolver.send(:cast_stored_value, store, prop_name, converter)
+            resolver.send(:cast_stored_value, send(col_name), prop_name, converter)
           end
 
           object.singleton_class.define_method("#{prop_name}=") do |value|
-            resolver.send(:serialize_value_to_store, self, prop_name, value, converter)
+            resolver.send(:serialize_value_to_store, self, col_name, prop_name, value, converter)
           end
         end
       end
@@ -67,13 +70,13 @@ module StructuredStore
       end
 
       # Serializes an input value to the store as a hash
-      def serialize_value_to_store(object, prop_name, value, converter)
+      def serialize_value_to_store(object, col_name, prop_name, value, converter)
         # Initialize store as empty hash if nil
-        object.store ||= {}
-        return object.store[prop_name] = nil if value.blank?
+        object.send("#{col_name}=", {}) unless object.send(col_name)
+        return object.send(col_name)[prop_name] = nil if value.blank?
 
         date1, date2 = converter.convert_to_dates(value)
-        object.store[prop_name] = {
+        object.send(col_name)[prop_name] = {
           'date1' => date1&.to_fs(:db),
           'date2' => date2&.to_fs(:db)
         }

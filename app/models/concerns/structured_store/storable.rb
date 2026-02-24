@@ -159,7 +159,8 @@ module StructuredStore
       @property_resolvers ||= {}
       @property_resolvers[column_name] ||= json_schema_properties(column_name).keys.index_with do |property_name|
         StructuredStore::RefResolvers::Registry.matching_resolver(schema_inspector(column_name),
-                                                                  property_name)
+                                                                  property_name,
+                                                                  { column_name: column_name })
       end
     end
 

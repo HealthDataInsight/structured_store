@@ -10,9 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_09_170439) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_23_234721) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "audit_store_records", force: :cascade do |t|
+    t.bigint "structured_store_audit_store_versioned_schema_id", null: false
+    t.json "audit_store"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["structured_store_audit_store_versioned_schema_id"], name: "idx_on_structured_store_audit_store_versioned_schem_18464f9cd1"
+  end
 
   create_table "binary_json_store_records", force: :cascade do |t|
     t.bigint "structured_store_store_versioned_schema_id", null: false
@@ -113,6 +121,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_09_170439) do
     t.index ["structured_store_warehouse_schema_id"], name: "idx_on_structured_store_warehouse_schema_id_78d0cbf551"
   end
 
+  add_foreign_key "audit_store_records", "structured_store_versioned_schemas", column: "structured_store_audit_store_versioned_schema_id"
   add_foreign_key "binary_json_store_records", "structured_store_versioned_schemas", column: "structured_store_store_versioned_schema_id"
   add_foreign_key "binary_store_records", "structured_store_versioned_schemas", column: "structured_store_store_versioned_schema_id"
   add_foreign_key "custom_foreign_key_records", "structured_store_versioned_schemas", column: "my_custom_schemaid"
