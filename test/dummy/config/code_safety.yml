@@ -38,16 +38,16 @@ file safety:
     safe_revision: 3351cd3b4445b95366f54d8a9177170fabc63ff4
   ".github/workflows/ci.yml":
     comments:
-    reviewed_by: timgentry
-    safe_revision: 698e532bb9c002d5feb52af58cbe77d13ccc151c
+    reviewed_by: shilpigoeldev
+    safe_revision: 0fc829e189e4b6714f677415c8027ec9ac69ef93
   ".github/workflows/inclusive-language.yml":
     comments:
-    reviewed_by: timgentry
-    safe_revision: 93db00420ff4b197df036b32e1bc50b9d6255c98
+    reviewed_by: shilpigoeldev
+    safe_revision: f0974ac5aafb1ae6fc64354dc1505543b9c2ba27
   ".github/workflows/mega-linter.yml":
     comments:
-    reviewed_by: timgentry
-    safe_revision: 61f00d9cb6fcbc4880768b77a0d401dc4b323386
+    reviewed_by: shilpigoeldev
+    safe_revision: c100794f604740efa632ee12ca0f66453540621b
   ".gitignore":
     comments:
     reviewed_by: timgentry
@@ -62,20 +62,20 @@ file safety:
     safe_revision: 3e7c5df4a097e648d70919710e74b2e67197f979
   CHANGELOG.md:
     comments:
-    reviewed_by: timgentry
-    safe_revision: c808beb8bd47d37906ce0be73796217e74a639ce
+    reviewed_by: shilpigoeldev
+    safe_revision: 4225db3407f6a523e00ff3bc9dfe3fdd880e3d21
   CODE_OF_CONDUCT.md:
     comments:
     reviewed_by: timgentry
     safe_revision: 3351cd3b4445b95366f54d8a9177170fabc63ff4
   Gemfile:
     comments:
-    reviewed_by: timgentry
-    safe_revision: 5ed570a55978255904f473d7112bb5ce4aab3b23
+    reviewed_by: shilpigoeldev
+    safe_revision: 3acaa73d422e83c82a14403ef75383c70b5c7b88
   Gemfile.lock:
     comments:
-    reviewed_by: timgentry
-    safe_revision: c808beb8bd47d37906ce0be73796217e74a639ce
+    reviewed_by: shilpigoeldev
+    safe_revision: 5eb490ef33bbce5f9616489ad37d45cc30499060
   MIT-LICENSE:
     comments:
     reviewed_by: timgentry
@@ -91,8 +91,8 @@ file safety:
   app/models/concerns/structured_store/storable.rb:
     comments: "# rubocop:disable Rails/InverseOf , comment to give context why disabled
       would be good to add."
-    reviewed_by: timgentry
-    safe_revision: 234140e514863b371d2e900079db319a42aa03fb
+    reviewed_by: shilpigoeldev
+    safe_revision: 4225db3407f6a523e00ff3bc9dfe3fdd880e3d21
   app/models/structured_store/versioned_schema.rb:
     comments:
     reviewed_by: shilpigoeldev
@@ -204,7 +204,7 @@ file safety:
   lib/structured_store/ref_resolvers/json_date_range_resolver.rb:
     comments:
     reviewed_by: shilpigoeldev
-    safe_revision: 373b706d1ff6da6b377f08eff4a3ae5be494f946
+    safe_revision: 4225db3407f6a523e00ff3bc9dfe3fdd880e3d21
   lib/structured_store/ref_resolvers/registry.rb:
     comments:
     reviewed_by: shilpigoeldev
@@ -257,6 +257,10 @@ file safety:
     comments:
     reviewed_by: timgentry
     safe_revision: 46cb823eba3c543daa93419c709d1da6280e2563
+  test/dummy/app/models/audit_store_record.rb:
+    comments:
+    reviewed_by: shilpigoeldev
+    safe_revision: 4225db3407f6a523e00ff3bc9dfe3fdd880e3d21
   test/dummy/app/models/binary_json_store_record.rb:
     comments:
     reviewed_by: timgentry
@@ -409,10 +413,14 @@ file safety:
     comments:
     reviewed_by: timgentry
     safe_revision: 4b95631f32f48aa4f714343390123ea25623dd2a
+  test/dummy/db/migrate/20260223234721_create_audit_store_records.rb:
+    comments:
+    reviewed_by: shilpigoeldev
+    safe_revision: 4225db3407f6a523e00ff3bc9dfe3fdd880e3d21
   test/dummy/db/schema.rb:
     comments:
-    reviewed_by: timgentry
-    safe_revision: 4b95631f32f48aa4f714343390123ea25623dd2a
+    reviewed_by: shilpigoeldev
+    safe_revision: 4225db3407f6a523e00ff3bc9dfe3fdd880e3d21
   test/dummy/db/structured_store_versioned_schemas/.keep:
     comments:
     reviewed_by: timgentry
@@ -523,8 +531,8 @@ file safety:
     safe_revision: f204c304174b26d80a4512d1dd8e50490017bf45
   test/dummy/test/ref_resolvers/json_date_range_resolver_test.rb:
     comments:
-    reviewed_by: timgentry
-    safe_revision: f204c304174b26d80a4512d1dd8e50490017bf45
+    reviewed_by: shilpigoeldev
+    safe_revision: 4225db3407f6a523e00ff3bc9dfe3fdd880e3d21
   test/fixtures/custom_schemas.yml:
     comments:
     reviewed_by: shilpigoeldev
