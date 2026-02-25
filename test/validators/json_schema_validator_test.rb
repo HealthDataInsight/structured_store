@@ -40,6 +40,18 @@ class JsonSchemaValidatorTest < ActiveSupport::TestCase
       }
     }.freeze
 
+    EXTERNAL_REF_SCHEMA = {
+      '$schema' => 'https://json-schema.org/draft/2019-09/schema',
+      'type' => 'object',
+      'properties' => {
+        'name' => {
+          '$ref': 'external://structured_store/json_date_range/',
+          'type' => 'string',
+          'example' => 'John Doe'
+        }
+      }
+    }.freeze
+
     attr_accessor :draft201909_symbol_schema,
                   :hash_schema,
                   :instance_schema,
@@ -47,7 +59,8 @@ class JsonSchemaValidatorTest < ActiveSupport::TestCase
                   :lambda_schema_dynamic,
                   :openapi31_symbol_schema,
                   :string_schema,
-                  :unexpected_class_schema
+                  :unexpected_class_schema,
+                  :external_ref_schema
 
     validates :draft201909_symbol_schema, json_schema: { allow_blank: true, schema: :draft201909 }
     validates :hash_schema, json_schema: { allow_blank: true, schema: DRAFT201909_NAME_SCHEMA }
@@ -90,6 +103,7 @@ class JsonSchemaValidatorTest < ActiveSupport::TestCase
     validates :openapi31_symbol_schema, json_schema: { allow_blank: true, schema: :openapi31 }
     validates :string_schema, json_schema: { allow_blank: true, schema: DRAFT201909_NAME_SCHEMA.to_json }
     validates :unexpected_class_schema, json_schema: { allow_blank: true, schema: self }
+    validates :external_ref_schema, json_schema: { allow_blank: true, schema: EXTERNAL_REF_SCHEMA }
   end
 
   test 'validate test schemas' do
@@ -254,5 +268,14 @@ class JsonSchemaValidatorTest < ActiveSupport::TestCase
     assert_raises(ArgumentError) do
       object.valid?
     end
+  end
+
+  test 'allows external refs' do
+    object = JsonSchemaTestModel.new
+    object.external_ref_schema = {
+      'name' => 'John Doe'
+    }
+
+    assert_nothing_raised { object.valid? }
   end
 end
