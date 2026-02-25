@@ -99,8 +99,8 @@ file safety:
     safe_revision: b042b663d220917c09f1995385581bf70ea83cc3
   app/validators/json_schema_validator.rb:
     comments:
-    reviewed_by: shilpigoeldev
-    safe_revision: 18dee2d51bb519c5be944c2821142676e25f5ff9
+    reviewed_by: timgentry
+    safe_revision: 2c0a5a4988c4c1820021f36be3691b730e611a60
   bin/rails:
     comments:
     reviewed_by: timgentry
@@ -572,7 +572,7 @@ file safety:
   test/validators/json_schema_validator_test.rb:
     comments:
     reviewed_by: timgentry
-    safe_revision: 18dee2d51bb519c5be944c2821142676e25f5ff9
+    safe_revision: 2c0a5a4988c4c1820021f36be3691b730e611a60
   test/zeitwerk_loader_test.rb:
     comments:
     reviewed_by: timgentry
