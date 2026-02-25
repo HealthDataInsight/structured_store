@@ -62,8 +62,8 @@ file safety:
     safe_revision: 3e7c5df4a097e648d70919710e74b2e67197f979
   CHANGELOG.md:
     comments:
-    reviewed_by: timgentry
-    safe_revision: b0bb6e0bf978df9fe5a3d11ae376c5e6059031c3
+    reviewed_by: shilpigoeldev
+    safe_revision: 3c57d11635ec332a54d71793576ccc3b0cfdf957
   CODE_OF_CONDUCT.md:
     comments:
     reviewed_by: timgentry
@@ -74,8 +74,8 @@ file safety:
     safe_revision: 3acaa73d422e83c82a14403ef75383c70b5c7b88
   Gemfile.lock:
     comments:
-    reviewed_by: timgentry
-    safe_revision: b0bb6e0bf978df9fe5a3d11ae376c5e6059031c3
+    reviewed_by: shilpigoeldev
+    safe_revision: 3c57d11635ec332a54d71793576ccc3b0cfdf957
   MIT-LICENSE:
     comments:
     reviewed_by: timgentry
@@ -215,8 +215,8 @@ file safety:
     safe_revision: bf094508b444e4623ef8864b0928a3f6f8276371
   lib/structured_store/version.rb:
     comments:
-    reviewed_by: timgentry
-    safe_revision: b0bb6e0bf978df9fe5a3d11ae376c5e6059031c3
+    reviewed_by: shilpigoeldev
+    safe_revision: 3c57d11635ec332a54d71793576ccc3b0cfdf957
   lib/tasks/structured_store_tasks.rake:
     comments:
     reviewed_by: shilpigoeldev
