@@ -276,6 +276,6 @@ class JsonSchemaValidatorTest < ActiveSupport::TestCase
       'name' => 'John Doe'
     }
 
-    object.valid?
+    assert_nothing_raised { object.valid? }
   end
 end
