@@ -53,7 +53,7 @@ class JsonSchemaValidator < ActiveModel::EachValidator
     when *NAMED_SCHEMA_VERSIONS
       JSONSchemer.send(schema)
     when String, Hash
-      JSONSchemer.schema(schema)
+      JSONSchemer.schema(schema, ref_resolver: proc { |_uri| {} })
     when JSONSchemer::Schema
       schema
     else
