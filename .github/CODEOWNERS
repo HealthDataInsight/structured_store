@@ -1,0 +1,7 @@
+/.github/linters/ @HealthDataInsight/code-standards-team
+.markdownlintignore @HealthDataInsight/code-standards-team
+.markdownlint.* @HealthDataInsight/code-standards-team
+eslint.config.js @HealthDataInsight/code-standards-team
+.github/workflows/mega-linter.yml @HealthDataInsight/code-standards-team
+.mega-linter.yml @HealthDataInsight/code-standards-team
+.rubocop @HealthDataInsight/code-standards-team
