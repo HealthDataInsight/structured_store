@@ -79,7 +79,8 @@ JAVASCRIPT_ES_PRE_COMMANDS:
   - command: npm ci --ignore-scripts --no-audit --no-fund
     cwd: workspace
     continue_if_failed: false
-JAVASCRIPT_ES_CLI_EXECUTABLE: node_modules/.bin/eslint
+JAVASCRIPT_ES_CLI_EXECUTABLE:
+  - node_modules/.bin/eslint
 
 SHOW_ELAPSED_TIME: false
 FILEIO_REPORTER: false
