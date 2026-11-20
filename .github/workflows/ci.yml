@@ -21,19 +21,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
 
-<<<<<<< HEAD
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1.321.0
-        with:
-          ruby-version: 3.3.5
-          bundler-cache: true
-=======
       - name: Set up mise
         uses: jdx/mise-action@v2
 
       - name: Install gems
         run: bundle install
->>>>>>> origin/main
 
       - name: Lint code for consistent style
         run: bin/rubocop -f github
@@ -74,19 +66,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
 
-<<<<<<< HEAD
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1.321.0
-        with:
-          ruby-version: 3.3.5
-          bundler-cache: true
-=======
       - name: Set up mise
         uses: jdx/mise-action@v2
 
       - name: Install gems for Rails ${{ matrix.rails }}
         run: bundle install
->>>>>>> origin/main
 
       - name: Prepare the database
         run: bin/rails db:setup
