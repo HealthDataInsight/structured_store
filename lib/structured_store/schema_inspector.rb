@@ -46,7 +46,7 @@ module StructuredStore
       @schema_hash =
         case @original_schema
         when Hash
-          # TODO: ensure the hash is safe to use (e.g. not too large)
+          # TODO: ensure the hash is safe to use (e.g. not too large) # DevSkim: ignore DS176209
           @original_schema.deep_stringify_keys
         when String
           safe_parse_json(@original_schema)

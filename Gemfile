@@ -19,3 +19,13 @@ gem 'ndr_dev_support', '~> 7.3'
 gem 'rake', '~> 13.3'
 gem 'rubocop', '~> 1.82'
 gem 'simplecov', '~> 0.22.0'
+
+# CI tests multiple Rails lines by setting RAILS_VERSION (see
+# .github/workflows/ci.yml). Unset locally, the gemspec's `rails >= 8.0` wins.
+rails_version = ENV.fetch('RAILS_VERSION', nil)
+if rails_version
+  gem 'rails', "~> #{rails_version}.0"
+  # ActiveSupport 8.0.x passes `quirks_mode:` to JSON.generate, which json 3.1.0
+  # removed; pin the json 2.x line for that series (Rails 8.1 fixed it).
+  gem 'json', '~> 2.19' if rails_version == '8.0'
+end

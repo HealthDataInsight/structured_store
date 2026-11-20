@@ -11,7 +11,7 @@ In general, projects will follow the [Way of Working](https://github.com/HealthD
 - are covered in the Way of Working, but have specific implementation details which need to be captured
 - diverge from the guidance in the Way of Working
 
-You can read about the general approach to capturing decisions on the [GDS Way page on Architecture Decisions](https://gds-way.cloudapps.digital/standards/architecture-decisions.html) and specifics about MADR are available at <https://adr.github.io/madr/>.
+You can read about the general approach to capturing decisions on the [GDS Way page on Architecture Decisions](https://gds-way.digital.cabinet-office.gov.uk/standards/architecture-decisions.html) and specifics about MADR are available at <https://adr.github.io/madr/>.
 
 Proposing and reviewing decisions requires an understanding of GitHub and [pull requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests).
 

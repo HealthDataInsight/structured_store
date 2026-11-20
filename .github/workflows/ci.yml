@@ -1,7 +1,7 @@
 ---
 name: CI
 
-on:  # yamllint disable-line rule:truthy
+"on":
   # Trigger CI at key points in the PR process
   pull_request:
     types:
@@ -19,19 +19,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7
 
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1.288.0
-        with:
-          ruby-version: 3.3.5
-          bundler-cache: true
+      - name: Set up mise
+        uses: jdx/mise-action@v2
+
+      - name: Install gems
+        run: bundle install
 
       - name: Lint code for consistent style
         run: bin/rubocop -f github
 
   test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        rails:
+          - "8.0"
+          - "8.1"
     services:
       postgres:
         image: pgvector/pgvector:pg16
@@ -48,22 +54,23 @@ jobs:
           - 5432:5432
     env:
       CI: true
-      DATABASE_URL: "postgres://rails:password@localhost:5432/rails_test"
+      DATABASE_URL: "postgres://rails:password@localhost:5432/rails_test"  # DevSkim: ignore DS162092 - CI Postgres service host
       RAILS_ENV: test
       RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+      RAILS_VERSION: ${{ matrix.rails }}
     steps:
       - name: Install packages
         run: sudo apt-get update && sudo apt-get install --no-install-recommends -y google-chrome-stable curl
         # libjemalloc2
 
       - name: Checkout code
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7
 
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1.288.0
-        with:
-          ruby-version: 3.3.5
-          bundler-cache: true
+      - name: Set up mise
+        uses: jdx/mise-action@v2
+
+      - name: Install gems for Rails ${{ matrix.rails }}
+        run: bundle install
 
       - name: Prepare the database
         run: bin/rails db:setup
