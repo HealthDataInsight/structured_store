@@ -9,4 +9,5 @@
 /test/dummy/tmp/
 megalinter-reports/
 .claude/
+gemfiles/*.gemfile.lock
 .rubocop-https---*

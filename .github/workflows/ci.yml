@@ -32,6 +32,12 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        gemfile:
+          - gemfiles/rails_8.0.gemfile
+          - gemfiles/rails_8.1.gemfile
     services:
       postgres:
         image: pgvector/pgvector:pg16
@@ -48,9 +54,10 @@ jobs:
           - 5432:5432
     env:
       CI: true
-      DATABASE_URL: "postgres://rails:password@localhost:5432/rails_test"
+      DATABASE_URL: "postgres://rails:password@localhost:5432/rails_test"  # DevSkim: ignore DS162092 - CI Postgres service host
       RAILS_ENV: test
       RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+      BUNDLE_GEMFILE: ${{ matrix.gemfile }}
     steps:
       - name: Install packages
         run: sudo apt-get update && sudo apt-get install --no-install-recommends -y google-chrome-stable curl
