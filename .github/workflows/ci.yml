@@ -24,7 +24,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1.343.0
         with:
-          ruby-version: '3.3'
+          ruby-version: '3.4'
           bundler-cache: true
 
       - name: Lint code for consistent style
@@ -35,9 +35,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        gemfile:
-          - gemfiles/rails_8.0.gemfile
-          - gemfiles/rails_8.1.gemfile
+        rails:
+          - '8.0'
+          - '8.1'
     services:
       postgres:
         image: pgvector/pgvector:pg16
@@ -57,7 +57,7 @@ jobs:
       DATABASE_URL: "postgres://rails:password@localhost:5432/rails_test"  # DevSkim: ignore DS162092 - CI Postgres service host
       RAILS_ENV: test
       RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-      BUNDLE_GEMFILE: ${{ matrix.gemfile }}
+      RAILS_VERSION: ${{ matrix.rails }}
     steps:
       - name: Install packages
         run: sudo apt-get update && sudo apt-get install --no-install-recommends -y google-chrome-stable curl
@@ -69,7 +69,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1.343.0
         with:
-          ruby-version: '3.3'
+          ruby-version: '3.4'
           bundler-cache: true
 
       - name: Prepare the database

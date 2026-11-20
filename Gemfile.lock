@@ -85,10 +85,6 @@ GEM
       uri (>= 0.13.1)
     addressable (2.9.2)
       public_suffix (>= 2.0.2, < 8.0)
-    appraisal (2.5.0)
-      bundler
-      rake
-      thor (>= 0.14.0)
     ast (2.4.3)
     base64 (0.3.0)
     bigdecimal (4.1.3)
@@ -407,7 +403,6 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
-  appraisal (~> 2.5)
   chronic (~> 0.10.2)
   mocha (~> 3.0)
   ndr_dev_support (~> 7.3)
