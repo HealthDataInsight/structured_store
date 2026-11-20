@@ -1,18 +1,50 @@
 ---
 layout: page
+status: REQUIRED
+enforcement: manual
 ---
 
-# Pull Request Template and Guidlines
+# Pull Request Template and Guidelines
 
-A Pull Request (PR) template offers multiple benefits to a development team. It standardizes the process of contributing changes, making it easier for both the author and the reviewers to understand the context of the changes. PR templates can ensure that necessary details, such as a summary of the changes, the reason for the changes (the 'why'), and any associated issue or ticket numbers, are consistently provided. This helps in maintaining a clean, organized, and searchable project history.
+## Purpose
 
-Moreover, by setting clear expectations about the information that should be included in a PR, templates can streamline the review process, reduce the likelihood of misunderstandings, and ultimately lead to higher-quality code and a more productive team.
+Standardise PR submissions to ensure consistent context, improve review efficiency, and maintain searchable project history.
+
+## Scope
+
+Applies to all pull requests across team projects.
+
+## Requirements
+
+- PR template must be present in repository
+- All PRs must include:
+  - Summary of changes
+  - Rationale (why)
+  - Associated issue/ticket numbers
+- Follow [Code of Conduct](code-of-conduct.md) and GitHub's [How to write the perfect pull request][perfect-pr] guidelines
 
 {: .important }
-A Pull Request doesn't begin and end with the template, the tone of the request and any subsequent feedback is also very important. Alongside the [Code of Conduct](code-of-conduct.md), please read GitHub's PR communication guidlines in [How to write the perfect pull request](https://github.blog/2015-01-21-how-to-write-the-perfect-pull-request/).
+A Pull Request doesn't begin and end with the template. The tone of the request and any subsequent feedback is also very important. Read GitHub's PR communication guidelines in [How to write the perfect pull request][perfect-pr].
+
+## Setup
+
+Initialise PR template:
+
+```bash
+way_of_working init pull_request_template
+```
 
 ## Usage
 
-To add the Pull Request template to your project, use the following at the command line:
+Use the template when creating PRs. Provide all requested information professionally.
 
-    way_of_working init pull_request_template
+## Enforcement
+
+Manual review during PR submission and code review process.
+
+## Resources
+
+- [How to write the perfect pull request][perfect-pr]
+- [Code of Conduct](code-of-conduct.md)
+
+[perfect-pr]: https://github.blog/2015-01-21-how-to-write-the-perfect-pull-request/

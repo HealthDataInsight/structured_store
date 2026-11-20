@@ -39,48 +39,35 @@ class WarehouseRecordTest < ActiveSupport::TestCase
   end
 
   test 'define_store_accessors_for_column works correctly' do
-    instance = WarehouseRecord.new
-
-    refute_respond_to instance, :created_by
-    refute_respond_to instance, :created_by=
-    refute_respond_to instance, :description
-    refute_respond_to instance, :description=
-    refute_respond_to instance, :updated_by
-    refute_respond_to instance, :updated_by=
-
-    # Set the versioned schema and define accessors
-    instance.warehouse_schema = structured_store_versioned_schemas(:metadata)
-    instance.define_store_accessors_for_column('inventory')
-
-    # Should have accessors for inventory properties
-    assert_respond_to instance, :created_by
-    assert_respond_to instance, :created_by=
-    assert_respond_to instance, :description
-    assert_respond_to instance, :description=
-    assert_respond_to instance, :updated_by
-    assert_respond_to instance, :updated_by=
+    assert_defines_inventory_accessors do |instance|
+      instance.define_store_accessors_for_column('inventory')
+    end
   end
 
   test 'define_all_store_accessors! works correctly' do
-    instance = WarehouseRecord.new
+    assert_defines_inventory_accessors(&:define_all_store_accessors!)
+  end
 
-    refute_respond_to instance, :created_by
-    refute_respond_to instance, :created_by=
-    refute_respond_to instance, :description
-    refute_respond_to instance, :description=
-    refute_respond_to instance, :updated_by
-    refute_respond_to instance, :updated_by=
+  private
+
+  # Builds a WarehouseRecord, asserts no inventory accessors yet, assigns the
+  # schema, yields the instance for accessor definition, then asserts they exist.
+  def assert_defines_inventory_accessors
+    instance = WarehouseRecord.new
+    assert_inventory_accessors(instance, defined: false)
 
     # Set the versioned schema and define accessors
     instance.warehouse_schema = structured_store_versioned_schemas(:metadata)
-    instance.define_all_store_accessors!
+    yield instance
 
-    # Should have accessors for inventory properties
-    assert_respond_to instance, :created_by
-    assert_respond_to instance, :created_by=
-    assert_respond_to instance, :description
-    assert_respond_to instance, :description=
-    assert_respond_to instance, :updated_by
-    assert_respond_to instance, :updated_by=
+    assert_inventory_accessors(instance, defined: true)
+  end
+
+  def assert_inventory_accessors(instance, defined:)
+    assertion = defined ? :assert_respond_to : :refute_respond_to
+
+    %i[created_by created_by= description description= updated_by updated_by=].each do |accessor|
+      send(assertion, instance, accessor)
+    end
   end
 end

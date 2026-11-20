@@ -2,11 +2,14 @@
 
 require 'structured_store/ref_resolvers/defaults'
 require 'test_helper'
+require_relative '../helpers/ref_resolver_test_helper'
 
 module StructuredStore
   module RefResolvers
     # This class tests the BlankRefResolver within a structured store record.
     class BlankRefResolverTest < ActiveSupport::TestCase
+      include RefResolverTestHelper
+
       test 'define_attribute with no attribute' do
         schema = {
           '$schema' => 'https://json-schema.org/draft/2019-09/schema',
@@ -14,7 +17,7 @@ module StructuredStore
           'properties' => {}
         }
 
-        store_record = StoreRecord.new(store_versioned_schema: VersionedSchema.new(json_schema: schema))
+        store_record = build_store_record(schema)
 
         # Ensure the structure store attribute is not defined
         assert_not_respond_to store_record, :foo
@@ -33,12 +36,7 @@ module StructuredStore
           }
         }
 
-        store_record = StoreRecord.new(store_versioned_schema: VersionedSchema.new(json_schema: schema))
-
-        # Now the structured store attribute "foo" should be defined
-        assert_nil store_record.foo
-        store_record.foo = 'bar'
-        assert_equal 'bar', store_record.foo
+        assert_foo_string_accessor(schema)
       end
 
       test 'define_attribute with untested attribute type' do
@@ -52,11 +50,7 @@ module StructuredStore
           }
         }
 
-        exception = assert_raises(RuntimeError) do
-          StoreRecord.new(store_versioned_schema: VersionedSchema.new(json_schema: schema))
-        end
-
-        assert_equal 'Unsupported attribute type: "object" for property \'foo\'', exception.message
+        assert_unsupported_foo_type_raises(schema)
       end
     end
   end

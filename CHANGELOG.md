@@ -1,3 +1,4 @@
+<!-- markdownlint-disable-file MD024 -->
 # Changelog
 
 All notable changes to this project will be documented in this file.
@@ -6,6 +7,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+### Changed
+
+- **Breaking:** require Rails `>= 8.0` and Ruby `>= 3.2.0` (previously Rails `>= 7.0`
+  and Ruby `>= 3.1.0`). Rails 7.2 and earlier are end-of-life.
+- Test against Rails 8.0 and 8.1 via an Appraisal CI matrix.
 
 ## [1.1.3] - 2026-02-25
 

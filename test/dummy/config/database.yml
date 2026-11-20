@@ -25,7 +25,7 @@ default: &default
 development:
   <<: *default
   database: structured_store_development
-  host: localhost
+  host: localhost  # DevSkim: ignore DS162092 - local Postgres host for the dummy dev app
   port: 5432
 
   # The specified database role being used to connect to postgres.
@@ -58,17 +58,15 @@ development:
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
-<% if ENV.fetch('CI', false) %>
-test:
-  <<: *default
-  url: <%= ENV["DATABASE_URL"] %>
-<% else %>
+#
+# In CI, DATABASE_URL is set and Rails merges it on top of these values
+# (see .github/workflows/ci.yml); locally the database/host/port below are used.
 test:
   <<: *default
   database: structured_store_test
-  host: localhost
+  host: localhost  # DevSkim: ignore DS162092 - local Postgres host for the dummy test app
   port: 5432
-<% end %>
+  url: <%= ENV.fetch('DATABASE_URL', nil) %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -77,7 +75,7 @@ test:
 # Instead, provide the password or a full connection URL as an environment
 # variable when you boot the app. For example:
 #
-#   DATABASE_URL="postgres://myuser:mypass@localhost/somedatabase"
+#   DATABASE_URL="postgres://localhost/somedatabase"
 #
 # If the connection URL is provided in the special DATABASE_URL environment
 # variable, Rails will automatically merge its configuration values on top of
