@@ -1,7 +1,7 @@
 ---
 name: CI
 
-on:  # yamllint disable-line rule:truthy
+"on":
   # Trigger CI at key points in the PR process
   pull_request:
     types:
@@ -36,8 +36,8 @@ jobs:
       fail-fast: false
       matrix:
         rails:
-          - '8.0'
-          - '8.1'
+          - "8.0"
+          - "8.1"
     services:
       postgres:
         image: pgvector/pgvector:pg16
