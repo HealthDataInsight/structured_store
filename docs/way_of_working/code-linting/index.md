@@ -1,39 +1,74 @@
 ---
 has_children: true
 layout: page
+status: REQUIRED
+enforcement: manual
 ---
 
 # Code Linting
 
-We use [MegaLinter](https://megalinter.io/) for the majority of our code lining, currently with separate Ruby testing with RuboCop.
+## Overview
 
-Code linters like MegaLinter benefit developers and teams because they help improve code quality, reduce errors and inconsistencies, and streamline development. Linters analyze source code for common issues, such as syntax errors, undefined variables, and unused code, and provide suggestions and feedback for improvement.
+We use [MegaLinter](https://megalinter.io/) for most of our linting, but we use [RuboCop](https://rubocop.org) separately for Ruby to support Minitest and Rails cops.
 
-Using a linter like MegaLinter, developers can catch and fix errors early in the development process, saving time and effort in the long run.
-The linter also provides consistency in the codebase, helping to prevent errors caused by different team members using different styles or approaches, which can be especially valuable for large projects with many contributors or where you want staff to be able to switch between projects more efficiently.
+Linters help by:
+- Catching syntax errors, undefined variables, and unused code early
+- Ensuring consistent code style across teams and projects
+- Providing automated quality improvements and best practices
+- Saving time in code review and debugging
 
-MegaLinter is a particularly powerful linter because it supports multiple programming languages, making it a one-stop shop for developers working on projects with various languages.
+## Setup
+
+Add linting to your project:
+
+```bash
+way_of_working init code_linting
+```
+
+This copies organisational coding standards and GitHub Actions workflows to your project.
 
 {: .note }
-We have chosen not to use the version of [RuboCop](https://rubocop.org) packaged in MegaLinter because it can't support our use of Minitest and Rails "cops". But by using our CLI command to run linting, as documented below, both RuboCop and MegaLinter will be executed against your code.
-
-When you add the Way of Working linter to your project, it will copy our per-language organisational code styles (where they differ from defaults) into `.github/linters` and will copy the GitHub Actions workflow files into `.github/workflow`, so that linting automatically runs when you commit to GitHub.
-
-If you add the Way of Working linter to your Xcode project, it will automatically add a Swiftlint build phase to the project config file.
-
-{: .important }
-If you disagree with any of the linters or linting styles that they apply, please fork the repository and create a pull request with your desired changes. The current coding standards are only intended as a starting point. A Full list of the linters we are currently using can be found [here](linters.md).
+For Xcode projects, a SwiftLint build phase is automatically added to the project config.
 
 ## Usage
 
-To add [MegaLinter](https://megalinter.io/) and [RuboCop](https://rubocop.org) to your project, run the following at the command line:
+Run linting locally:
 
-    way_of_working init code_linting
+```bash
+way_of_working exec code_linting
+```
 
-to run MegaLinter in your project, run:
+executes both MegaLinter and RuboCop against your code.
 
-    way_of_working exec code_linting
+## Configuration
 
-to document your use of MegaLinter in your project, run:
+Language-specific configs are in the project root or `.github/linters/`. See [linters.md](linters.md) for the complete list.
 
-    way_of_working exec document
+To customise for your project, talk to a member of [code-standards-team](https://github.com/orgs/HealthDataInsight/teams/code-standards-team) and modify the config files as needed, keeping changes minimal and well documented.
+Pull Request changing linting configs require review by a member of code-standards-team.
+
+## Handling Exceptions
+
+On the rare occasions when linters flag false positives, turn off rules with comments giving your justification:
+
+```python
+# pylint: disable=line-too-long - URL cannot be broken
+LONG_URL = "https://example.com/very/long/path/..."
+```
+
+## Documentation
+
+Generate project documentation:
+
+```bash
+way_of_working exec document
+```
+
+{: .important }
+If you disagree with any linter or coding style, please fork the Way of Working code linting [repository](https://github.com/HealthDataInsight/way_of_working-code_linting-hdi) and create a pull request with your proposed changes. The current standards are a starting point intended to evolve with team consensus.
+
+## Resources
+
+- [MegaLinter documentation](https://megalinter.io/)
+- [RuboCop documentation](https://rubocop.org)
+- [Active linters list](linters.md)

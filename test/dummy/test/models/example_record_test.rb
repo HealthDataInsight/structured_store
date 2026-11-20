@@ -71,85 +71,45 @@ class ExampleRecordTest < ActiveSupport::TestCase
 
   test 'define_store_accessors_for_column works correctly' do
     instance = ExampleRecord.new
+    assert_example_store_accessors(instance, defined: false)
 
-    refute_respond_to instance, :balloon_count  # from store
-    refute_respond_to instance, :balloon_count= # from store
-    refute_respond_to instance, :party_theme    # from store
-    refute_respond_to instance, :party_theme=   # from store
-
-    refute_respond_to instance, :created_by    # from metadata
-    refute_respond_to instance, :created_by=   # from metadata
-    refute_respond_to instance, :description   # from metadata
-    refute_respond_to instance, :description=  # from metadata
-
-    refute_respond_to instance, :display_mode   # from settings
-    refute_respond_to instance, :display_mode=  # from settings
-    refute_respond_to instance, :notifications  # from settings
-    refute_respond_to instance, :notifications= # from settings
-
-    instance.store_versioned_schema = structured_store_versioned_schemas(:party)
-    instance.metadata_schema = structured_store_versioned_schemas(:metadata)
-    instance.settings_versioned_schema = structured_store_versioned_schemas(:ui_preferences)
+    assign_example_versioned_schemas(instance)
     # Define accessors for each structured store column
     instance.define_store_accessors_for_column('store')
     instance.define_store_accessors_for_column('metadata')
     instance.define_store_accessors_for_column('settings')
 
-    # Should have accessors for metadata properties
-    assert_respond_to instance, :balloon_count  # from store
-    assert_respond_to instance, :balloon_count= # from store
-    assert_respond_to instance, :party_theme    # from store
-    assert_respond_to instance, :party_theme=   # from store
-
-    assert_respond_to instance, :created_by    # from metadata
-    assert_respond_to instance, :created_by=   # from metadata
-    assert_respond_to instance, :description   # from metadata
-    assert_respond_to instance, :description=  # from metadata
-
-    assert_respond_to instance, :display_mode   # from settings
-    assert_respond_to instance, :display_mode=  # from settings
-    assert_respond_to instance, :notifications  # from settings
-    assert_respond_to instance, :notifications= # from settings
+    assert_example_store_accessors(instance, defined: true)
   end
 
   test 'define_all_store_accessors! works correctly' do
     instance = ExampleRecord.new
+    assert_example_store_accessors(instance, defined: false)
 
-    refute_respond_to instance, :balloon_count  # from store
-    refute_respond_to instance, :balloon_count= # from store
-    refute_respond_to instance, :party_theme    # from store
-    refute_respond_to instance, :party_theme=   # from store
-
-    refute_respond_to instance, :created_by     # from metadata
-    refute_respond_to instance, :created_by=    # from metadata
-    refute_respond_to instance, :description    # from metadata
-    refute_respond_to instance, :description=   # from metadata
-
-    refute_respond_to instance, :display_mode   # from settings
-    refute_respond_to instance, :display_mode=  # from settings
-    refute_respond_to instance, :notifications  # from settings
-    refute_respond_to instance, :notifications= # from settings
-
-    instance.store_versioned_schema = structured_store_versioned_schemas(:party)
-    instance.metadata_schema = structured_store_versioned_schemas(:metadata)
-    instance.settings_versioned_schema = structured_store_versioned_schemas(:ui_preferences)
+    assign_example_versioned_schemas(instance)
     # Define accessors for all columns
     instance.define_all_store_accessors!
 
-    # Should have accessors for metadata properties
-    assert_respond_to instance, :balloon_count  # from store
-    assert_respond_to instance, :balloon_count= # from store
-    assert_respond_to instance, :party_theme    # from store
-    assert_respond_to instance, :party_theme=   # from store
+    assert_example_store_accessors(instance, defined: true)
+  end
 
-    assert_respond_to instance, :created_by     # from metadata
-    assert_respond_to instance, :created_by=    # from metadata
-    assert_respond_to instance, :description    # from metadata
-    assert_respond_to instance, :description=   # from metadata
+  private
 
-    assert_respond_to instance, :display_mode   # from settings
-    assert_respond_to instance, :display_mode=  # from settings
-    assert_respond_to instance, :notifications  # from settings
-    assert_respond_to instance, :notifications= # from settings
+  # Assigns the three versioned schemas used by ExampleRecord.
+  def assign_example_versioned_schemas(instance)
+    instance.store_versioned_schema = structured_store_versioned_schemas(:party)
+    instance.metadata_schema = structured_store_versioned_schemas(:metadata)
+    instance.settings_versioned_schema = structured_store_versioned_schemas(:ui_preferences)
+  end
+
+  # Asserts that every store/metadata/settings accessor is (or is not yet) defined.
+  def assert_example_store_accessors(instance, defined:)
+    assertion = defined ? :assert_respond_to : :refute_respond_to
+
+    %i[balloon_count balloon_count= party_theme party_theme=
+       created_by created_by= description description=
+       display_mode display_mode= notifications notifications=].each do |accessor|
+      send(assertion, instance, accessor)
+    end
   end
 end
