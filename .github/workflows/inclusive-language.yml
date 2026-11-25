@@ -11,6 +11,6 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Set up Node via mise
-        uses: jdx/mise-action@v2
+        uses: jdx/mise-action@v5
       - name: Run alex
         run: npx alex --why

@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Set up mise
-        uses: jdx/mise-action@v2
+        uses: jdx/mise-action@v5
 
       - name: Install gems
         run: bundle install
@@ -67,7 +67,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Set up mise
-        uses: jdx/mise-action@v2
+        uses: jdx/mise-action@v5
 
       - name: Install gems for Rails ${{ matrix.rails }}
         run: bundle install
